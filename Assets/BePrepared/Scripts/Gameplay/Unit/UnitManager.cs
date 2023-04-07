@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 using MoonBorn.Utils;
 using MoonBorn.UI;
 using MoonBorn.BePrepared.Gameplay.Player;
-using System.Collections.Generic;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -124,6 +124,12 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 villager.Move(target);
         }
 
+        private void UpdateVillagerUI()
+        {
+            if (m_VillagerCountText != null)
+                m_VillagerCountText.text = $"{m_VillagerCount} / {m_MaxVillagerCount}";
+        }
+
         public static void VillagerCreated()
         {
             if (Instance == null)
@@ -140,12 +146,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
             Instance.m_VillagerCount--;
             Instance.UpdateVillagerUI();
-        }
-
-        public void UpdateVillagerUI()
-        {
-            if (m_VillagerCountText != null)
-                m_VillagerCountText.text = $"{m_VillagerCount} / {m_MaxVillagerCount}";
         }
 
         public static void AddIdleVillager(UnitVillager villager)
@@ -165,6 +165,18 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 Instance.m_IdleVillagers.Remove(villager);
                 UnitUI.ChangeIdleVillagers(Instance.m_IdleVillagers.Count);
             }
+        }
+
+        public static void IncreasePopulationLimit(int amount)
+        {
+            Instance.m_MaxVillagerCount += amount;
+            Instance.UpdateVillagerUI();
+        }
+
+        public static void DecreasePopulationLimit(int amount)
+        {
+            Instance.m_MaxVillagerCount -= amount;
+            Instance.UpdateVillagerUI();
         }
     }
 }

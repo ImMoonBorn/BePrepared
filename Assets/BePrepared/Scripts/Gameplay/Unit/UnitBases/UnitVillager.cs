@@ -12,11 +12,18 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
     public class UnitVillager : MonoBehaviour
     {
+        private static int s_SpeedHash = Animator.StringToHash("Speed");
+        private static int s_WorkHash = Animator.StringToHash("Work");
+        private static int s_WorkIndexHash = Animator.StringToHash("WorkIndex");
+
         public VillagerType VillagerType => m_VillagerType;
 
         private UnitResource m_AssignedResource;
         private NavMeshAgent m_Agent;
         private VillagerType m_VillagerType;
+
+        [Header("Animation")]
+        [SerializeField] private Animator m_Animator;
 
         [Header("Resource")]
         [SerializeField] private float m_GatherTime = 0.34f;
@@ -71,7 +78,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void ResourceDepleted()
         {
-            Unassign();
+            m_AssignedResource = null;
+            ChangeType(VillagerType.Idle);
         }
 
         private void Update()
@@ -100,6 +108,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             }
 
             HandleGathering();
+
+            HandleAnimation();
         }
 
         private void ChangeType(VillagerType type)
@@ -125,6 +135,21 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                     m_GatherTimer = 0.0f;
                 }
             }
+        }
+
+        private void HandleAnimation()
+        {
+            float velocity = m_Agent.velocity.magnitude;
+
+            m_Animator.SetFloat(s_SpeedHash, velocity);
+
+            if (m_VillagerType != VillagerType.Idle && velocity <= 0.1f)
+            {
+                m_Animator.SetBool(s_WorkHash, m_TargetReached);
+                m_Animator.SetFloat(s_WorkIndexHash, (int)m_VillagerType - 1);
+            }
+            else
+                m_Animator.SetBool(s_WorkHash, false);
         }
 
         private void OnDestroy()

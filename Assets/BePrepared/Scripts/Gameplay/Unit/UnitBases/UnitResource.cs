@@ -13,7 +13,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [SerializeField] private int m_ResourceAmountMax = 100;
         private int m_ResourceAmount = 0;
 
-        private readonly List<UnitVillager> m_VillagerList = new();
+        private List<UnitVillager> m_VillagerList = new();
+        private bool m_Destroyed = false;
 
         private void Awake()
         {
@@ -22,14 +23,20 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void Gather(int amount)
         {
+            if(m_Destroyed) 
+                return;
+
             m_ResourceAmount -= amount;
             if (m_ResourceAmount < 0)
             {
+                m_Destroyed = true;
                 for (int i = 0; i < m_VillagerList.Count; i++)
                 {
                     UnitVillager villager = m_VillagerList[i];
+                    ResourceManager.DeassignToResource(m_ResourceType);
                     villager.ResourceDepleted();
                 }
+                m_VillagerList.Clear();
                 GetComponent<UnitMember>().DestroyUnit();
             }
         }
