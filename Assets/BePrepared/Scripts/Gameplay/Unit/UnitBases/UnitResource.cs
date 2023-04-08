@@ -23,11 +23,21 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void Gather(int amount)
         {
-            if(m_Destroyed) 
+            if (m_Destroyed)
                 return;
 
-            m_ResourceAmount -= amount;
-            if (m_ResourceAmount < 0)
+            if (amount > m_ResourceAmount)
+            {
+                ResourceManager.AddResource(m_ResourceType, m_ResourceAmount);
+                m_ResourceAmount = 0;
+            }
+            else
+            {
+                ResourceManager.AddResource(m_ResourceType, amount);
+                m_ResourceAmount -= amount;
+            }
+
+            if (m_ResourceAmount <= 0)
             {
                 m_Destroyed = true;
                 for (int i = 0; i < m_VillagerList.Count; i++)

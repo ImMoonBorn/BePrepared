@@ -1,3 +1,4 @@
+using MoonBorn.BePrepared.Gameplay.BuildSystem;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +8,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
     {
         Idle,
         Lumberjack,
-        Farmer
+        Farmer,
+        Miner,
+        Builder
     }
 
     public class UnitVillager : MonoBehaviour
@@ -19,6 +22,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public VillagerType VillagerType => m_VillagerType;
 
         private UnitResource m_AssignedResource;
+        private UnitConstruction m_AssignedConstruction;
         private NavMeshAgent m_Agent;
         private VillagerType m_VillagerType;
 
@@ -36,7 +40,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private void Awake()
         {
             m_Agent = GetComponent<NavMeshAgent>();
-            m_Agent.updateRotation = false;
+            //m_Agent.updateRotation = false;
 
             m_TargetPosition = transform.position;
 
@@ -67,12 +71,23 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             m_AssignedResource.AddVillager(this);
         }
 
+        public void AssignBuilder(UnitConstruction construction)
+        {
+            m_AssignedConstruction = construction;
+            m_AssignedConstruction.AddVillager(this);
+            ChangeType(VillagerType.Builder);
+        }
+
         public void Unassign()
         {
             if (m_AssignedResource != null)
                 m_AssignedResource.RemoveVillager(this);
 
+            if (m_AssignedConstruction != null)
+                m_AssignedConstruction.RemoveVillager(this);
+
             m_AssignedResource = null;
+            m_AssignedConstruction = null;
             ChangeType(VillagerType.Idle);
         }
 
@@ -82,20 +97,19 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             ChangeType(VillagerType.Idle);
         }
 
+        public void BuildFinished()
+        {
+            m_AssignedConstruction = null;
+            ChangeType(VillagerType.Idle);
+        }
+
         private void Update()
         {
             Vector3 direction = m_TargetPosition - transform.position;
             direction.y = 0;
-
             float directionMagnitude = direction.magnitude;
-
-            if (directionMagnitude > 0.001f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 8.0f);
-            }
-
             float reachDistance = 1.0f;
+
             if (directionMagnitude < reachDistance)
             {
                 m_TargetReached = true;
@@ -108,7 +122,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             }
 
             HandleGathering();
-
+            HandleBuilding();
             HandleAnimation();
         }
 
@@ -123,16 +137,41 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 UnitManager.RemoveIdleVillager(this);
         }
 
+        private void LookToTarget(Vector3 target)
+        {
+            Vector3 direction = target - transform.position;
+            direction.y = 0;
+
+            if (direction.magnitude > 0.001f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 8.0f);
+            }
+        }
+
         private void HandleGathering()
         {
             if (m_AssignedResource != null && m_TargetReached)
             {
+                LookToTarget(m_AssignedResource.transform.position);
+
                 m_GatherTimer += Time.deltaTime;
                 if (m_GatherTimer >= m_GatherTime)
                 {
-                    ResourceManager.AddResource(m_AssignedResource.ResourceType, m_GatherAmount);
                     m_AssignedResource.Gather(m_GatherAmount);
                     m_GatherTimer = 0.0f;
+                }
+            }
+        }
+
+        private void HandleBuilding()
+        {
+            if (m_AssignedConstruction != null)
+            {
+                if (m_TargetReached)
+                {
+                    LookToTarget(m_AssignedConstruction.transform.position);
+                    m_AssignedConstruction.Build();
                 }
             }
         }

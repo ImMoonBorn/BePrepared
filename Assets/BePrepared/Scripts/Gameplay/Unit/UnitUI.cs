@@ -108,6 +108,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 case UnitType.Building:
                     {
                         m_SelectedBuilding = m_SelectedUnit.GetComponent<UnitBuilding>();
+                        if (m_SelectedBuilding == null)
+                            break;
+
                         Instance.m_BuildingContent.SetActive(true);
 
                         foreach (var action in m_SelectedBuilding.Actions)
@@ -143,7 +146,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void DestroyUnit()
         {
-            ConfirmBox.OpenConfirmBox(() => m_SelectedUnit.DestroyUnit(), "Destroy Unit");
+            Modal.OpenModal(() => m_SelectedUnit.DestroyUnit(), "This unit is going to be destroyed. Do you confirm?");
         }
 
         public void UpdateVillager(UnitVillager villager)

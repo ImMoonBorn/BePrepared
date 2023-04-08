@@ -5,6 +5,7 @@ using TMPro;
 using MoonBorn.Utils;
 using MoonBorn.UI;
 using MoonBorn.BePrepared.Gameplay.Player;
+using MoonBorn.BePrepared.Gameplay.BuildSystem;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -95,6 +96,11 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                         m_SelectedVillager.Move(hit.collider.ClosestPoint(m_SelectedVillager.transform.position));
                         m_SelectedVillager.Assign(resource);
                     }
+                    else if(hit.transform.TryGetComponent(out UnitConstruction construction))
+                    {
+                        m_SelectedVillager.Move(hit.collider.ClosestPoint(m_SelectedVillager.transform.position));
+                        m_SelectedVillager.AssignBuilder(construction);
+                    }
                     else
                     {
                         m_SelectedVillager.Move(hit.point);
@@ -175,6 +181,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public static void DecreasePopulationLimit(int amount)
         {
+            if (Instance == null)
+                return;
+
             Instance.m_MaxVillagerCount -= amount;
             Instance.UpdateVillagerUI();
         }

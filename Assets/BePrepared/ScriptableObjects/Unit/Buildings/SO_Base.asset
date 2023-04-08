@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27d031150b04604e9a6a3607241309b, type: 3}
+  m_Name: SO_Base
+  m_EditorClassIdentifier: 
+  UnitType: 1
+  UnitName: Base
+  Destroyable: 0
+  Icon: {fileID: 21300000, guid: 4d33762506f5dec43941454bfa415c2f, type: 3}
+  Description: It is the base building for the village. You can produce villagers
+    from here.
+  Cost:
+    m_Costs:
+    - ResourceType: 0
+      Amount: 250
+  ColliderSize: {x: 8, y: 1.5, z: 8}
+  BuildTime: 40
+  BuildHeight: 8.75
+  GhostPrefab: {fileID: -4798586226368731266, guid: ca976c119cc447847af19f6800071088,
+    type: 3}
+  ConstructionPrefab: {fileID: 2516941969688169330, guid: dfce1c91a94c7fa49b8d612d8b5caacd,
+    type: 3}
+  FinishedPrefab: {fileID: 5437062758569432189, guid: f6bbdea34a8d494469e7ad18bda92812,
+    type: 3}

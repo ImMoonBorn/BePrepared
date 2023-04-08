@@ -88,7 +88,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                     costText += $"-<color=red>{c.ResourceType}: {c.Amount}</color>\n";
             }
 
-            return $"{m_ActionDescription} \n{costText}";
+            return $"{m_ActionDescription}\n\n{costText}";
         }
     }
 }
