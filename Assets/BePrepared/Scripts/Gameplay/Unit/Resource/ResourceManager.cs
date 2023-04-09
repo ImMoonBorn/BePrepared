@@ -113,22 +113,25 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (!Input.GetKey(KeyCode.LeftShift))
             {
-                AddResource(ResourceType.Wood, 50);
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                    AddResource(ResourceType.Wood, 50);
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                    AddResource(ResourceType.Food, 50);
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                    AddResource(ResourceType.Stone, 50);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else
             {
-                AddResource(ResourceType.Food, 50);
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                    SpendResource(ResourceType.Wood, 50);
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                    SpendResource(ResourceType.Food, 50);
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                    SpendResource(ResourceType.Stone, 50);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                SpendResource(ResourceType.Wood, 50);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                SpendResource(ResourceType.Food, 50);
-            }
+
         }
     }
 }

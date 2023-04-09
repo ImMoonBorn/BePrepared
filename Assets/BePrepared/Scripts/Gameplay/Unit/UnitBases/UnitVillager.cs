@@ -15,9 +15,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
     public class UnitVillager : MonoBehaviour
     {
-        private static int s_SpeedHash = Animator.StringToHash("Speed");
-        private static int s_WorkHash = Animator.StringToHash("Work");
-        private static int s_WorkIndexHash = Animator.StringToHash("WorkIndex");
+        private readonly static int s_SpeedHash = Animator.StringToHash("Speed");
+        private readonly static int s_WorkHash = Animator.StringToHash("Work");
+        private readonly static int s_WorkIndexHash = Animator.StringToHash("WorkIndex");
 
         public VillagerType VillagerType => m_VillagerType;
 
@@ -40,7 +40,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private void Awake()
         {
             m_Agent = GetComponent<NavMeshAgent>();
-            //m_Agent.updateRotation = false;
 
             m_TargetPosition = transform.position;
 
@@ -61,12 +60,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             m_AssignedResource = resource;
             switch (m_AssignedResource.ResourceType)
             {
-                case ResourceType.Wood:
-                    ChangeType(VillagerType.Lumberjack);
-                    break;
-                case ResourceType.Food:
-                    ChangeType(VillagerType.Farmer);
-                    break;
+                case ResourceType.Wood: ChangeType(VillagerType.Lumberjack); break;
+                case ResourceType.Food: ChangeType(VillagerType.Farmer); break;
+                case ResourceType.Stone: ChangeType(VillagerType.Miner); break;
             }
             m_AssignedResource.AddVillager(this);
         }

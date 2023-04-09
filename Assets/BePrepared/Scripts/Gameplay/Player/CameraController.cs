@@ -35,7 +35,7 @@ namespace MoonBorn.BePrepared.Gameplay.Player
         private Vector3 m_DragCurrentRot = Vector3.zero;
 
         [Header("Restrictions")]
-        [SerializeField] private bool m_RestrictPosition = true;
+        [SerializeField] private bool m_RestrictPosition = false;
         [SerializeField] private Vector2 m_PositionClampX = new Vector2(-50.0f, 50.0f);
         [SerializeField] private Vector2 m_PositionClampZ = new Vector2(-50.0f, 50.0f);
         [SerializeField] private Vector2 m_ZoomClamp = new Vector2(5.0f, 25.0f);
