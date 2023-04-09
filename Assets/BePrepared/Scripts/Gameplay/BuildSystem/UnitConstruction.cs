@@ -36,12 +36,6 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 
                 if (m_Timer >= m_UnitSO.BuildTime)
                 {
-                    for (int i = 0; i < m_Villagers.Count; i++)
-                    {
-                        UnitVillager villager = m_Villagers[i];
-                        villager.BuildFinished();
-                    }
-
                     Instantiate(m_UnitSO.FinishedPrefab, transform.position, Quaternion.identity);
                     GetComponent<UnitMember>().DestroyUnit();
                 }
@@ -70,6 +64,12 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         {
             if (m_Timer <= 0.0f)
                 m_UnitSO.Cost.Restore();
+
+            for (int i = 0; i < m_Villagers.Count; i++)
+            {
+                UnitVillager villager = m_Villagers[i];
+                villager.BuildFinished();
+            }
         }
     }
 }

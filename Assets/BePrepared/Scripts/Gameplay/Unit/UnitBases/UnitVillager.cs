@@ -97,6 +97,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void Assign(UnitResource resource)
         {
+            Unassign();
+
+            m_AssignedConstruction = null;
             m_AssignedResource = resource;
 
             ChangeType(GetVillagerTypeFromResource(resource.ResourceType));
@@ -106,6 +109,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void AssignBuilder(UnitConstruction construction)
         {
+            Unassign();
+
             m_AssignedConstruction = construction;
             m_AssignedConstruction.AddVillager(this);
             ChangeType(VillagerType.Builder);

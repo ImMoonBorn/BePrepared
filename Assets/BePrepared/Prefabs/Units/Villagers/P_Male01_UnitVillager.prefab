@@ -82,21 +82,20 @@ MonoBehaviour:
     CurrentIndex: 0
   - m_PlaylistName: FarmingEffects
     Musics:
-    - {fileID: 8300000, guid: cc88a64b5cc33a546868ba2335177c2b, type: 3}
-    - {fileID: 8300000, guid: a149ca29df8c6384a8190c79e69bf683, type: 3}
-    - {fileID: 8300000, guid: b4a839a7ec0661444939778bb319fa67, type: 3}
+    - {fileID: 8300000, guid: eec3171d1f690f640a97e9287d8e3921, type: 3}
     CurrentIndex: 0
   - m_PlaylistName: MiningEffects
     Musics:
-    - {fileID: 8300000, guid: 7f0e87445abfbbd4eb5fefb7226c78d5, type: 3}
-    - {fileID: 8300000, guid: d85905818393d484988ab5d65a3e816e, type: 3}
-    - {fileID: 8300000, guid: e3999cd223a43e547b41094bd0b49050, type: 3}
+    - {fileID: 8300000, guid: 17c92846086cd7b4e99f63dd994055ed, type: 3}
+    - {fileID: 8300000, guid: 2b8d4f93fb1f72c4db71c4095fd9aa1c, type: 3}
+    - {fileID: 8300000, guid: 6f898506fdc47be40a9331cf52e83a32, type: 3}
+    - {fileID: 8300000, guid: ae6c34e33efb4744cbfdf4fe38b89534, type: 3}
     CurrentIndex: 0
   - m_PlaylistName: BuildingEffects
     Musics:
-    - {fileID: 8300000, guid: cc88a64b5cc33a546868ba2335177c2b, type: 3}
-    - {fileID: 8300000, guid: a149ca29df8c6384a8190c79e69bf683, type: 3}
-    - {fileID: 8300000, guid: b4a839a7ec0661444939778bb319fa67, type: 3}
+    - {fileID: 8300000, guid: 677777013cb0f954a8d42517499824d7, type: 3}
+    - {fileID: 8300000, guid: a5d5d00fa3a82b74d887d0609c3ca661, type: 3}
+    - {fileID: 8300000, guid: 01f8062bf76f56d40a2f69c465661fd6, type: 3}
     CurrentIndex: 0
 --- !u!136 &1481858229138310688
 CapsuleCollider:
@@ -623,7 +622,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -740,10 +739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a91c341dcef8f4dbfe90e052b04045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Clips:
-  - {fileID: 8300000, guid: cc88a64b5cc33a546868ba2335177c2b, type: 3}
-  - {fileID: 8300000, guid: a149ca29df8c6384a8190c79e69bf683, type: 3}
-  - {fileID: 8300000, guid: b4a839a7ec0661444939778bb319fa67, type: 3}
+  m_Clips: []
   m_AudioSource: {fileID: 533233670}
 --- !u!4 &6976869598044668069 stripped
 Transform:

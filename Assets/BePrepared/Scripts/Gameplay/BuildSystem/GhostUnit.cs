@@ -6,12 +6,19 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 {
     public class GhostUnit : MonoBehaviour
     {
+        private enum BuildDirection
+        {
+            Forward, Left, Backward, Right
+        }
+
         [SerializeField] private SpriteRenderer m_SelectionHUD;
         private BuildingUnitSO m_UnitSO;
+        private BuildDirection m_Direction = BuildDirection.Forward;
 
         private LayerMask m_BuildableLayer;
         private LayerMask m_IgnoreLayer;
         private Vector3 m_MousePosition = Vector3.zero;
+        private Quaternion m_TargetRotation = Quaternion.identity;
         private bool m_Snap = true;
 
         public void Setup(BuildingUnitSO unitSO, LayerMask buildableLayer, LayerMask ignoreLayer, bool snap)
@@ -36,10 +43,16 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             bool cantBuild = Physics.CheckBox(transform.position, colliderSize, Quaternion.identity, ~m_IgnoreLayer);
 
             m_SelectionHUD.color = cantBuild ? BuildManager.CantBuildColor : BuildManager.CanBuildColor;
-            
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                m_Direction = ChangeDirection(m_Direction);
+                m_TargetRotation = RotateToDirection(m_Direction);
+            }
+
             if (Input.GetMouseButtonDown(0) && !cantBuild && !EventSystem.current.IsPointerOverGameObject())
             {
-                UnitConstruction unit = Instantiate(m_UnitSO.ConstructionPrefab, m_MousePosition, Quaternion.identity);
+                UnitConstruction unit = Instantiate(m_UnitSO.ConstructionPrefab, m_MousePosition, m_TargetRotation);
                 unit.Setup(m_UnitSO);
                 BuildManager.DestroyBuildObject();
             }
@@ -52,7 +65,31 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 
         private void LateUpdate()
         {
-            transform.position = Vector3.Lerp(transform.position, m_MousePosition, Time.deltaTime * 8.0f);
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, m_MousePosition, Time.deltaTime * 8.0f), Quaternion.Lerp(transform.rotation, m_TargetRotation, Time.deltaTime * 8.0f));
+        }
+
+        private Quaternion RotateToDirection(BuildDirection direction)
+        {
+            return direction switch
+            {
+                BuildDirection.Forward => Quaternion.Euler(0.0f, 0.0f, 0.0f),
+                BuildDirection.Backward => Quaternion.Euler(0.0f, 180.0f, 0.0f),
+                BuildDirection.Left => Quaternion.Euler(0.0f, 90.0f, 0.0f),
+                BuildDirection.Right => Quaternion.Euler(0.0f, 270.0f, 0.0f),
+                _ => Quaternion.identity
+            };
+        }
+
+        private BuildDirection ChangeDirection(BuildDirection direction)
+        {
+            return direction switch
+            {
+                BuildDirection.Forward => BuildDirection.Left,
+                BuildDirection.Left => BuildDirection.Backward,
+                BuildDirection.Backward => BuildDirection.Right,
+                BuildDirection.Right => BuildDirection.Forward,
+                _ => BuildDirection.Forward
+            };
         }
     }
 }
