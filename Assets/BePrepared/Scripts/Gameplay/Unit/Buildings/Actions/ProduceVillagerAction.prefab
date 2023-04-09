@@ -47,7 +47,7 @@ MonoBehaviour:
   m_ActionTime: 10
   m_Cost:
     m_Costs:
-    - ResourceType: 1
+    - ResourceType: 2
       Amount: 40
   m_ActionName: Produce Villager
   m_ActionDescription: Produces a villager that works for resources or build stuff.

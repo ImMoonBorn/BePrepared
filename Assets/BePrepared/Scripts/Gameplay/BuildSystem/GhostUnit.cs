@@ -7,8 +7,8 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
     public class GhostUnit : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer m_SelectionHUD;
-
         private BuildingUnitSO m_UnitSO;
+
         private LayerMask m_BuildableLayer;
         private LayerMask m_IgnoreLayer;
         private Vector3 m_MousePosition = Vector3.zero;

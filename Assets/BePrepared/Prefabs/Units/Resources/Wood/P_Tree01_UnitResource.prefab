@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bcb92013ac6ad64eac9e9bdbcf23584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UnitSO: {fileID: 11400000, guid: f04ad3aa7c4834e4d8053fc4c351ee10, type: 2}
+  m_UnitSO: {fileID: 11400000, guid: ab2f87f6b117a0a4ea951fb8eeedeb45, type: 2}
   m_SelectionHUD: {fileID: 3815221363080772710}
 --- !u!114 &2466464270048938335
 MonoBehaviour:
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce69b34a4cdaae44b3776c1c65759df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ResourceType: 0
+  m_ResourceSO: {fileID: 11400000, guid: ab2f87f6b117a0a4ea951fb8eeedeb45, type: 2}
   m_ResourceAmountMax: 200
 --- !u!65 &2466464270048938331
 BoxCollider:

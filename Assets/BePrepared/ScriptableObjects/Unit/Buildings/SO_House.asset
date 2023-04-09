@@ -20,7 +20,7 @@ MonoBehaviour:
     by 5.
   Cost:
     m_Costs:
-    - ResourceType: 0
+    - ResourceType: 1
       Amount: 100
     - ResourceType: 2
       Amount: 50

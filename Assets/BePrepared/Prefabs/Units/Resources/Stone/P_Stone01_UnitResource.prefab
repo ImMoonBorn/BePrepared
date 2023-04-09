@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce69b34a4cdaae44b3776c1c65759df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ResourceType: 2
+  m_ResourceSO: {fileID: 11400000, guid: 25a36b443131c8e4f9fb62bd1bc846df, type: 2}
   m_ResourceAmountMax: 200
 --- !u!65 &9035736814498120645
 BoxCollider:

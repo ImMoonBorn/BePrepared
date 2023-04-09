@@ -6,6 +6,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 {
     public enum ResourceType
     {
+        None,
         Wood,
         Food,
         Stone

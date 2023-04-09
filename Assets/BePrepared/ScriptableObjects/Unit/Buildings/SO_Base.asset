@@ -20,7 +20,7 @@ MonoBehaviour:
     from here.
   Cost:
     m_Costs:
-    - ResourceType: 0
+    - ResourceType: 1
       Amount: 250
   ColliderSize: {x: 8, y: 1.5, z: 8}
   BuildTime: 40

@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37184fec3b36d234cb7237bf815e6e06, type: 3}
+  m_Script: {fileID: 11500000, guid: ba3a7438bc415f54a9bac52f1170f6d1, type: 3}
   m_Name: SO_Stone
   m_EditorClassIdentifier: 
   UnitType: 2
   UnitName: Stone
   Destroyable: 0
+  ResourceType: 3
+  SearchAfterDeplete: 1

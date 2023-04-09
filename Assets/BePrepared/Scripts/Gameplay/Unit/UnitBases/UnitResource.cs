@@ -5,16 +5,15 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 {
     public class UnitResource : MonoBehaviour
     {
-        public ResourceType ResourceType => m_ResourceType;
+        public ResourceType ResourceType => m_ResourceSO.ResourceType;
         public int ResourceAmount => m_ResourceAmount;
         public int ResourceAmountMax => m_ResourceAmountMax;
 
-        [SerializeField] private ResourceType m_ResourceType;
+        [SerializeField] private UnitResourceSO m_ResourceSO;
         [SerializeField] private int m_ResourceAmountMax = 100;
         private int m_ResourceAmount = 0;
-
-        private List<UnitVillager> m_VillagerList = new();
         private bool m_Destroyed = false;
+        private List<UnitVillager> m_VillagerList = new();
 
         private void Awake()
         {
@@ -28,12 +27,12 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
             if (amount > m_ResourceAmount)
             {
-                ResourceManager.AddResource(m_ResourceType, m_ResourceAmount);
+                ResourceManager.AddResource(ResourceType, m_ResourceAmount);
                 m_ResourceAmount = 0;
             }
             else
             {
-                ResourceManager.AddResource(m_ResourceType, amount);
+                ResourceManager.AddResource(ResourceType, amount);
                 m_ResourceAmount -= amount;
             }
 
@@ -43,8 +42,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 for (int i = 0; i < m_VillagerList.Count; i++)
                 {
                     UnitVillager villager = m_VillagerList[i];
-                    ResourceManager.DeassignToResource(m_ResourceType);
-                    villager.ResourceDepleted();
+                    ResourceManager.DeassignToResource(ResourceType);
+                    villager.ResourceDepleted(m_ResourceSO.SearchAfterDeplete);
                 }
                 m_VillagerList.Clear();
                 GetComponent<UnitMember>().DestroyUnit();
@@ -56,7 +55,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (!m_VillagerList.Contains(villager))
             {
                 m_VillagerList.Add(villager);
-                ResourceManager.AssignToResource(m_ResourceType);
+                ResourceManager.AssignToResource(ResourceType);
             }
         }
 
@@ -65,7 +64,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (m_VillagerList.Contains(villager))
             {
                 m_VillagerList.Remove(villager);
-                ResourceManager.DeassignToResource(m_ResourceType);
+                ResourceManager.DeassignToResource(ResourceType);
             }
         }
     }

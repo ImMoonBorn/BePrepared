@@ -14,6 +14,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public static bool CanProduceVillager => Instance.m_VillagerCount < Instance.m_MaxVillagerCount;
         public static List<UnitVillager> IdleVillagers => Instance.m_IdleVillagers;
 
+        [Header("References")]
         private Camera m_Camera;
 
         [Header("Villagers")]
@@ -21,13 +22,12 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [SerializeField] private int m_MaxVillagerCount = 5;
         [SerializeField] private TMP_Text m_VillagerCountText;
         private int m_VillagerCount = 0;
-        private List<UnitVillager> m_IdleVillagers = new();
+        private readonly List<UnitVillager> m_IdleVillagers = new();
 
         [Header("Unit Selection")]
         [SerializeField] private LayerMask m_SelectableLayer;
-        private UnitMember m_SelectedUnit;
-
         [SerializeField] private LayerMask m_MoveableLayer;
+        private UnitMember m_SelectedUnit;
         private UnitVillager m_SelectedVillager;
 
         private void Awake()
@@ -96,7 +96,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                         m_SelectedVillager.Move(hit.collider.ClosestPoint(m_SelectedVillager.transform.position));
                         m_SelectedVillager.Assign(resource);
                     }
-                    else if(hit.transform.TryGetComponent(out UnitConstruction construction))
+                    else if (hit.transform.TryGetComponent(out UnitConstruction construction))
                     {
                         m_SelectedVillager.Move(hit.collider.ClosestPoint(m_SelectedVillager.transform.position));
                         m_SelectedVillager.AssignBuilder(construction);
@@ -117,6 +117,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                     CameraController.FocusTarget(m_SelectedUnit.transform);
             }
         }
+
+        #region Villager Population stuff
 
         public static void CreateVillager(Vector3 position, Vector3 target)
         {
@@ -156,6 +158,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public static void AddIdleVillager(UnitVillager villager)
         {
+            if(Instance == null)
+                return;
+
             if (!Instance.m_IdleVillagers.Contains(villager))
             {
                 Instance.m_IdleVillagers.Add(villager);
@@ -187,5 +192,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             Instance.m_MaxVillagerCount -= amount;
             Instance.UpdateVillagerUI();
         }
+        #endregion
     }
 }

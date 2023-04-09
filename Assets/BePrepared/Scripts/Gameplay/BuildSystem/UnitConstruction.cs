@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MoonBorn.BePrepared.Gameplay.Unit;
-using Mono.Cecil;
 
 namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 {
@@ -9,9 +8,9 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
     {
         [SerializeField] private GameObject m_Mesh;
         private BuildingUnitSO m_UnitSO;
+        
         private readonly List<UnitVillager> m_Villagers = new();
         private readonly List<Material> m_Materials = new();
-
         private float m_Timer = 0.0f;
         private int m_Builders = 0;
 
@@ -47,7 +46,6 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
                     GetComponent<UnitMember>().DestroyUnit();
                 }
             }
-
             m_Builders = 0;
         }
 
@@ -66,6 +64,12 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         public void Build()
         {
             m_Builders += 1;
+        }
+
+        private void OnDestroy()
+        {
+            if (m_Timer <= 0.0f)
+                m_UnitSO.Cost.Restore();
         }
     }
 }
