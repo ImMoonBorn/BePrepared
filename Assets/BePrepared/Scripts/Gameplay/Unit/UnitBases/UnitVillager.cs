@@ -6,11 +6,11 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 {
     public enum VillagerType
     {
-        Idle,
-        Lumberjack,
-        Farmer,
-        Miner,
-        Builder
+        Idle = 0,
+        Lumberjack = 1,
+        Farmer = 2,
+        Miner = 3,
+        Builder = 4
     }
 
     public class UnitVillager : MonoBehaviour

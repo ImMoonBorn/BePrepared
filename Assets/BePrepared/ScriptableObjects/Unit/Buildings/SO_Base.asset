@@ -15,7 +15,7 @@ MonoBehaviour:
   UnitType: 1
   UnitName: Base
   Destroyable: 0
-  Icon: {fileID: 21300000, guid: 4d33762506f5dec43941454bfa415c2f, type: 3}
+  Icon: {fileID: 21300000, guid: 6acb1ad668eaa6747bdacb2ec79357bc, type: 3}
   Description: It is the base building for the village. You can produce villagers
     from here.
   Cost:
