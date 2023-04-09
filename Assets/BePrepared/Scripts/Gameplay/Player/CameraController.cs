@@ -156,7 +156,9 @@ namespace MoonBorn.BePrepared.Gameplay.Player
 
         public static void MoveToTarget(Vector3 target)
         {
-            Instance.m_TargetPosition = target;
+            Vector3 targetPosition = target;
+            targetPosition -= Instance.transform.forward * 10.0f;
+            Instance.m_TargetPosition = targetPosition;
         }
     }
 }

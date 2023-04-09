@@ -47,13 +47,5 @@ namespace MoonBorn.UI
             notification.Setup(m_Anchors[0], message, m_AnchorDirection, m_Placeholder.sizeDelta.x);
             m_Notifications.Insert(0, notification);
         }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                AddNotification("Villager Is Dead");
-            }
-        }
     }
 }

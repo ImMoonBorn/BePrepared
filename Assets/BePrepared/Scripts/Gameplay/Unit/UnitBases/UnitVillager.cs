@@ -1,3 +1,4 @@
+using MoonBorn.Audio;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,12 +41,19 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private Vector3 m_TargetPosition;
         private bool m_TargetReached = false;
 
+        private Vector3 m_LastPosition = Vector3.zero;
+        private float m_LastMoveTime = 0.0f;
+
         [Header("Tools")]
         [SerializeField] private GameObject m_Axe;
         [SerializeField] private GameObject m_Hoe;
         [SerializeField] private GameObject m_Pickaxe;
         [SerializeField] private GameObject m_Hammer;
         private GameObject[] m_Tools;
+
+        [Header("Audio")]
+        [SerializeField] private RandomClipPlayer m_ClipPlayer;
+        [SerializeField] private Playlist[] m_Playlists;
 
         private void Awake()
         {
@@ -72,6 +80,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public void Move(Vector3 direction)
         {
             m_TargetPosition = direction;
+
+            m_LastMoveTime = Time.time;
+            m_LastPosition = transform.position;
 
             m_Obstacle.enabled = false;
             StartCoroutine(MoveCoroutine(direction));
@@ -119,6 +130,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 if (SearchForOtherResources())
                     return;
 
+
             m_AssignedResource = null;
             ChangeType(VillagerType.Idle);
         }
@@ -157,24 +169,31 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                     }
 
                 }
-                return true;
             }
             return false;
         }
 
         private void Update()
         {
+            if (Vector3.Distance(m_LastPosition, transform.position) > m_Obstacle.carvingMoveThreshold)
+            {
+                m_LastMoveTime = Time.time;
+                m_LastPosition = transform.position;
+            }
+            if (m_LastMoveTime + m_Obstacle.carvingTimeToStationary < Time.time)
+            {
+                m_Agent.enabled = false;
+                m_Obstacle.enabled = true;
+            }
+
+
             Vector3 direction = m_TargetPosition - transform.position;
             direction.y = 0;
             float directionMagnitude = direction.magnitude;
             float reachDistance = 1.0f;
 
             if (directionMagnitude < reachDistance)
-            {
-                m_Agent.enabled = false;
-                m_Obstacle.enabled = true;
                 m_TargetReached = true;
-            }
             else
                 m_TargetReached = false;
 
@@ -199,6 +218,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 UnitManager.RemoveIdleVillager(this);
 
             SelectTool(m_VillagerType);
+
+            if (m_VillagerType != VillagerType.Idle)
+                m_ClipPlayer.SetClips(m_Playlists[(int)m_VillagerType - 1].Musics);
         }
 
         private void LookToTarget(Vector3 target)
@@ -273,17 +295,11 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             };
         }
 
-
         private void OnDestroy()
         {
             if (m_AssignedResource != null)
                 Unassign();
             UnitManager.VillagerDestroyed();
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawWireSphere(transform.position, m_SearchRadius);
         }
     }
 }

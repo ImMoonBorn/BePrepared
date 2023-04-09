@@ -6,6 +6,7 @@ using MoonBorn.Utils;
 using MoonBorn.UI;
 using MoonBorn.BePrepared.Gameplay.Player;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
+using Unity.Burst.CompilerServices;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -38,8 +39,13 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             UnitUI.ChangeIdleVillagers(0);
         }
 
-        private void SelectUnit(UnitMember unit)
+        public void SelectUnit(UnitMember unit)
         {
+            if (unit.transform.TryGetComponent(out UnitVillager controller))
+                m_SelectedVillager = controller;
+            else
+                m_SelectedVillager = null;
+
             if (m_SelectedUnit != unit)
             {
                 if (m_SelectedUnit != null)
@@ -50,7 +56,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             m_SelectedUnit = unit;
         }
 
-        private void DeselectUnit()
+        public void DeselectUnit()
         {
             if (m_SelectedUnit != null)
             {
@@ -74,11 +80,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             {
                 if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, m_SelectableLayer))
                 {
-                    if (hit.transform.TryGetComponent(out UnitVillager controller))
-                        m_SelectedVillager = controller;
-                    else
-                        m_SelectedVillager = null;
-
                     if (hit.transform.TryGetComponent(out UnitMember unit))
                         SelectUnit(unit);
                     else
@@ -109,12 +110,21 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 }
             }
 
-            if (m_SelectedUnit && Input.GetKeyDown(KeyCode.F))
+            if (m_SelectedUnit)
             {
-                if (CameraController.IsFocused)
-                    CameraController.Unfocus();
-                else
-                    CameraController.FocusTarget(m_SelectedUnit.transform);
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    if (CameraController.IsFocused)
+                        CameraController.Unfocus();
+                    else
+                    {
+                        if (Input.GetKey(KeyCode.LeftShift))
+                            CameraController.FocusTarget(m_SelectedUnit.transform);
+                        else
+                            CameraController.MoveToTarget(m_SelectedUnit.transform.position);
+                    }
+                }
+
             }
         }
 
@@ -158,7 +168,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public static void AddIdleVillager(UnitVillager villager)
         {
-            if(Instance == null)
+            if (Instance == null)
                 return;
 
             if (!Instance.m_IdleVillagers.Contains(villager))

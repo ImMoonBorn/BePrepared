@@ -8,8 +8,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public ResourceType ResourceType => m_ResourceSO.ResourceType;
         public int ResourceAmount => m_ResourceAmount;
         public int ResourceAmountMax => m_ResourceAmountMax;
+        public bool IsInfinite => m_IsInfinite;
 
         [SerializeField] private UnitResourceSO m_ResourceSO;
+        [SerializeField] private bool m_IsInfinite = false;
         [SerializeField] private int m_ResourceAmountMax = 100;
         private int m_ResourceAmount = 0;
         private bool m_Destroyed = false;
@@ -25,6 +27,12 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (m_Destroyed)
                 return;
 
+            if (m_IsInfinite)
+            {
+                ResourceManager.AddResource(ResourceType, amount);
+                return;
+            }
+
             if (amount > m_ResourceAmount)
             {
                 ResourceManager.AddResource(ResourceType, m_ResourceAmount);
@@ -39,13 +47,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (m_ResourceAmount <= 0)
             {
                 m_Destroyed = true;
-                for (int i = 0; i < m_VillagerList.Count; i++)
-                {
-                    UnitVillager villager = m_VillagerList[i];
-                    ResourceManager.DeassignToResource(ResourceType);
-                    villager.ResourceDepleted(m_ResourceSO.SearchAfterDeplete);
-                }
-                m_VillagerList.Clear();
                 GetComponent<UnitMember>().DestroyUnit();
             }
         }
@@ -66,6 +67,17 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 m_VillagerList.Remove(villager);
                 ResourceManager.DeassignToResource(ResourceType);
             }
+        }
+
+        private void OnDestroy()
+        {
+            for (int i = 0; i < m_VillagerList.Count; i++)
+            {
+                UnitVillager villager = m_VillagerList[i];
+                ResourceManager.DeassignToResource(ResourceType);
+                villager.ResourceDepleted(m_ResourceSO.SearchAfterDeplete);
+            }
+            m_VillagerList.Clear();
         }
     }
 }

@@ -92,7 +92,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (m_IdleIndex >= idleVillagers.Count)
                 m_IdleIndex = 0;
 
-            CameraController.MoveToTarget(idleVillagers[m_IdleIndex++].transform.position);
+            UnitVillager idleVillager = idleVillagers[m_IdleIndex++];
+            CameraController.MoveToTarget(idleVillager.transform.position);
+            UnitManager.Instance.SelectUnit(idleVillager.GetComponent<UnitMember>());
         }
 
         private void SelectUnit()
@@ -131,8 +133,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                     {
                         m_SelectedResource = m_SelectedUnit.GetComponent<UnitResource>();
                         m_ResourceContent.SetActive(true);
-                        m_UnitName.text += $" ({m_SelectedResource.ResourceType})";
+
                         m_ResourceIcon.sprite = ResourceManager.GetIconByType(m_SelectedResource.ResourceType);
+                        m_ResourceAmountText.enabled = !m_SelectedResource.IsInfinite;
                         break;
                     }
             }
@@ -140,7 +143,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void Update()
         {
-            if (m_SelectedResource != null)
+            if (m_SelectedResource != null && !m_SelectedResource.IsInfinite)
                 m_ResourceAmountText.text = $"{m_SelectedResource.ResourceAmount} / {m_SelectedResource.ResourceAmountMax}";
         }
 

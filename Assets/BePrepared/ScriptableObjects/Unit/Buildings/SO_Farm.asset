@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27d031150b04604e9a6a3607241309b, type: 3}
+  m_Name: SO_Farm
+  m_EditorClassIdentifier: 
+  UnitType: 1
+  UnitName: Farrm
+  Destroyable: 1
+  Icon: {fileID: 21300000, guid: cebd8d027a0b4d046ac99f9897468818, type: 3}
+  Description: 'A farm to produce some food. Assign villagers to be farmers and gather
+    food.
+
+'
+  Cost:
+    m_Costs:
+    - ResourceType: 1
+      Amount: 100
+    - ResourceType: 2
+      Amount: 50
+  ColliderSize: {x: 4.5, y: 0.3, z: 4.5}
+  BuildTime: 5
+  BuildHeight: 0.3
+  GhostPrefab: {fileID: 629904163285624940, guid: db297ee08b89b2d4ab100f17bc9f0002,
+    type: 3}
+  ConstructionPrefab: {fileID: 5717620942065920972, guid: 2d74e57f51a6d74488a0918a9c23a94e,
+    type: 3}
+  FinishedPrefab: {fileID: 4686692938362883660, guid: 72b01b7c1d7070b4095c01bea4258375,
+    type: 3}
