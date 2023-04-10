@@ -54,6 +54,12 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public override void Refresh()
         {
             m_ImprovementProp = ImprovementManager.FindImprovement(m_ImprovementSO);
+            if(m_ImprovementProp == null)
+            {
+                m_DestroyOnLimitReach = true;
+                m_ReachedLimit = true;
+                return;
+            }
 
             if (m_ImprovementProp.IsDone)
             {

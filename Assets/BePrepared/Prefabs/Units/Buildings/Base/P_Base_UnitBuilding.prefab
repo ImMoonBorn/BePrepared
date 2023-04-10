@@ -359,6 +359,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BA_ProduceVillagerActionBA
       objectReference: {fileID: 0}
+    - target: {fileID: 8398329583065075334, guid: fa7cd5385245fbe488db6d48ac848b18,
+        type: 3}
+      propertyPath: m_MoveLocation
+      value: 
+      objectReference: {fileID: 5437062759556231807}
+    - target: {fileID: 8398329583065075334, guid: fa7cd5385245fbe488db6d48ac848b18,
+        type: 3}
+      propertyPath: m_SpawnLocation
+      value: 
+      objectReference: {fileID: 5437062759157564742}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa7cd5385245fbe488db6d48ac848b18, type: 3}
 --- !u!4 &5881445807197596704 stripped

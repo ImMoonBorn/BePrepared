@@ -785,6 +785,10 @@ MonoBehaviour:
   m_Improvements:
   - ImprovementSO: {fileID: 11400000, guid: b090fc8a9cd688e4fa363f8cb89808f1, type: 2}
   - ImprovementSO: {fileID: 11400000, guid: 33134bebf8849244aad1a5e45b735ed4, type: 2}
+  - ImprovementSO: {fileID: 11400000, guid: c83c40373e3d3014e844eef01d444204, type: 2}
+  - ImprovementSO: {fileID: 11400000, guid: 594901ced016bc74c91e44e8503521a6, type: 2}
+  - ImprovementSO: {fileID: 11400000, guid: 5c78c67ac6a839a40acab7383d8c2237, type: 2}
+  - ImprovementSO: {fileID: 11400000, guid: 2c822e247f9fe2048a7739ac98095509, type: 2}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
