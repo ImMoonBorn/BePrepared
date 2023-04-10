@@ -36,7 +36,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             {
                 if (!CustomCondition())
                 {
-                    NotificationManager.Notificate(CustomConditionWarningMessage());
+                    NotificationManager.Notificate(CustomConditionWarningMessage(), NotificationType.Warning);
                     m_DoAction = false;
                     return;
                 }
@@ -48,7 +48,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 }
                 else
                 {
-                    NotificationManager.Notificate("Not Enough Resources!");
+                    NotificationManager.Notificate("Not Enough Resources!", NotificationType.Warning);
                     m_DoAction = false;
                 }
             }

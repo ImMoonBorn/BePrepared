@@ -13,13 +13,11 @@ MonoBehaviour:
   m_Name: SO_Farm
   m_EditorClassIdentifier: 
   UnitType: 1
-  UnitName: Farrm
+  UnitName: Farm
   Destroyable: 1
   Icon: {fileID: 21300000, guid: cebd8d027a0b4d046ac99f9897468818, type: 3}
-  Description: 'A farm to produce some food. Assign villagers to be farmers and gather
+  Description: A farm to produce some food. Assign villagers to be farmers and gather
     food.
-
-'
   Cost:
     m_Costs:
     - ResourceType: 1

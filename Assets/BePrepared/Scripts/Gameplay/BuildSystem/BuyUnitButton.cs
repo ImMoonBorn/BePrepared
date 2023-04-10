@@ -46,7 +46,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         {
             if (!m_UnitSO.Cost.Check())
             {
-                NotificationManager.Notificate("Not enough resources to build!");
+                NotificationManager.Notificate("Not enough resources to build!", NotificationType.Warning);
                 return;
             }
             m_UnitSO.Cost.Spend();

@@ -3,7 +3,7 @@ using MoonBorn.BePrepared.Gameplay.Unit;
 
 namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 {
-    [CreateAssetMenu(fileName = "SO_BuildingUnit", menuName = "BePrepared/Unit/Create Building Unit")]
+    [CreateAssetMenu(fileName = "SO_BuildingUnit", menuName = "BePrepared/Unit/Create Building")]
     public class BuildingUnitSO : UnitSO
     {
         [Header("Tooltip")]

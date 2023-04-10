@@ -134,7 +134,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         {
             if (!CanProduceVillager)
             {
-                NotificationManager.Notificate("Population Limit Reached!");
+                NotificationManager.Notificate("Population Limit Reached!", NotificationType.Warning);
                 return;
             }
 

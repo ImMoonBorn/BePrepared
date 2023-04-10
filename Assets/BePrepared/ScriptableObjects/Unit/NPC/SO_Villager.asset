@@ -9,9 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37184fec3b36d234cb7237bf815e6e06, type: 3}
+  m_Script: {fileID: 11500000, guid: 99a4502ea2b939042a69da1662e2ac7b, type: 3}
   m_Name: SO_Villager
   m_EditorClassIdentifier: 
   UnitType: 0
   UnitName: Villager
   Destroyable: 1
+  MaleExpressions:
+  - {fileID: 8300000, guid: 17d3562ba6406ae41a8bdcf7d3869fa7, type: 3}
+  - {fileID: 8300000, guid: 3d16270eb3f57e9459f5a1bf91f48293, type: 3}
+  - {fileID: 8300000, guid: 889e48377d42c364b91f1d1c1962bc4f, type: 3}
+  - {fileID: 8300000, guid: d439c1d463f189d42934dd0d601a2d5c, type: 3}
+  - {fileID: 8300000, guid: 6f91f450cfa2b034faf468deb6ce43c2, type: 3}
+  - {fileID: 8300000, guid: 9cb4a930e242f3a4ca8c42b6050820f3, type: 3}
+  - {fileID: 8300000, guid: e9d48a5095db6df4fb11b4d244e3a8af, type: 3}
+  - {fileID: 8300000, guid: 57219506f5822de43b8c7a9d4e6b1e3d, type: 3}
+  FemaleExpressions:
+  - {fileID: 8300000, guid: e1bf9a8a6b4ddeb4696b4c16b5edd506, type: 3}
+  - {fileID: 8300000, guid: 681a28ed1bbc26345bf59bc564a016e8, type: 3}
+  - {fileID: 8300000, guid: 269c19678e2426e4997c2c8f29e55fa7, type: 3}
+  - {fileID: 8300000, guid: e4c8cbc10b46e674692a9b60911baaa5, type: 3}
+  - {fileID: 8300000, guid: 0c1db3abe7d334745a237bab21208b12, type: 3}
+  - {fileID: 8300000, guid: 901d067f06ac8614db7c0c86442aec14, type: 3}
+  - {fileID: 8300000, guid: fe37d63c7feeb234e8966e2c173d9609, type: 3}
+  - {fileID: 8300000, guid: 7b248a1c18e90d242ae346e453cbf6c8, type: 3}

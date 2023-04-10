@@ -9,17 +9,31 @@ namespace MoonBorn.UI
         Left, Right
     }
 
+    public enum NotificationType
+    {
+        None = 0,
+        Success = 1,
+        Warning = 2,
+    }
+
     public class NotificationManager : Singleton<NotificationManager>
     {
+        public static AudioClip SuccessClip => Instance.m_SuccessClip;
+        public static AudioClip WarningClip => Instance.m_WarningClip;
+
         [SerializeField] private Notification m_NotificationPrefab;
         [SerializeField] private RectTransform m_Placeholder;
         [SerializeField] private NotificationAnchorDirection m_AnchorDirection;
         [SerializeField] private RectTransform[] m_Anchors;
         private readonly List<Notification> m_Notifications = new();
 
-        public static void Notificate(string message)
+        [Header("Audio")]
+        [SerializeField] private AudioClip m_SuccessClip;
+        [SerializeField] private AudioClip m_WarningClip;
+
+        public static void Notificate(string message, NotificationType type = NotificationType.None)
         {
-            Instance.AddNotification(message);
+            Instance.AddNotification(message, type);
         }
 
         public static void RemoveNotification(Notification notification)
@@ -27,7 +41,7 @@ namespace MoonBorn.UI
             Instance.m_Notifications.Remove(notification);
         }
 
-        private void AddNotification(string message)
+        private void AddNotification(string message, NotificationType notificationType = NotificationType.None)
         {
             if (m_Notifications.Count >= m_Anchors.Length)
             {
@@ -44,7 +58,7 @@ namespace MoonBorn.UI
             }
 
             Notification notification = Instantiate(m_NotificationPrefab, m_Placeholder);
-            notification.Setup(m_Anchors[0], message, m_AnchorDirection, m_Placeholder.sizeDelta.x);
+            notification.Setup(message, notificationType, m_Anchors[0], m_Placeholder.sizeDelta.x, m_AnchorDirection);
             m_Notifications.Insert(0, notification);
         }
     }

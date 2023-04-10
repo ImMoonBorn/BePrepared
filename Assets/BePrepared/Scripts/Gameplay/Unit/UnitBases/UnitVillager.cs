@@ -1,9 +1,9 @@
-using MoonBorn.Audio;
-using MoonBorn.BePrepared.Gameplay.BuildSystem;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using MoonBorn.Audio;
+using MoonBorn.BePrepared.Gameplay.BuildSystem;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -15,15 +15,25 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         Miner = 3,
         Builder = 4
     }
+    public enum VillagerGender
+    {
+        None,
+        Male,
+        Female
+    }
 
     public class UnitVillager : MonoBehaviour
     {
+
+
         private readonly static int s_SpeedHash = Animator.StringToHash("Speed");
         private readonly static int s_WorkHash = Animator.StringToHash("Work");
         private readonly static int s_WorkIndexHash = Animator.StringToHash("WorkIndex");
 
         public VillagerType VillagerType => m_VillagerType;
 
+        [SerializeField] private VillagerGender m_Gender;
+        [SerializeField] private UnitVillagerSO m_VillagerSO;
         private UnitResource m_AssignedResource;
         private UnitConstruction m_AssignedConstruction;
         private NavMeshAgent m_Agent;
@@ -54,6 +64,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [Header("Audio")]
         [SerializeField] private RandomClipPlayer m_ClipPlayer;
         [SerializeField] private Playlist[] m_Playlists;
+        [SerializeField] private AudioSource m_VoiceSource;
+        private bool m_IsSpeaking = false;
 
         private void Awake()
         {
@@ -86,6 +98,13 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
             m_Obstacle.enabled = false;
             StartCoroutine(MoveCoroutine(direction));
+
+            if (m_Gender != VillagerGender.None && m_VillagerType == VillagerType.Idle)
+            {
+                m_VoiceSource.clip = m_VillagerSO.GetClipByGender(m_Gender);
+                if (m_VoiceSource.clip != null)
+                    StartCoroutine(Speak(m_VoiceSource.clip));
+            }
         }
 
         private IEnumerator MoveCoroutine(Vector3 direction)
@@ -93,6 +112,25 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             yield return null;
             m_Agent.enabled = true;
             m_Agent.SetDestination(direction);
+
+
+        }
+
+        private IEnumerator Speak(AudioClip clip)
+        {
+            if (m_IsSpeaking)
+                yield break;
+
+            m_IsSpeaking = true;
+            m_VoiceSource.PlayOneShot(m_VoiceSource.clip);
+            float timer = 0.0f;
+            while (timer <= clip.length)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            m_IsSpeaking = false;
         }
 
         public void Assign(UnitResource resource)
@@ -118,6 +156,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void Unassign()
         {
+            m_GatherTimer = 0.0f;
+
             if (m_AssignedResource != null)
                 m_AssignedResource.RemoveVillager(this);
 
@@ -135,13 +175,15 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 if (SearchForOtherResources())
                     return;
 
-
             m_AssignedResource = null;
             ChangeType(VillagerType.Idle);
         }
 
         public void BuildFinished()
         {
+            if (SearchForOtherConsturctions())
+                return;
+
             m_AssignedConstruction = null;
             ChangeType(VillagerType.Idle);
         }
@@ -168,7 +210,32 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                         if (resource.ResourceType == GetResourceTypeFromVillager(m_VillagerType) && m_AssignedResource != resource)
                         {
                             Move(collider.ClosestPoint(transform.position));
-                            Assign(resource);
+                            m_AssignedResource = resource;
+                            m_AssignedResource.AddVillager(this);
+                            return true;
+                        }
+                    }
+
+                }
+            }
+            return false;
+        }
+
+        private bool SearchForOtherConsturctions()
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, m_SearchRadius);
+
+            if (colliders.Length > 0)
+            {
+                foreach (Collider collider in colliders)
+                {
+                    if (collider.TryGetComponent<UnitConstruction>(out var construction))
+                    {
+                        if (m_AssignedConstruction != construction)
+                        {
+                            Move(collider.ClosestPoint(transform.position));
+                            m_AssignedConstruction = construction;
+                            m_AssignedConstruction.AddVillager(this);
                             return true;
                         }
                     }
@@ -223,21 +290,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 UnitManager.RemoveIdleVillager(this);
 
             SelectTool(m_VillagerType);
-
             if (m_VillagerType != VillagerType.Idle)
                 m_ClipPlayer.SetClips(m_Playlists[(int)m_VillagerType - 1].Musics);
-        }
-
-        private void LookToTarget(Vector3 target)
-        {
-            Vector3 direction = target - transform.position;
-            direction.y = 0;
-
-            if (direction.magnitude > 0.001f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 8.0f);
-            }
         }
 
         private void HandleGathering()
@@ -298,6 +352,18 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 VillagerType.Miner => ResourceType.Stone,
                 _ => ResourceType.None
             };
+        }
+
+        private void LookToTarget(Vector3 target)
+        {
+            Vector3 direction = target - transform.position;
+            direction.y = 0;
+
+            if (direction.magnitude > 0.001f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 8.0f);
+            }
         }
 
         private void OnDestroy()

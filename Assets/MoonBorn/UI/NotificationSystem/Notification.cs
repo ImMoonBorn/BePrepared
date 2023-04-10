@@ -1,6 +1,6 @@
+using System.Collections;
 using UnityEngine;
 using TMPro;
-using System.Collections;
 
 namespace MoonBorn.UI
 {
@@ -10,9 +10,29 @@ namespace MoonBorn.UI
         [SerializeField] private TMP_Text m_MessageText;
         [SerializeField] private float m_Duration = 5.0f;
         private RectTransform m_Anchor;
+        private AudioSource m_AudioSource;
 
-        public void Setup(RectTransform anchoredPosition, string message, NotificationAnchorDirection direction, float anchorSize)
+        public void Setup(string message, NotificationType type, RectTransform anchoredPosition, float anchorSize, NotificationAnchorDirection direction)
         {
+            if (type != NotificationType.None)
+            {
+                if (TryGetComponent(out m_AudioSource))
+                {
+                    if (type == NotificationType.Success)
+                    {
+                        AudioClip clip = NotificationManager.SuccessClip;
+                        if (clip)
+                            m_AudioSource.PlayOneShot(clip);
+                    }
+                    else if(type == NotificationType.Warning)
+                    {
+                        AudioClip clip = NotificationManager.WarningClip;
+                        if (clip)
+                            m_AudioSource.PlayOneShot(clip);
+                    }
+                }
+            }
+
             float offset = FindOffset(direction, anchorSize);
 
             gameObject.SetActive(true);
@@ -44,7 +64,7 @@ namespace MoonBorn.UI
 
         private IEnumerator DestroyTimer()
         {
-            yield return new  WaitForSeconds(m_Duration);
+            yield return new WaitForSeconds(m_Duration);
             NotificationManager.RemoveNotification(this);
             Destroy(gameObject);
         }
