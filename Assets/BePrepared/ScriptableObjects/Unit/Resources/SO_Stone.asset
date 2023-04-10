@@ -17,3 +17,4 @@ MonoBehaviour:
   Destroyable: 0
   ResourceType: 3
   SearchAfterDeplete: 1
+  GatherTime: 0.6

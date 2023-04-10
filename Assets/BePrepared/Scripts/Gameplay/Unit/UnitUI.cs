@@ -55,6 +55,16 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             Instance.SelectUnit();
         }
 
+        public static void RefreshUnit()
+        {
+            if(Instance.m_SelectedUnit)
+            {
+                UnitMember unit = Instance.m_SelectedUnit;
+                Deselect();
+                Select(unit);
+            }
+        }
+
         public static void Deselect()
         {
             Instance.m_UnitSelect.SetActive(false);
@@ -115,8 +125,12 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
                         Instance.m_BuildingContent.SetActive(true);
 
-                        foreach (var action in m_SelectedBuilding.Actions)
+                        foreach (BuildingAction action in m_SelectedBuilding.Actions)
                         {
+                            action.Refresh();
+                            if(action.ReachedLimit && action.DestroyOnLimitReach)
+                                continue;
+
                             ActionButton button = Instantiate(m_ActionButtonPrefab, m_ActionButtonPlaceholder);
                             button.Setup(action);
                         }

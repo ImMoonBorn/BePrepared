@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit

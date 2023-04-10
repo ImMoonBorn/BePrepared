@@ -8,6 +8,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public ResourceType ResourceType => m_ResourceSO.ResourceType;
         public int ResourceAmount => m_ResourceAmount;
         public int ResourceAmountMax => m_ResourceAmountMax;
+        public float GatherTime => m_ResourceSO.GatherTime;
         public bool IsInfinite => m_IsInfinite;
 
         [SerializeField] private UnitResourceSO m_ResourceSO;
@@ -21,7 +22,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [Header("Random Rotation")]
         [SerializeField] private bool m_ApplyRandomRotation = true;
         [SerializeField] private Transform m_MeshTransform;
-
 
         private void Awake()
         {

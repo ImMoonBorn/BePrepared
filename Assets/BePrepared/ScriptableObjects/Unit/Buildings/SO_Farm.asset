@@ -21,11 +21,9 @@ MonoBehaviour:
   Cost:
     m_Costs:
     - ResourceType: 1
-      Amount: 100
-    - ResourceType: 2
-      Amount: 50
+      Amount: 400
   ColliderSize: {x: 4.5, y: 0.3, z: 4.5}
-  BuildTime: 5
+  BuildTime: 20
   BuildHeight: 0.3
   GhostPrefab: {fileID: 629904163285624940, guid: db297ee08b89b2d4ab100f17bc9f0002,
     type: 3}

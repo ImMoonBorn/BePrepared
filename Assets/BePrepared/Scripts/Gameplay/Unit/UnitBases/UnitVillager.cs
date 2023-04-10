@@ -44,9 +44,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [SerializeField] private Animator m_Animator;
 
         [Header("Resource")]
-        [SerializeField] private float m_GatherTime = 0.34f;
-        [SerializeField] private int m_GatherAmount = 1;
         [SerializeField] private float m_SearchRadius = 15.0f;
+        private float m_GatherTime = 0.34f;
         private float m_GatherTimer = 0.0f;
         private Vector3 m_TargetPosition;
         private bool m_TargetReached = false;
@@ -84,9 +83,15 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             foreach (GameObject tool in m_Tools)
                 tool.SetActive(false);
 
+            ChangeType(m_VillagerType);
+
+        }
+
+        private void Start()
+        {
             UnitManager.VillagerCreated();
             UnitManager.AddIdleVillager(this);
-            ChangeType(m_VillagerType);
+            UnitImprovements.OnVillagerImprovement += CalculateGatherTime;
         }
 
         public void Move(Vector3 direction)
@@ -112,8 +117,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             yield return null;
             m_Agent.enabled = true;
             m_Agent.SetDestination(direction);
-
-
         }
 
         private IEnumerator Speak(AudioClip clip)
@@ -139,8 +142,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
             m_AssignedConstruction = null;
             m_AssignedResource = resource;
-
+            
             ChangeType(GetVillagerTypeFromResource(resource.ResourceType));
+            CalculateGatherTime();
 
             m_AssignedResource.AddVillager(this);
         }
@@ -303,7 +307,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 m_GatherTimer += Time.deltaTime;
                 if (m_GatherTimer >= m_GatherTime)
                 {
-                    m_AssignedResource.Gather(m_GatherAmount);
+                    m_AssignedResource.Gather(1);
                     m_GatherTimer = 0.0f;
                 }
             }
@@ -332,7 +336,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 m_Animator.SetBool(s_WorkHash, false);
         }
 
-        private VillagerType GetVillagerTypeFromResource(ResourceType resourceType)
+        public static VillagerType GetVillagerTypeFromResource(ResourceType resourceType)
         {
             return resourceType switch
             {
@@ -343,7 +347,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             };
         }
 
-        private ResourceType GetResourceTypeFromVillager(VillagerType villagerType)
+        public static ResourceType GetResourceTypeFromVillager(VillagerType villagerType)
         {
             return villagerType switch
             {
@@ -351,6 +355,26 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 VillagerType.Farmer => ResourceType.Food,
                 VillagerType.Miner => ResourceType.Stone,
                 _ => ResourceType.None
+            };
+        }
+
+        private void CalculateGatherTime()
+        {
+            if (!m_AssignedResource)
+                return;
+
+            m_GatherTime = m_AssignedResource.GatherTime;
+            m_GatherTime -= m_GatherTime * GetGatherImprovement(m_VillagerType);
+        }
+
+        private float GetGatherImprovement(VillagerType type)
+        {
+            return type switch
+            {
+                VillagerType.Lumberjack => UnitImprovements.LumberjackSpeed,
+                VillagerType.Farmer => UnitImprovements.FarmerSpeed,
+                VillagerType.Miner => UnitImprovements.MinerSpeed,
+                _ => 0.0f
             };
         }
 
@@ -371,6 +395,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (m_AssignedResource != null)
                 Unassign();
             UnitManager.VillagerDestroyed();
+            UnitImprovements.OnVillagerImprovement -= CalculateGatherTime;
         }
     }
 }

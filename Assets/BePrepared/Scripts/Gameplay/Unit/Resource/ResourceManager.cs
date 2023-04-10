@@ -30,6 +30,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private int m_FoodAssignedCount = 0;
         private int m_StoneAssignedCount = 0;
 
+        [SerializeField] private ResourceCost m_StartingResoures;
+
         [Header("Icons")]
         [SerializeField] private Sprite m_WoodIcon;
         [SerializeField] private Sprite m_FoodIcon;
@@ -37,6 +39,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void Start()
         {
+            m_StartingResoures.Restore();
+
             ResourceUI.OnChangeResources(m_WoodResources, m_FoodResources, m_StoneResources);
             ResourceUI.OnChangeAssinged(m_WoodAssignedCount, m_FoodAssignedCount, m_StoneResources);
         }

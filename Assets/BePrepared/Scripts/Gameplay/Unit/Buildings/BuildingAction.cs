@@ -1,22 +1,29 @@
-using MoonBorn.UI;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
+using MoonBorn.UI;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
     public abstract class BuildingAction : MonoBehaviour
     {
+        public UnityAction OnCallAction;
+        public UnityAction OnActionFinished;
+
         public float ActionProgress => m_NormalizedTimer;
         public bool InAction => m_DoAction;
         public string ActionName => m_ActionName;
-
+        public bool ReachedLimit => m_ReachedLimit;
+        public bool DestroyOnLimitReach => m_DestroyOnLimitReach;
         public Sprite Icon => m_Icon;
 
         [Header("Settings")]
         [SerializeField] protected float m_ActionTime = 5.0f;
         [SerializeField] private ResourceCost m_Cost;
+        [SerializeField] protected bool m_DestroyOnLimitReach = false;
         protected bool m_DoAction = false;
         private float m_NormalizedTimer = 0.0f;
+        protected bool m_ReachedLimit = false;
 
         [Header("Visual")]
         [SerializeField] private string m_ActionName;
@@ -28,6 +35,20 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         protected abstract string CustomConditionWarningMessage();
 
+        protected abstract string CustomDescription();
+
+        protected abstract string CustomFooter();
+
+        public abstract void Refresh();
+
+        protected void OverrideAction(string name, float actionTime, ResourceCost cost, Sprite Icon)
+        {
+            m_ActionName = name;
+            m_Cost = cost;
+            m_ActionTime = actionTime;
+            m_Icon = Icon;
+        }
+
         public void CallAction()
         {
             m_DoAction = !m_DoAction;
@@ -38,8 +59,14 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 {
                     NotificationManager.Notificate(CustomConditionWarningMessage(), NotificationType.Warning);
                     m_DoAction = false;
+                    m_ReachedLimit = true;
+                    OnCallAction?.Invoke();
                     return;
                 }
+                else
+                    m_ReachedLimit = false;
+
+                OnCallAction?.Invoke();
 
                 if (m_Cost.Check())
                 {
@@ -72,6 +99,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             }
 
             OnAction();
+            OnActionFinished?.Invoke();
             m_DoAction = false;
             m_NormalizedTimer = 0.0f;
         }
@@ -88,7 +116,22 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                     costText += $"-<color=red>{c.ResourceType}: {c.Amount}</color>\n";
             }
 
-            return $"{m_ActionDescription}\n\n{costText}";
+            string finalText = "";
+            if (!string.IsNullOrEmpty(m_ActionDescription))
+                finalText += m_ActionDescription + " ";
+
+            string customDesc = CustomDescription();
+            if (!string.IsNullOrEmpty(customDesc))
+                finalText += customDesc;
+
+            if (!string.IsNullOrEmpty(costText))
+                finalText += $"\n\n{costText}";
+
+            string customFooter = CustomFooter();
+            if (!string.IsNullOrEmpty(customFooter))
+                finalText += $"\n{customFooter}";
+
+            return finalText;
         }
     }
 }

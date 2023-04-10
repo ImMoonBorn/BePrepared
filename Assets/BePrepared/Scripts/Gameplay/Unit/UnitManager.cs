@@ -1,19 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using TMPro;
 using MoonBorn.Utils;
 using MoonBorn.UI;
 using MoonBorn.BePrepared.Gameplay.Player;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
-using Unity.Burst.CompilerServices;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
     public class UnitManager : Singleton<UnitManager>
     {
+        public UnityEvent OnVillagerCreated;
+        public UnityEvent OnVillagerDestroyed;
+
         public static bool CanProduceVillager => Instance.m_VillagerCount < Instance.m_MaxVillagerCount;
         public static List<UnitVillager> IdleVillagers => Instance.m_IdleVillagers;
+        public static int VillagerCount => Instance.m_VillagerCount;
+        public static int MaxVillagerCount => Instance.m_MaxVillagerCount;
 
         [Header("References")]
         private Camera m_Camera;
@@ -153,6 +158,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (Instance == null)
                 return;
 
+            Instance.OnVillagerCreated?.Invoke();
             Instance.m_VillagerCount++;
             Instance.UpdateVillagerUI();
         }
@@ -162,6 +168,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (Instance == null)
                 return;
 
+            Instance.OnVillagerDestroyed?.Invoke();
             Instance.m_VillagerCount--;
             Instance.UpdateVillagerUI();
         }
