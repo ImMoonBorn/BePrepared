@@ -66,6 +66,8 @@ MonoBehaviour:
   m_ResourceSO: {fileID: 11400000, guid: 73c10bd81b85a974ab8256a0a8948f97, type: 2}
   m_IsInfinite: 1
   m_ResourceAmountMax: 100
+  m_ApplyRandomRotation: 0
+  m_MeshTransform: {fileID: 4686692937164856229}
 --- !u!65 &3412743206492252822
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -13,13 +13,24 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [SerializeField] private UnitResourceSO m_ResourceSO;
         [SerializeField] private bool m_IsInfinite = false;
         [SerializeField] private int m_ResourceAmountMax = 100;
+
         private int m_ResourceAmount = 0;
         private bool m_Destroyed = false;
         private List<UnitVillager> m_VillagerList = new();
 
+        [Header("Random Rotation")]
+        [SerializeField] private bool m_ApplyRandomRotation = true;
+        [SerializeField] private Transform m_MeshTransform;
+
+
         private void Awake()
         {
             m_ResourceAmount = m_ResourceAmountMax;
+            if (m_ApplyRandomRotation)
+            {
+                Vector3 euler = m_MeshTransform.rotation.eulerAngles;
+                m_MeshTransform.rotation = Quaternion.Euler(euler.x, Random.Range(0.0f, 360.0f), euler.z);
+            }
         }
 
         public void Gather(int amount)

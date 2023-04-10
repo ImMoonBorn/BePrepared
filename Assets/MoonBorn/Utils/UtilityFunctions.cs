@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MoonBorn.Utils
@@ -30,6 +31,16 @@ namespace MoonBorn.Utils
             }
             else
                 return lastPosition;
+        }
+
+        public static T GetRandomFromList<T>(List<T> list)
+        {
+            return list[Random.Range(0, list.Count)];
+        }
+
+        public static T GetRandomFromArray<T>(T[] arr)
+        {
+            return arr[Random.Range(0, arr.Length)];
         }
     }
 }
