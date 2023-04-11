@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using MoonBorn.BePrepared.Utils.SaveSystem;
+using MoonBorn.Utils;
+using System.Collections;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
-    public class UnitResource : MonoBehaviour
+    public class UnitResource : MonoBehaviour, ISaveable
     {
         public ResourceType ResourceType => m_ResourceSO.ResourceType;
         public int ResourceAmount => m_ResourceAmount;
@@ -15,7 +18,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [SerializeField] private bool m_IsInfinite = false;
         [SerializeField] private int m_ResourceAmountMax = 100;
 
-        private int m_ResourceAmount = 0;
+        private int m_ResourceAmount = 1;
         private bool m_Destroyed = false;
         private List<UnitVillager> m_VillagerList = new();
 
@@ -59,6 +62,11 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             {
                 m_Destroyed = true;
                 GetComponent<UnitMember>().DestroyUnit();
+                if (TryGetComponent(out CellComponent cellComponent))
+                {
+                    Vector2Int pos = cellComponent.Position;
+                    ProceduralWorldGenerator.DestroyCell(pos.x, pos.y);
+                }
             }
         }
 
@@ -89,6 +97,38 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 villager.ResourceDepleted(m_ResourceSO.SearchAfterDeplete);
             }
             m_VillagerList.Clear();
+        }
+
+        public void SaveState(string guid)
+        {
+            ResourceData data = new ResourceData
+            {
+                GUID = guid,
+                Position = transform.position,
+                Rotation = m_MeshTransform.rotation.eulerAngles,
+                ResourceAmount = m_ResourceAmount
+            };
+
+            SaveManager.SaveToTreeData(data);
+        }
+
+        public void LoadState(object saveData)
+        {
+            ResourceData resourceData = (ResourceData)saveData;
+            transform.position = resourceData.Position;
+            m_MeshTransform.rotation = Quaternion.Euler(resourceData.Rotation);
+            m_ResourceAmount = resourceData.ResourceAmount;
+
+            if (m_ResourceAmount <= 0)
+            {
+                m_Destroyed = true;
+                GetComponent<UnitMember>().DestroyUnit();
+                if (TryGetComponent(out CellComponent cellComponent))
+                {
+                    Vector2Int pos = cellComponent.Position;
+                    ProceduralWorldGenerator.DestroyCell(pos.x, pos.y);
+                }
+            }
         }
     }
 }

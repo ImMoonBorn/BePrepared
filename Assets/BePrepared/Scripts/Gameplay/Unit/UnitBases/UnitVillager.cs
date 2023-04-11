@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using MoonBorn.Audio;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
-using System.Runtime.InteropServices.WindowsRuntime;
+using MoonBorn.BePrepared.Utils.SaveSystem;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -24,8 +24,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
     public class UnitVillager : MonoBehaviour
     {
-
-
         private readonly static int s_SpeedHash = Animator.StringToHash("Speed");
         private readonly static int s_WorkHash = Animator.StringToHash("Work");
         private readonly static int s_WorkIndexHash = Animator.StringToHash("WorkIndex");
@@ -84,7 +82,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 tool.SetActive(false);
 
             ChangeType(m_VillagerType);
-
         }
 
         private void Start()

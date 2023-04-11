@@ -22,11 +22,5 @@ namespace MoonBorn.Utils
                 DestroyImmediate(this);
             }
         }
-
-        private void OnDestroy()
-        {
-            if (s_Instance)
-                s_Instance = null;
-        }
     }
 }

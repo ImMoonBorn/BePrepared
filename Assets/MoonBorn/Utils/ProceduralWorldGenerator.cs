@@ -1,20 +1,48 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MoonBorn.Utils
 {
+    [System.Serializable]
+    enum CellType
+    {
+        None,
+        Tree,
+        Stone,
+        Avoid,
+        Prop
+    }
+
+    class CellComponent : MonoBehaviour
+    {
+        public Vector2Int Position;
+        public CellType CellType;
+    }
+
     public class ProceduralWorldGenerator : MonoBehaviour
     {
-        enum CellType
+
+        [System.Serializable]
+        class CellArrayData
         {
-            None,
-            Tree,
-            Stone,
-            Avoid
+            public string Guid;
+            public Vector2Int Position;
+            public CellType CellType;
+            public int PrefabNumber;
         }
 
+        [System.Serializable]
+        class CellArray
+        {
+            public List<CellArrayData> Cells = new();
+        }
+
+        [System.Serializable]
         struct Cell
         {
+            public string Guid;
             public CellType Type;
+            public int PrefabNumber;
         }
 
         [System.Serializable]
@@ -24,6 +52,11 @@ namespace MoonBorn.Utils
             public int CellSize;
         }
 
+        [Header("Save/Load")]
+        [SerializeField] private bool m_Load = false;
+        [SerializeField] private bool m_GenerateGUID = true;
+        [SerializeField] private bool m_AddCellComponent = true;
+
         [Header("Map Settings")]
         [SerializeField] private Vector2Int m_Position = Vector2Int.zero;
         [SerializeField] private Vector2Int m_Size = new Vector2Int(50, 50);
@@ -31,7 +64,7 @@ namespace MoonBorn.Utils
         [SerializeField] private bool m_GenerateStones = true;
         [SerializeField] private bool m_GenerateProps = true;
         [SerializeField] private AvoidMesh[] m_AvoidMeshes;
-        private Cell[,] m_Cells;
+        private static Cell[,] m_Cells;
 
         [Header("Trees")]
         [SerializeField] private GameObject[] m_TreePrefabs;
@@ -55,6 +88,12 @@ namespace MoonBorn.Utils
         {
             m_Cells = new Cell[m_Size.x, m_Size.y];
 
+            if (m_Load)
+            {
+                LoadData();
+                return;
+            }
+
             GenerateAvoids();
             if (m_GenerateTrees && m_TreePrefabs.Length > 0)
                 GenerateTrees();
@@ -62,8 +101,6 @@ namespace MoonBorn.Utils
                 GenerateStones();
             if (m_GenerateProps && m_PropPrefabs.Length > 0)
                 GenerateProps();
-
-            Destroy(this);
         }
 
         private void GenerateAvoids()
@@ -115,10 +152,7 @@ namespace MoonBorn.Utils
                 {
                     float treeDensity = Random.Range(0.0f, m_TreeDensity);
                     if (noiseMap[x, y] < treeDensity && CheckRadius(x, y, m_TreeAvoidanceRadius))
-                    {
-                        Instantiate(m_TreePrefabs[Random.Range(0, m_TreePrefabs.Length)], GetInstantiatePosition(x, y), Quaternion.identity);
-                        m_Cells[x, y].Type = CellType.Tree;
-                    }
+                        CreateCell(m_TreePrefabs, CellType.Tree, x, y);
                 }
             }
         }
@@ -144,10 +178,7 @@ namespace MoonBorn.Utils
                 {
                     float stoneDensity = Random.Range(0.0f, m_StoneDensity);
                     if (noiseMap[x, y] < stoneDensity && CheckRadius(x, y, m_StoneAvoidanceRadius))
-                    {
-                        Instantiate(m_StonePrefabs[Random.Range(0, m_StonePrefabs.Length)], GetInstantiatePosition(x, y), Quaternion.identity);
-                        m_Cells[x, y].Type = CellType.Stone;
-                    }
+                        CreateCell(m_StonePrefabs, CellType.Stone, x, y);
                 }
             }
         }
@@ -171,14 +202,41 @@ namespace MoonBorn.Utils
             {
                 for (int x = 0; x < m_Size.x; x++)
                 {
-                    float stoneDensity = Random.Range(0.0f, m_PropsDensity);
-                    if (noiseMap[x, y] < stoneDensity && CheckRadius(x, y, m_PropsAvoidanceRadius))
-                    {
-                        Instantiate(m_PropPrefabs[Random.Range(0, m_PropPrefabs.Length)], GetInstantiatePosition(x, y), Quaternion.identity);
-                        m_Cells[x, y].Type = CellType.Avoid;
-                    }
+                    float propDensity = Random.Range(0.0f, m_PropsDensity);
+                    if (noiseMap[x, y] < propDensity && CheckRadius(x, y, m_PropsAvoidanceRadius))
+                        CreateCell(m_PropPrefabs, CellType.Prop, x, y);
                 }
             }
+        }
+
+        private void CreateCell(GameObject[] array, CellType type, int x, int y)
+        {
+            int prefabNumber = Random.Range(0, array.Length);
+
+            GameObject gObj = Instantiate(array[prefabNumber], GetInstantiatePosition(x, y), Quaternion.identity);
+
+            m_Cells[x, y].Type = type;
+            m_Cells[x, y].PrefabNumber = prefabNumber;
+
+            if (m_GenerateGUID)
+            {
+                GUIDComponent guid = gObj.AddComponent<GUIDComponent>();
+                guid.GenerateGUID();
+                m_Cells[x, y].Guid = guid.GUID;
+            }
+            if (m_AddCellComponent)
+            {
+                CellComponent cellComponent = gObj.AddComponent<CellComponent>();
+                cellComponent.Position = new Vector2Int(x, y);
+                cellComponent.CellType = type;
+            }
+        }
+
+        public static void DestroyCell(int x, int y)
+        {
+            m_Cells[x, y].Guid = string.Empty;
+            m_Cells[x, y].Type = CellType.None;
+            m_Cells[x, y].PrefabNumber = 0;
         }
 
         private bool CheckRadius(int x, int y, int radius, CellType type = CellType.None)
@@ -208,6 +266,78 @@ namespace MoonBorn.Utils
         private Vector3 GetInstantiatePosition(int x, int y)
         {
             return new Vector3(x - (m_Size.x / 2.0f) + m_Position.x, 0.0f, y - (m_Size.y / 2.0f) + m_Position.y);
+        }
+
+        private GameObject GetGameobject(CellType type, int x, int y, int prefabNumber)
+        {
+            return type switch
+            {
+                CellType.Tree => Instantiate(m_TreePrefabs[prefabNumber], GetInstantiatePosition(x, y), Quaternion.identity),
+                CellType.Stone => Instantiate(m_StonePrefabs[prefabNumber], GetInstantiatePosition(x, y), Quaternion.identity),
+                CellType.Prop => Instantiate(m_PropPrefabs[prefabNumber], GetInstantiatePosition(x, y), Quaternion.identity),
+                _ => null
+            };
+        }
+
+        [ContextMenu("Save")]
+        public void SaveData()
+        {
+            CellArray array = new CellArray();
+
+            for (int y = 0; y < m_Size.y; y++)
+            {
+                for (int x = 0; x < m_Size.x; x++)
+                {
+                    if (m_Cells[x, y].Type == CellType.Avoid || m_Cells[x, y].Type == CellType.None)
+                        continue;
+
+                    var cellData = new CellArrayData()
+                    {
+                        Guid = m_Cells[x, y].Guid,
+                        Position = new Vector2Int(x, y),
+                        PrefabNumber = m_Cells[x, y].PrefabNumber,
+                        CellType = m_Cells[x, y].Type
+                    };
+                    array.Cells.Add(cellData);
+                }
+            }
+            FileManager.Save($"{Application.persistentDataPath}/WorldData.txt", array);
+        }
+
+        [ContextMenu("Load")]
+        public void LoadData()
+        {
+            if (!Application.isPlaying)
+                return;
+
+            CellArray array = FileManager.Load<CellArray>($"{Application.persistentDataPath}/WorldData.txt");
+
+            foreach (var cell in array.Cells)
+            {
+                int x = cell.Position.x;
+                int y = cell.Position.y;
+
+                int prefabNumber = cell.PrefabNumber;
+
+                GameObject gObj = GetGameobject(cell.CellType, x, y, prefabNumber);
+
+                m_Cells[x, y].Type = cell.CellType;
+                m_Cells[x, y].PrefabNumber = prefabNumber;
+
+                if (m_GenerateGUID && gObj != null)
+                {
+                    GUIDComponent guid = gObj.AddComponent<GUIDComponent>();
+                    guid.SetGuid(cell.Guid);
+                    m_Cells[x, y].Guid = guid.GUID;
+                }
+
+                if(m_AddCellComponent && gObj != null)
+                {
+                    CellComponent cellComponent = gObj.AddComponent<CellComponent>();
+                    cellComponent.Position = cell.Position;
+                    cellComponent.CellType = cell.CellType;
+                }
+            }
         }
     }
 }

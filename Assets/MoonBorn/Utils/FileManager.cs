@@ -5,29 +5,15 @@ namespace MoonBorn.Utils
 {
     public static class FileManager
     {
-        private static string s_SavePath = Application.persistentDataPath;
-        private const string c_Extension = ".txt";
-
-        public static void SetPath(string path)
-        {
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            s_SavePath = path;
-        }
-
-        public static void Save<T>(string filename, T data)
+        public static void Save<T>(string filePath, T data)
         {
             string dataToJson = JsonUtility.ToJson(data, true);
-            string filePath = Path.Combine(s_SavePath, filename + c_Extension);
 
             File.WriteAllText(filePath, dataToJson);
         }
 
-        public static T Load<T>(string filename) where T : new()
+        public static T Load<T>(string filePath) where T : new()
         {
-            string filePath = Path.Combine(s_SavePath, filename + c_Extension);
-
             T data;
             if (File.Exists(filePath))
             {
@@ -41,10 +27,8 @@ namespace MoonBorn.Utils
             return data;
         }
 
-        public static bool TryLoad<T>(string filename, out T data)
+        public static bool TryLoad<T>(string filePath, out T data)
         {
-            string filePath = Path.Combine(s_SavePath, filename + c_Extension);
-
             if (File.Exists(filePath))
             {
                 string dataAsJson = File.ReadAllText(filePath);
@@ -55,10 +39,8 @@ namespace MoonBorn.Utils
             return false;
         }
 
-        public static void Delete(string filename)
+        public static void Delete(string filePath)
         {
-            string filePath = Path.Combine(s_SavePath, filename + c_Extension);
-
             if (File.Exists(filePath))
                 File.Delete(filePath);
         }

@@ -68,8 +68,6 @@ MonoBehaviour:
   m_Gender: 1
   m_VillagerSO: {fileID: 11400000, guid: 5629afabecb7a814183a917035c0b2e6, type: 2}
   m_Animator: {fileID: 179490686114023167}
-  m_GatherTime: 3.2
-  m_GatherAmount: 8
   m_SearchRadius: 15
   m_Axe: {fileID: 2488915890177602922}
   m_Hoe: {fileID: 3552489482932026715}
