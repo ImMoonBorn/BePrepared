@@ -12,6 +12,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 {
     public class UnitManager : Singleton<UnitManager>
     {
+        public bool Block = false;
         public UnityEvent OnVillagerCreated;
         public UnityEvent OnVillagerDestroyed;
 
@@ -19,6 +20,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public static List<UnitVillager> IdleVillagers => Instance.m_IdleVillagers;
         public static int VillagerCount => Instance.m_VillagerCount;
         public static int MaxVillagerCount => Instance.m_MaxVillagerCount;
+
+        public static UnitMember SelectedUnit => Instance.m_SelectedUnit;
+        public static UnitVillager SelectedVillager => Instance.m_SelectedVillager;
 
         [Header("References")]
         private Camera m_Camera;
@@ -78,7 +82,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void Update()
         {
-            if (EventSystem.current.IsPointerOverGameObject())
+            if (EventSystem.current.IsPointerOverGameObject() || Block)
                 return;
 
             if (Input.GetMouseButtonDown(0))

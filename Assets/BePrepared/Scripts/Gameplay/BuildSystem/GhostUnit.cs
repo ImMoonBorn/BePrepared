@@ -1,3 +1,4 @@
+using MoonBorn.BePrepared.Gameplay.Unit;
 using MoonBorn.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,6 +32,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             if (m_Snap)
                 m_MousePosition.Set(Mathf.Round(m_MousePosition.x), 0.0f, Mathf.Round(m_MousePosition.z));
             transform.position = m_MousePosition;
+            UnitManager.Instance.Block = true;
         }
 
         private void Update()
@@ -55,11 +57,21 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
                 UnitConstruction unit = Instantiate(m_UnitSO.ConstructionPrefab, m_MousePosition, m_TargetRotation);
                 unit.Setup(m_UnitSO);
                 BuildManager.DestroyBuildObject();
+
+                UnitVillager villager = UnitManager.SelectedVillager;
+                if (villager != null)
+                {
+                    villager.Move(unit.GetComponent<Collider>().ClosestPoint(villager.transform.position));
+                    villager.AssignBuilder(unit);
+                }
+
+                UnitManager.Instance.Block = false;
             }
             else if (Input.GetMouseButtonDown(1))
             {
                 m_UnitSO.Cost.Restore();
                 BuildManager.DestroyBuildObject();
+                UnitManager.Instance.Block = false;
             }
         }
 
