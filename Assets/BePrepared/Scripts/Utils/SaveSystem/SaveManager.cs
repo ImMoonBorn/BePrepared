@@ -45,13 +45,30 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
     }
 
     [Serializable]
+    public class ResourceManagerData
+    {
+        public float Wood;
+        public float Food;
+        public float Stone;
+    }
+
+    [Serializable]
+    public class ImprovementData
+    {
+        public string ImprovementName;
+        public bool IsDone;
+    }
+
+    [Serializable]
     public class SaveDatas
     {
+        public ResourceManagerData ResourceManagerData;
+        public List<ImprovementData> ImprovementDatas = new();
         public List<SaveData> RawData = new();
-        public List<ConstructionData> ConstructionData = new();
-        public List<BuildingData> BuildingData = new();
-        public List<VillagerData> VillagerData = new();
-        public List<ResourceData> ResourceData = new();
+        public List<ConstructionData> ConstructionDatas = new();
+        public List<BuildingData> BuildingDatas = new();
+        public List<VillagerData> VillagerDatas = new();
+        public List<ResourceData> ResourceDatas = new();
     }
 
     public class SaveManager : Singleton<SaveManager>
@@ -70,22 +87,22 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
 
         public static void SaveToResourceData(ResourceData resourceData)
         {
-            s_SaveDatas.ResourceData.Add(resourceData);
+            s_SaveDatas.ResourceDatas.Add(resourceData);
         }
 
         public static void SaveToVillagerData(VillagerData villagerData)
         {
-            s_SaveDatas.VillagerData.Add(villagerData);
+            s_SaveDatas.VillagerDatas.Add(villagerData);
         }
 
         public static void SaveToConstructionData(ConstructionData constructionData)
         {
-            s_SaveDatas.ConstructionData.Add(constructionData);
+            s_SaveDatas.ConstructionDatas.Add(constructionData);
         }
 
         public static void SaveToBuildingData(BuildingData buildingData)
         {
-            s_SaveDatas.BuildingData.Add(buildingData);
+            s_SaveDatas.BuildingDatas.Add(buildingData);
         }
 
         public static void Save()
@@ -104,6 +121,17 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
 
         private static void SaveAlLDatas()
         {
+            s_SaveDatas.ResourceManagerData = ResourceManager.ResourceManagerData;
+
+            var imporvements = ImprovementManager.Improvements;
+            foreach (var improvement in imporvements)
+            {
+                s_SaveDatas.ImprovementDatas.Add
+                (
+                    new ImprovementData { ImprovementName = improvement.ImprovementSO.Name, IsDone = improvement.IsDone }
+                );
+            }
+
             foreach (var saveable in FindObjectsOfType<SaveableEntity>())
                 saveable.SaveState();
         }
@@ -112,13 +140,22 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
         {
             Dictionary<string, SaveData> saveVals = new Dictionary<string, SaveData>();
 
+            ResourceManager.SetResourceManagerData(s_SaveDatas.ResourceManagerData);
+
+            foreach (ImprovementData id in saveDatas.ImprovementDatas)
+            {
+                ImprovementProp prop = ImprovementManager.FindImprovement(id.ImprovementName);
+                if (prop != null && id.IsDone)
+                    prop.Improve();
+            }
+
             foreach (SaveData s in saveDatas.RawData)
                 saveVals.Add(s.GUID, s);
 
-            foreach (ResourceData rd in saveDatas.ResourceData)
+            foreach (ResourceData rd in saveDatas.ResourceDatas)
                 saveVals.Add(rd.GUID, rd);
 
-            foreach (ConstructionData cd in saveDatas.ConstructionData)
+            foreach (ConstructionData cd in saveDatas.ConstructionDatas)
             {
                 saveVals.Add(cd.GUID, cd);
 
@@ -131,7 +168,7 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
                 construction.Setup(unitSO);
             }
 
-            foreach (BuildingData bd in saveDatas.BuildingData)
+            foreach (BuildingData bd in saveDatas.BuildingDatas)
             {
                 saveVals.Add(bd.GUID, bd);
 
@@ -148,7 +185,7 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
             foreach (var villager in villagers)
                 villager.GetComponent<UnitMember>().DestroyUnit();
 
-            foreach (VillagerData v in saveDatas.VillagerData)
+            foreach (VillagerData v in saveDatas.VillagerDatas)
             {
                 UnitVillager villager = UnitManager.CreateVillager(v.Position, v.Rotation);
                 if (villager.TryGetComponent(out GUIDComponent entity))

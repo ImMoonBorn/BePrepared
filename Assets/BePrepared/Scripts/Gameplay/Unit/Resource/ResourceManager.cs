@@ -1,6 +1,7 @@
 using UnityEngine;
 using MoonBorn.Utils;
 using TMPro;
+using MoonBorn.BePrepared.Utils.SaveSystem;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -116,6 +117,18 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             ResourceUI.OnChangeAssinged(Instance.m_WoodAssignedCount, Instance.m_FoodAssignedCount, Instance.m_StoneAssignedCount);
         }
 
+        public static ResourceManagerData ResourceManagerData => new ResourceManagerData() 
+            { Wood = Instance.m_WoodResources, Food = Instance.m_FoodResources, Stone = Instance.m_StoneResources };
+
+        public static void SetResourceManagerData(ResourceManagerData resourceManagerData)
+        {
+            Instance.m_WoodResources = resourceManagerData.Wood;
+            Instance.m_FoodResources= resourceManagerData.Food;
+            Instance.m_StoneResources= resourceManagerData.Stone;
+            ResourceUI.OnChangeResources((int)resourceManagerData.Wood, (int)resourceManagerData.Food, (int)resourceManagerData.Stone);
+        }
+        
+
         private void Update()
         {
             if (!Input.GetKey(KeyCode.LeftShift))
@@ -136,7 +149,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 else if (Input.GetKeyDown(KeyCode.Alpha3))
                     SpendResource(ResourceType.Stone, 50);
             }
-
         }
     }
 }

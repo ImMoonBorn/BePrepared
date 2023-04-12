@@ -54,27 +54,50 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public override void Refresh()
         {
             m_ImprovementProp = ImprovementManager.FindImprovement(m_ImprovementSO);
-            if(m_ImprovementProp == null)
-            {
-                m_DestroyOnLimitReach = true;
-                m_ReachedLimit = true;
-                return;
-            }
 
-            if (m_ImprovementProp.IsDone)
+
+            if (m_ImprovementProp != null)
             {
-                if (m_ImprovementSO.UnlockImprovement != null)
+                if (m_ImprovementProp.IsDone)
                 {
                     m_ImprovementSO = m_ImprovementSO.UnlockImprovement;
-                    OverrideAction(m_ImprovementSO.Name, m_ImprovementSO.Time, m_ImprovementSO.Cost, m_ImprovementSO.Icon);
+                    if (m_ImprovementSO == null)
+                    {
+                        m_DestroyOnLimitReach = true;
+                        m_ReachedLimit = true;
+                        return;
+                    }
+
+                    m_ImprovementProp = ImprovementManager.FindImprovement(m_ImprovementSO);
+                    Refresh();
                     return;
                 }
-
-                m_DestroyOnLimitReach = true;
-                m_ReachedLimit = true;
-                return;
+            }
+            else
+            {
+                if (m_ImprovementProp == null)
+                {
+                    m_DestroyOnLimitReach = true;
+                    m_ReachedLimit = true;
+                    return;
+                }
             }
             OverrideAction(m_ImprovementSO.Name, m_ImprovementSO.Time, m_ImprovementSO.Cost, m_ImprovementSO.Icon);
+
+
+            // if (m_ImprovementProp.IsDone)
+            // {
+            //     if (m_ImprovementSO.UnlockImprovement != null)
+            //     {
+            //         m_ImprovementSO = m_ImprovementSO.UnlockImprovement;
+            //         OverrideAction(m_ImprovementSO.Name, m_ImprovementSO.Time, m_ImprovementSO.Cost, m_ImprovementSO.Icon);
+            //         return;
+            //     }
+            //
+            //     m_DestroyOnLimitReach = true;
+            //     m_ReachedLimit = true;
+            //     return;
+            // }
         }
     }
 }
