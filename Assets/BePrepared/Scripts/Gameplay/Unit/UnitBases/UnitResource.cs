@@ -2,25 +2,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using MoonBorn.BePrepared.Utils.SaveSystem;
 using MoonBorn.Utils;
-using System.Collections;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
     public class UnitResource : MonoBehaviour, ISaveable
     {
         public ResourceType ResourceType => m_ResourceSO.ResourceType;
-        public int ResourceAmount => m_ResourceAmount;
+        public int ResourceAmount => (int)m_ResourceAmount;
         public int ResourceAmountMax => m_ResourceAmountMax;
-        public float GatherTime => m_ResourceSO.GatherTime;
+        public float GatherRatePerSecond => m_ResourceSO.GatherRatePerSecond;
         public bool IsInfinite => m_IsInfinite;
+
+        private List<UnitVillager> m_VillagerList = new();
 
         [SerializeField] private UnitResourceSO m_ResourceSO;
         [SerializeField] private bool m_IsInfinite = false;
         [SerializeField] private int m_ResourceAmountMax = 100;
-
-        private int m_ResourceAmount = 1;
+        private float m_ResourceAmount = 0.0f;
         private bool m_Destroyed = false;
-        private List<UnitVillager> m_VillagerList = new();
 
         [Header("Random Rotation")]
         [SerializeField] private bool m_ApplyRandomRotation = true;
@@ -36,7 +35,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             }
         }
 
-        public void Gather(int amount)
+        public void Gather(float amount)
         {
             if (m_Destroyed)
                 return;
@@ -58,7 +57,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 m_ResourceAmount -= amount;
             }
 
-            if (m_ResourceAmount <= 0)
+            if (m_ResourceAmount <= 0.0f)
             {
                 m_Destroyed = true;
                 GetComponent<UnitMember>().DestroyUnit();
@@ -109,7 +108,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 ResourceAmount = m_ResourceAmount
             };
 
-            SaveManager.SaveToTreeData(data);
+            SaveManager.SaveToResourceData(data);
         }
 
         public void LoadState(object saveData)

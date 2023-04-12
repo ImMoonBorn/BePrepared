@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba3a7438bc415f54a9bac52f1170f6d1, type: 3}
-  m_Name: SO_Farm
+  m_Name: SO_Farm_Resource
   m_EditorClassIdentifier: 
   UnitType: 2
   UnitName: Farm
   Destroyable: 1
   ResourceType: 2
   SearchAfterDeplete: 0
-  GatherTime: 0.67
+  GatherRatePerSecond: 0.67

@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 1481858229138310695}
   - component: {fileID: 519405531263591347}
   - component: {fileID: 5594620785208092690}
+  - component: {fileID: -2848645674705156377}
+  - component: {fileID: -5503793400452254101}
   m_Layer: 6
   m_Name: P_Male01_UnitVillager
   m_TagString: Untagged
@@ -68,7 +70,7 @@ MonoBehaviour:
   m_Gender: 1
   m_VillagerSO: {fileID: 11400000, guid: 5629afabecb7a814183a917035c0b2e6, type: 2}
   m_Animator: {fileID: 179490686114023167}
-  m_SearchRadius: 15
+  m_SearchRadius: 20
   m_Axe: {fileID: 2488915890177602922}
   m_Hoe: {fileID: 3552489482932026715}
   m_Pickaxe: {fileID: 2651747730809935892}
@@ -247,6 +249,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-2848645674705156377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481858229138310691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87377db3fe88cbc4a9d4311d425e48f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5503793400452254101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481858229138310691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c96779604dac541af8924b1b835dd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GUID: 7d536c0d-0fe2-4c15-ab54-a84b40c18f36
 --- !u!1001 &488280385
 PrefabInstance:
   m_ObjectHideFlags: 0

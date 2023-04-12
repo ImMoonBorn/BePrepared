@@ -14,17 +14,17 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
     public class ResourceManager : Singleton<ResourceManager>
     {
-        public static int WoodResources => Instance.m_WoodResources;
-        public static int FoodResources => Instance.m_FoodResources;
-        public static int StoneResources => Instance.m_StoneResources;
+        public static int WoodResources => (int)Instance.m_WoodResources;
+        public static int FoodResources => (int)Instance.m_FoodResources;
+        public static int StoneResources => (int)Instance.m_StoneResources;
 
         public static int WoodAssignedCount => Instance.m_WoodAssignedCount;
         public static int FoodAssignedCount => Instance.m_FoodAssignedCount;
         public static int StoneAssignedCount => Instance.m_StoneAssignedCount;
 
-        private int m_WoodResources = 0;
-        private int m_FoodResources = 0;
-        private int m_StoneResources = 0;
+        private float m_WoodResources = 0;
+        private float m_FoodResources = 0;
+        private float m_StoneResources = 0;
 
         private int m_WoodAssignedCount = 0;
         private int m_FoodAssignedCount = 0;
@@ -41,16 +41,16 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         {
             m_StartingResoures.Restore();
 
-            ResourceUI.OnChangeResources(m_WoodResources, m_FoodResources, m_StoneResources);
-            ResourceUI.OnChangeAssinged(m_WoodAssignedCount, m_FoodAssignedCount, m_StoneResources);
+            ResourceUI.OnChangeResources((int)m_WoodResources, (int)m_FoodResources, (int)m_StoneResources);
+            ResourceUI.OnChangeAssinged(m_WoodAssignedCount, m_FoodAssignedCount, m_StoneAssignedCount);
         }
 
-        public static void AddResource(ResourceType type, int amount)
+        public static void AddResource(ResourceType type, float amount)
         {
             Instance.ChangeResource(type, amount);
         }
 
-        public static void SpendResource(ResourceType type, int amount)
+        public static void SpendResource(ResourceType type, float amount)
         {
             Instance.ChangeResource(type, -amount);
         }
@@ -66,7 +66,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             };
         }
 
-        private void ChangeResource(ResourceType type, int amount)
+        private void ChangeResource(ResourceType type, float amount)
         {
             switch (type)
             {
@@ -75,7 +75,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 case ResourceType.Stone: m_StoneResources += amount; break;
             }
 
-            ResourceUI.OnChangeResources(m_WoodResources, m_FoodResources, m_StoneResources);
+            ResourceUI.OnChangeResources((int)m_WoodResources, (int)m_FoodResources, (int)m_StoneResources);
         }
 
         public static Sprite GetIconByType(ResourceType type)

@@ -7,6 +7,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
     {
         public ResourceType ResourceType;
         public bool SearchAfterDeplete = true;
-        public float GatherTime = 0.1f;
+        public float GatherRatePerSecond = 0.1f;
     }
 }

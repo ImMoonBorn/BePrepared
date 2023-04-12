@@ -8,6 +8,13 @@ namespace MoonBorn.Utils
         public string GUID => m_GUID;
 
         [SerializeField] private string m_GUID = string.Empty;
+        [SerializeField] private bool m_GenerateOnAwake = true;
+
+        private void Awake()
+        {
+            if(m_GenerateOnAwake)
+                GenerateGUID();
+        }
 
         [ContextMenu("Generate Id")]
         public void GenerateGUID() => m_GUID = Guid.NewGuid().ToString();

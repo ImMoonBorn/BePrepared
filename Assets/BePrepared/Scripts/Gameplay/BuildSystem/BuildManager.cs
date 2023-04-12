@@ -41,6 +41,16 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             Instance.EndBuild();
         }
 
+        public static BuildingUnitSO GetBuildingByName(string name)
+        {
+            foreach (var building in Instance.m_Buildings)
+            {
+                if (building.UnitName == name)
+                    return building;
+            }
+            return null;
+        }
+
         private void CallGhostPrefab(BuildingUnitSO unit)
         {
             m_GhostUnit = Instantiate(unit.GhostPrefab, Vector3.zero, Quaternion.identity);

@@ -1,11 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
 using MoonBorn.Utils;
-using System.Collections.Generic;
 
 namespace MoonBorn.BePrepared.Utils.SaveSystem
 {
+    [RequireComponent(typeof(GUIDComponent))]
     public class SaveableEntity : MonoBehaviour
     {
+        public string GUID => m_Guid.GUID;
+
         private GUIDComponent m_Guid;
 
         private void Start()
@@ -21,9 +24,11 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
 
         public void LoadState(Dictionary<string, SaveData> saveValues)
         {
-            if(saveValues.TryGetValue(m_Guid.GUID, out SaveData save))
+            if (saveValues.TryGetValue(m_Guid.GUID, out SaveData save))
+            {
                 foreach (var saveable in GetComponents<ISaveable>())
                     saveable.LoadState(save);
+            }
         }
     }
 }

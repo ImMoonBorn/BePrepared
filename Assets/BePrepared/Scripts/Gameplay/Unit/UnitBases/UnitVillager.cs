@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using MoonBorn.Audio;
+using MoonBorn.Utils;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
 using MoonBorn.BePrepared.Utils.SaveSystem;
 
@@ -22,7 +23,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         Female
     }
 
-    public class UnitVillager : MonoBehaviour
+    public class UnitVillager : MonoBehaviour, ISaveable
     {
         private readonly static int s_SpeedHash = Animator.StringToHash("Speed");
         private readonly static int s_WorkHash = Animator.StringToHash("Work");
@@ -43,7 +44,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         [Header("Resource")]
         [SerializeField] private float m_SearchRadius = 15.0f;
-        private float m_GatherTime = 0.34f;
+        private float m_GatherRatePerSecond = 0.5f;
         private float m_GatherTimer = 0.0f;
         private Vector3 m_TargetPosition;
         private bool m_TargetReached = false;
@@ -139,7 +140,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
             m_AssignedConstruction = null;
             m_AssignedResource = resource;
-            
+
             ChangeType(GetVillagerTypeFromResource(resource.ResourceType));
             CalculateGatherTime();
 
@@ -302,9 +303,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 LookToTarget(m_AssignedResource.transform.position);
 
                 m_GatherTimer += Time.deltaTime;
-                if (m_GatherTimer >= m_GatherTime)
+                if (m_GatherTimer >= 1.0f)
                 {
-                    m_AssignedResource.Gather(1);
+                    m_AssignedResource.Gather(m_GatherRatePerSecond);
                     m_GatherTimer = 0.0f;
                 }
             }
@@ -360,8 +361,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (!m_AssignedResource)
                 return;
 
-            m_GatherTime = m_AssignedResource.GatherTime;
-            m_GatherTime -= m_GatherTime * GetGatherImprovement(m_VillagerType);
+            m_GatherRatePerSecond = m_AssignedResource.GatherRatePerSecond;
+            m_GatherRatePerSecond += m_GatherRatePerSecond * GetGatherImprovement(m_VillagerType);
         }
 
         private float GetGatherImprovement(VillagerType type)
@@ -393,6 +394,71 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 Unassign();
             UnitManager.VillagerDestroyed();
             UnitImprovements.OnVillagerImprovement -= CalculateGatherTime;
+
+            if (m_VillagerType == VillagerType.Idle)
+                UnitManager.RemoveIdleVillager(this);
+        }
+
+        public void SaveState(string guid)
+        {
+            string assignedResourceGUID = string.Empty;
+            string assignedConstructionGUID = string.Empty;
+
+            if (m_AssignedResource != null)
+                if (m_AssignedResource.TryGetComponent(out GUIDComponent resourceGUID))
+                    assignedResourceGUID = resourceGUID.GUID;
+
+            if (m_AssignedConstruction != null)
+                if (m_AssignedConstruction.TryGetComponent(out GUIDComponent constructionGUID))
+                    assignedConstructionGUID = constructionGUID.GUID;
+
+            VillagerData data = new VillagerData
+            {
+                GUID = guid,
+                Position = transform.position,
+                Rotation = transform.rotation.eulerAngles,
+                AssignedResourceGUID = assignedResourceGUID,
+                AssignedConstructionGUID = assignedConstructionGUID,
+                GatherTimer = m_GatherTimer,
+            };
+
+            SaveManager.SaveToVillagerData(data);
+        }
+
+        public void LoadState(object saveData)
+        {
+            VillagerData villagerData = (VillagerData)saveData;
+
+            m_TargetPosition = villagerData.Position;
+
+            if (!string.IsNullOrEmpty(villagerData.AssignedResourceGUID))
+            {
+                if (SaveManager.TryFindFromGUID(villagerData.AssignedResourceGUID, out SaveableEntity entity))
+                {
+                    if (entity.TryGetComponent(out UnitResource resource))
+                    {
+                        if (resource.TryGetComponent(out Collider collider))
+                            Move(collider.ClosestPoint(transform.position));
+
+                        Assign(resource);
+                        m_GatherTimer = villagerData.GatherTimer;
+                    }
+                }
+            }
+            else if (!string.IsNullOrEmpty(villagerData.AssignedConstructionGUID))
+            {
+                if (SaveManager.TryFindFromGUID(villagerData.AssignedConstructionGUID, out SaveableEntity entity))
+                {
+                    if (entity.TryGetComponent(out UnitConstruction construction))
+                    {
+                        if (construction.TryGetComponent(out Collider collider))
+                            Move(collider.ClosestPoint(transform.position));
+
+                        AssignBuilder(construction);
+                    }
+                }
+            }
+
         }
     }
 }

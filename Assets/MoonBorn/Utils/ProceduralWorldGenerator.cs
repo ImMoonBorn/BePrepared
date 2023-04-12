@@ -211,6 +211,9 @@ namespace MoonBorn.Utils
 
         private void CreateCell(GameObject[] array, CellType type, int x, int y)
         {
+            if (array.Length == 0)
+                return;
+
             int prefabNumber = Random.Range(0, array.Length);
 
             GameObject gObj = Instantiate(array[prefabNumber], GetInstantiatePosition(x, y), Quaternion.identity);
@@ -220,13 +223,23 @@ namespace MoonBorn.Utils
 
             if (m_GenerateGUID)
             {
-                GUIDComponent guid = gObj.AddComponent<GUIDComponent>();
+                GUIDComponent guid;
+                if (!gObj.TryGetComponent(out GUIDComponent hasGUID))
+                    guid = gObj.AddComponent<GUIDComponent>();
+                else
+                    guid = hasGUID;
+
                 guid.GenerateGUID();
                 m_Cells[x, y].Guid = guid.GUID;
             }
             if (m_AddCellComponent)
             {
-                CellComponent cellComponent = gObj.AddComponent<CellComponent>();
+                CellComponent cellComponent;
+                if (!gObj.TryGetComponent(out CellComponent hasCell))
+                    cellComponent = gObj.AddComponent<CellComponent>();
+                else
+                    cellComponent = hasCell;
+
                 cellComponent.Position = new Vector2Int(x, y);
                 cellComponent.CellType = type;
             }
@@ -326,14 +339,24 @@ namespace MoonBorn.Utils
 
                 if (m_GenerateGUID && gObj != null)
                 {
-                    GUIDComponent guid = gObj.AddComponent<GUIDComponent>();
+                    GUIDComponent guid;
+                    if (!gObj.TryGetComponent(out GUIDComponent hasGUID))
+                        guid = gObj.AddComponent<GUIDComponent>();
+                    else
+                        guid = hasGUID;
+
                     guid.SetGuid(cell.Guid);
                     m_Cells[x, y].Guid = guid.GUID;
                 }
 
-                if(m_AddCellComponent && gObj != null)
+                if (m_AddCellComponent)
                 {
-                    CellComponent cellComponent = gObj.AddComponent<CellComponent>();
+                    CellComponent cellComponent;
+                    if (!gObj.TryGetComponent(out CellComponent hasCell))
+                        cellComponent = gObj.AddComponent<CellComponent>();
+                    else
+                        cellComponent = hasCell;
+
                     cellComponent.Position = cell.Position;
                     cellComponent.CellType = cell.CellType;
                 }

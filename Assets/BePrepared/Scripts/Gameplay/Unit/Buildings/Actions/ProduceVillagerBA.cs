@@ -6,7 +6,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
     {
         [Header("Spawn Options")]
         [SerializeField] private Transform m_SpawnLocation;
-        [SerializeField] private Transform m_MoveLocation;
 
         protected override bool CustomCondition()
         {
@@ -36,7 +35,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         protected override void OnAction()
         {
-            UnitManager.CreateVillager(m_SpawnLocation.position, m_MoveLocation.position);
+            UnitManager.CreateVillager(m_SpawnLocation.position);
         }
 
         public override void Refresh()

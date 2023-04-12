@@ -1,17 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MoonBorn.BePrepared.Gameplay.Unit;
+using MoonBorn.BePrepared.Utils.SaveSystem;
 
 namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 {
-    public class UnitConstruction : MonoBehaviour
+    public class UnitConstruction : MonoBehaviour, ISaveable
     {
         [SerializeField] private GameObject m_Mesh;
         private BuildingUnitSO m_UnitSO;
-        
+
         private readonly List<UnitVillager> m_Villagers = new();
         private readonly List<Material> m_Materials = new();
-        private float m_Timer = 0.0f;
+        private float m_BuildedAmount = 0.0f;
         private int m_Builders = 0;
 
         public void Setup(BuildingUnitSO unit)
@@ -29,12 +30,12 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             if (m_Builders > 0)
             {
                 float deltaTime = Time.deltaTime;
-                m_Timer += deltaTime + ((m_Builders - 1) * (0.4f * deltaTime));
+                m_BuildedAmount += deltaTime + ((m_Builders - 1) * (0.4f * deltaTime));
 
                 foreach (Material material in m_Materials)
-                    material.SetVector("_DissolveOffest", new Vector4(0, (m_Timer / m_UnitSO.BuildTime) * m_UnitSO.BuildHeight, 0, 0));
+                    material.SetVector("_DissolveOffest", new Vector4(0, (m_BuildedAmount / m_UnitSO.BuildTime) * m_UnitSO.BuildHeight, 0, 0));
 
-                if (m_Timer >= m_UnitSO.BuildTime)
+                if (m_BuildedAmount >= m_UnitSO.BuildTime)
                 {
                     Instantiate(m_UnitSO.FinishedPrefab, transform.position, Quaternion.identity);
                     GetComponent<UnitMember>().DestroyUnit();
@@ -62,7 +63,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 
         private void OnDestroy()
         {
-            if (m_Timer <= 0.0f)
+            if (m_BuildedAmount <= 0.0f)
                 m_UnitSO.Cost.Restore();
 
             for (int i = 0; i < m_Villagers.Count; i++)
@@ -70,6 +71,29 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
                 UnitVillager villager = m_Villagers[i];
                 villager.BuildFinished();
             }
+        }
+
+        public void SaveState(string guid)
+        {
+            ConstructionData data = new ConstructionData
+            {
+                GUID = guid,
+                Position = transform.position,
+                Rotation = transform.rotation.eulerAngles,
+                BuildingName = m_UnitSO.UnitName,
+                BuildedAmount = m_BuildedAmount,
+            };
+
+            SaveManager.SaveToConstructionData(data);
+        }
+
+        public void LoadState(object saveData)
+        {
+            ConstructionData constructionData = (ConstructionData)saveData;
+            m_BuildedAmount = constructionData.BuildedAmount;
+
+            foreach (Material material in m_Materials)
+                material.SetVector("_DissolveOffest", new Vector4(0, (m_BuildedAmount / m_UnitSO.BuildTime) * m_UnitSO.BuildHeight, 0, 0));
         }
     }
 }

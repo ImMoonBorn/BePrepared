@@ -24,7 +24,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private Camera m_Camera;
 
         [Header("Villagers")]
-        [SerializeField] private GameObject m_VillagerPrefab;
+        [SerializeField] private UnitVillager m_VillagerPrefab;
         [SerializeField] private int m_MaxVillagerCount = 5;
         [SerializeField] private TMP_Text m_VillagerCountText;
         private int m_VillagerCount = 0;
@@ -135,16 +135,16 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         #region Villager Population stuff
 
-        public static void CreateVillager(Vector3 position, Vector3 target)
+        public static UnitVillager CreateVillager(Vector3 position, Vector3 eulerAngles = new Vector3())
         {
             if (!CanProduceVillager)
             {
                 NotificationManager.Notificate("Population Limit Reached!", NotificationType.Warning);
-                return;
+                return null;
             }
 
-            if (Instantiate(Instance.m_VillagerPrefab, position, Quaternion.identity).TryGetComponent(out UnitVillager villager))
-                villager.Move(target);
+            UnitVillager villager = Instantiate(Instance.m_VillagerPrefab, position, Quaternion.Euler(eulerAngles));
+            return villager;
         }
 
         private void UpdateVillagerUI()
