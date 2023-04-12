@@ -12,7 +12,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         }
 
         [SerializeField] private SpriteRenderer m_SelectionHUD;
-        private BuildingUnitSO m_UnitSO;
+        private UnitBuildingSO m_UnitSO;
         private BuildDirection m_Direction = BuildDirection.Forward;
 
         private LayerMask m_BuildableLayer;
@@ -21,7 +21,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         private Quaternion m_TargetRotation = Quaternion.identity;
         private bool m_Snap = true;
 
-        public void Setup(BuildingUnitSO unitSO, LayerMask buildableLayer, LayerMask ignoreLayer, bool snap)
+        public void Setup(UnitBuildingSO unitSO, LayerMask buildableLayer, LayerMask ignoreLayer, bool snap)
         {
             m_UnitSO = unitSO;
             m_BuildableLayer = buildableLayer;
@@ -40,7 +40,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
                 m_MousePosition.Set(Mathf.Round(m_MousePosition.x), 0.0f, Mathf.Round(m_MousePosition.z));
 
             Vector3 colliderSize = m_UnitSO.ColliderSize * 0.5f;
-            bool cantBuild = Physics.CheckBox(transform.position, colliderSize, Quaternion.identity, ~m_IgnoreLayer);
+            bool cantBuild = Physics.CheckBox(transform.position + m_UnitSO.ColliderOffset, colliderSize, Quaternion.identity, ~m_IgnoreLayer);
 
             m_SelectionHUD.color = cantBuild ? BuildManager.CantBuildColor : BuildManager.CanBuildColor;
 

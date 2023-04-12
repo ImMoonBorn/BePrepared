@@ -31,6 +31,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public VillagerType VillagerType => m_VillagerType;
 
+        [SerializeField] private LayerMask m_UnitLayer;
         [SerializeField] private VillagerGender m_Gender;
         [SerializeField] private UnitVillagerSO m_VillagerSO;
         private UnitResource m_AssignedResource;
@@ -225,7 +226,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private bool SearchForOtherConsturctions()
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, m_SearchRadius);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, m_SearchRadius, m_UnitLayer);
 
             if (colliders.Length > 0)
             {
@@ -428,6 +429,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public void LoadState(object saveData)
         {
             VillagerData villagerData = (VillagerData)saveData;
+            
+            if(TryGetComponent(out GUIDComponent guid))
+                guid.SetGuid(villagerData.GUID);
 
             m_TargetPosition = villagerData.Position;
 

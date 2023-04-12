@@ -786,6 +786,37 @@ MonoBehaviour:
   - ImprovementSO: {fileID: 11400000, guid: 594901ced016bc74c91e44e8503521a6, type: 2}
   - ImprovementSO: {fileID: 11400000, guid: 5c78c67ac6a839a40acab7383d8c2237, type: 2}
   - ImprovementSO: {fileID: 11400000, guid: 2c822e247f9fe2048a7739ac98095509, type: 2}
+--- !u!1 &324391531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 324391532}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &324391532
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324391531}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.3230886, y: -0.11288595, z: -3.129713}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -2839,7 +2870,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 136
   m_Buildings:
-  - {fileID: 11400000, guid: e4101739968bab54aabeb9021a27bec9, type: 2}
   - {fileID: 11400000, guid: dba712feb8f608e489136fc1ae3e8efa, type: 2}
   - {fileID: 11400000, guid: aa06b1122f777ed419b84e48acfa594f, type: 2}
   m_CanBuildColor: {r: 0.18039216, g: 0.8862745, b: 0.18039216, a: 0.5882353}

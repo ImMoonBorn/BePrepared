@@ -25,8 +25,15 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
     [Serializable]
     public class ConstructionData : SaveData
     {
-        public string BuildingName;
+        public string ConstractionUnitName;
         public float BuildedAmount;
+    }
+
+    [Serializable]
+    public class BuildingData : SaveData
+    {
+        public string BuildingUnitName;
+        public string[] HasResoures;
     }
 
     [Serializable]
@@ -41,9 +48,10 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
     public class SaveDatas
     {
         public List<SaveData> RawData = new();
+        public List<ConstructionData> ConstructionData = new();
+        public List<BuildingData> BuildingData = new();
         public List<VillagerData> VillagerData = new();
         public List<ResourceData> ResourceData = new();
-        public List<ConstructionData> ConstructionData = new();
     }
 
     public class SaveManager : Singleton<SaveManager>
@@ -73,6 +81,11 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
         public static void SaveToConstructionData(ConstructionData constructionData)
         {
             s_SaveDatas.ConstructionData.Add(constructionData);
+        }
+
+        public static void SaveToBuildingData(BuildingData buildingData)
+        {
+            s_SaveDatas.BuildingData.Add(buildingData);
         }
 
         public static void Save()
@@ -109,13 +122,26 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
             {
                 saveVals.Add(cd.GUID, cd);
 
-                BuildingUnitSO unitSO = BuildManager.GetBuildingByName(cd.BuildingName);
+                UnitBuildingSO unitSO = BuildManager.GetBuildingByName(cd.ConstractionUnitName);
                 UnitConstruction construction = Instantiate(unitSO.ConstructionPrefab, cd.Position, Quaternion.Euler(cd.Rotation));
 
                 if (construction.TryGetComponent(out GUIDComponent guid))
                     guid.SetGuid(cd.GUID);
 
                 construction.Setup(unitSO);
+            }
+
+            foreach (BuildingData bd in saveDatas.BuildingData)
+            {
+                saveVals.Add(bd.GUID, bd);
+
+                UnitBuildingSO unitSO = BuildManager.GetBuildingByName(bd.BuildingUnitName);
+                GameObject building = Instantiate(unitSO.FinishedPrefab, bd.Position, Quaternion.Euler(bd.Rotation));
+
+                building.GetComponent<UnitBuilding>().SetResources(bd.HasResoures);
+
+                if (building.TryGetComponent(out GUIDComponent guid))
+                    guid.SetGuid(bd.GUID);
             }
 
             var villagers = UnitManager.IdleVillagers;

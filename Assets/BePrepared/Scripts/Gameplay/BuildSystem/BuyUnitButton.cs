@@ -8,11 +8,11 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
     public class BuyUnitButton : MonoBehaviour
     {
         [SerializeField] private Image m_Icon;
-        private BuildingUnitSO m_UnitSO;
+        private UnitBuildingSO m_UnitSO;
         private Button m_Button;
         private TooltipTrigger m_TooltipTrigger;
 
-        public void Setup(BuildingUnitSO unit)
+        public void Setup(UnitBuildingSO unit)
         {
             m_Button = GetComponent<Button>();
             m_TooltipTrigger = GetComponent<TooltipTrigger>();

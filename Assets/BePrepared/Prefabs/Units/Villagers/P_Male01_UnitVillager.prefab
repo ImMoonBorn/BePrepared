@@ -67,6 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a25f87f00dacfa40b003e91a03da1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UnitLayer:
+    serializedVersion: 2
+    m_Bits: 64
   m_Gender: 1
   m_VillagerSO: {fileID: 11400000, guid: 5629afabecb7a814183a917035c0b2e6, type: 2}
   m_Animator: {fileID: 179490686114023167}
@@ -274,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GUID: 7d536c0d-0fe2-4c15-ab54-a84b40c18f36
+  m_GenerateOnAwake: 1
 --- !u!1001 &488280385
 PrefabInstance:
   m_ObjectHideFlags: 0

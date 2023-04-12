@@ -10,24 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a27d031150b04604e9a6a3607241309b, type: 3}
-  m_Name: SO_Farm_Building
+  m_Name: SO_Mill_Building
   m_EditorClassIdentifier: 
   UnitType: 1
-  UnitName: Farm
+  UnitName: Mill
   Destroyable: 1
   Icon: {fileID: 21300000, guid: cebd8d027a0b4d046ac99f9897468818, type: 3}
-  Description: A farm to produce some food. Assign villagers to be farmers and gather
-    food.
+  Description: 'The mill creates four fertile farms with crops, assign villagers
+    to produce food.
+
+'
   Cost:
     m_Costs:
     - ResourceType: 1
       Amount: 400
-  ColliderSize: {x: 4.5, y: 0.3, z: 4.5}
   BuildTime: 20
-  BuildHeight: 0.3
-  GhostPrefab: {fileID: 629904163285624940, guid: db297ee08b89b2d4ab100f17bc9f0002,
+  BuildHeight: 15
+  ColliderSize: {x: 13, y: 1.5, z: 17}
+  ColliderOffset: {x: 0, y: 0, z: 5.25}
+  GhostPrefab: {fileID: 8256160172601710174, guid: 6f6613e143c01c34cb37f217f3983417,
     type: 3}
-  ConstructionPrefab: {fileID: 5717620942065920972, guid: 2d74e57f51a6d74488a0918a9c23a94e,
+  ConstructionPrefab: {fileID: 9178487077189452869, guid: 13d29cb8bd5f8954fb69de783991c0fc,
     type: 3}
-  FinishedPrefab: {fileID: 4686692938362883660, guid: 72b01b7c1d7070b4095c01bea4258375,
+  FinishedPrefab: {fileID: 8149632239109869535, guid: d4149f849bf793346b9d687a0f87ffc9,
     type: 3}

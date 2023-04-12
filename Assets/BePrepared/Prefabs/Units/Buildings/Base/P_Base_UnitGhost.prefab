@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SelectionHUD: {fileID: 5437062758601308982}
-  m_MeshRenderer: {fileID: 455764848516469343}
 --- !u!1 &5437062758601308980
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +196,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 5442b8d2d5db6eb4dadd2421b9730661,
         type: 3}
       propertyPath: m_CastShadows
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 5442b8d2d5db6eb4dadd2421b9730661,
         type: 3}
@@ -221,12 +220,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5442b8d2d5db6eb4dadd2421b9730661, type: 3}
---- !u!23 &455764848516469343 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 5442b8d2d5db6eb4dadd2421b9730661,
-    type: 3}
-  m_PrefabInstance: {fileID: 1266257062326537947}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1592057015464683824 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5442b8d2d5db6eb4dadd2421b9730661,

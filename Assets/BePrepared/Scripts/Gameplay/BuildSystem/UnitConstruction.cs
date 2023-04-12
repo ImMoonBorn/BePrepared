@@ -8,21 +8,21 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
     public class UnitConstruction : MonoBehaviour, ISaveable
     {
         [SerializeField] private GameObject m_Mesh;
-        private BuildingUnitSO m_UnitSO;
+        private UnitBuildingSO m_UnitSO;
 
         private readonly List<UnitVillager> m_Villagers = new();
         private readonly List<Material> m_Materials = new();
         private float m_BuildedAmount = 0.0f;
         private int m_Builders = 0;
 
-        public void Setup(BuildingUnitSO unit)
+        public void Setup(UnitBuildingSO unit)
         {
             m_UnitSO = unit;
             MeshRenderer[] renderers = m_Mesh.GetComponentsInChildren<MeshRenderer>();
             foreach (MeshRenderer renderer in renderers)
                 m_Materials.Add(renderer.material);
             foreach (Material material in m_Materials)
-                material.SetVector("_DissolveOffest", new Vector4(0, 0, 0, 0));
+                material.SetVector("_DissolveOffest", new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
         }
 
         private void Update()
@@ -33,7 +33,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
                 m_BuildedAmount += deltaTime + ((m_Builders - 1) * (0.4f * deltaTime));
 
                 foreach (Material material in m_Materials)
-                    material.SetVector("_DissolveOffest", new Vector4(0, (m_BuildedAmount / m_UnitSO.BuildTime) * m_UnitSO.BuildHeight, 0, 0));
+                    material.SetVector("_DissolveOffest", new Vector4(0, (m_BuildedAmount / m_UnitSO.BuildTime) * (m_UnitSO.BuildHeight), 0.0f, 0.0f));
 
                 if (m_BuildedAmount >= m_UnitSO.BuildTime)
                 {
@@ -80,7 +80,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
                 GUID = guid,
                 Position = transform.position,
                 Rotation = transform.rotation.eulerAngles,
-                BuildingName = m_UnitSO.UnitName,
+                ConstractionUnitName = m_UnitSO.UnitName,
                 BuildedAmount = m_BuildedAmount,
             };
 
@@ -93,7 +93,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             m_BuildedAmount = constructionData.BuildedAmount;
 
             foreach (Material material in m_Materials)
-                material.SetVector("_DissolveOffest", new Vector4(0, (m_BuildedAmount / m_UnitSO.BuildTime) * m_UnitSO.BuildHeight, 0, 0));
+                material.SetVector("_DissolveOffest", new Vector4(0, (m_BuildedAmount / m_UnitSO.BuildTime) * m_UnitSO.BuildHeight, 0.0f, 0.0f));
         }
     }
 }

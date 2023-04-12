@@ -57,7 +57,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public static void RefreshUnit()
         {
-            if(Instance.m_SelectedUnit)
+            if (Instance.m_SelectedUnit)
             {
                 UnitMember unit = Instance.m_SelectedUnit;
                 Deselect();
@@ -86,6 +86,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public static void ChangeIdleVillagers(int count)
         {
+            if (Instance == null)
+                return;
+
             if (count == 0)
                 Instance.m_IdleVillagersButton.gameObject.SetActive(false);
             else
@@ -128,7 +131,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                         foreach (BuildingAction action in m_SelectedBuilding.Actions)
                         {
                             action.Refresh();
-                            if(action.ReachedLimit && action.DestroyOnLimitReach)
+                            if (action.ReachedLimit && action.DestroyOnLimitReach)
                                 continue;
 
                             ActionButton button = Instantiate(m_ActionButtonPrefab, m_ActionButtonPlaceholder);
