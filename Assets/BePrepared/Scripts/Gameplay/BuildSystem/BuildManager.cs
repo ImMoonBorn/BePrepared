@@ -40,6 +40,8 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         {
             m_GhostUnit = Instantiate(unit.GhostPrefab, Vector3.zero, Quaternion.identity);
             m_GhostUnit.Setup(unit, m_BuildableLayer, m_IgnoreLayer, m_Snap);
+
+            GameManager.SetMouseState(MouseState.Building);
         }
 
         public static void DestroyBuildObject()
@@ -51,6 +53,8 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         {
             Destroy(m_GhostUnit.gameObject);
             m_GhostUnit = null;
+
+            GameManager.RestoreMouseState();
         }
 
         public static UnitBuildingSO GetBuildingByName(string name)

@@ -19,6 +19,11 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         {
             m_Actions = m_ActionPlaceholder.GetComponentsInChildren<BuildingAction>();
         }
+        public void SetResources(string[] resources)
+        {
+            for (int i = 0; i < m_HasResources.Length; i++)
+                m_HasResources[i].SetGuid(resources[i]);
+        }
 
         public void SaveState(string guid)
         {
@@ -41,12 +46,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void LoadState(object saveData)
         {
-        }
-
-        public void SetResources(string[] resources)
-        {
-            for (int i = 0; i < m_HasResources.Length; i++)
-                m_HasResources[i].SetGuid(resources[i]);
         }
     }
 }

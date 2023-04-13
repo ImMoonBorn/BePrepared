@@ -1230,13 +1230,13 @@ MonoBehaviour:
   m_GenerateProps: 1
   m_AvoidMeshes:
   - AvoidTransform: {fileID: 1319239386}
-    CellSize: 15
+    CellSize: 20
   m_TreePrefabs:
   - {fileID: 2466464270048938328, guid: 80a827340eb3e97469ae06b2d5abf6a2, type: 3}
   - {fileID: 2466464270048938328, guid: ff730e37013495c47b8e7183c2b54ac0, type: 3}
   - {fileID: 2466464270048938328, guid: 36d0c72fc22ff074b991821b573f197c, type: 3}
   - {fileID: 2466464270048938328, guid: ca7c89a6d018ed544889d64a5e052378, type: 3}
-  m_TreeDensity: 0.2
+  m_TreeDensity: 0.225
   m_TreeNoiseScale: 0.5
   m_TreeAvoidanceRadius: 2
   m_StonePrefabs:

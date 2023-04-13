@@ -30,7 +30,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         protected override string CustomFooter()
         {
-            return "";
+            string footer = string.Empty;
+            if (m_ImprovementSO.UnlockImprovement)
+                footer = "Unlocks new improvement.";
+            return footer;
         }
 
         protected override void OnAction()

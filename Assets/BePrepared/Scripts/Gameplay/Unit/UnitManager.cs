@@ -12,7 +12,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 {
     public class UnitManager : Singleton<UnitManager>
     {
-        public bool Block = false;
         public UnityEvent OnVillagerCreated;
         public UnityEvent OnVillagerDestroyed;
 
@@ -86,7 +85,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void Update()
         {
-            if (EventSystem.current.IsPointerOverGameObject() || Block)
+            if (EventSystem.current.IsPointerOverGameObject() || GameManager.MouseState != MouseState.Idle)
                 return;
 
             if (Input.GetMouseButtonDown(0))
