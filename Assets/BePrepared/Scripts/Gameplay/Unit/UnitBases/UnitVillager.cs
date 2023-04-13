@@ -393,6 +393,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         {
             if (m_AssignedResource != null)
                 Unassign();
+
             UnitManager.VillagerDestroyed();
             UnitImprovements.OnVillagerImprovement -= CalculateGatherTime;
 

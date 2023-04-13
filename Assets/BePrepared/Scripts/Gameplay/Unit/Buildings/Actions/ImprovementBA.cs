@@ -55,7 +55,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         {
             m_ImprovementProp = ImprovementManager.FindImprovement(m_ImprovementSO);
 
-
             if (m_ImprovementProp != null)
             {
                 if (m_ImprovementProp.IsDone)
@@ -83,21 +82,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 }
             }
             OverrideAction(m_ImprovementSO.Name, m_ImprovementSO.Time, m_ImprovementSO.Cost, m_ImprovementSO.Icon);
-
-
-            // if (m_ImprovementProp.IsDone)
-            // {
-            //     if (m_ImprovementSO.UnlockImprovement != null)
-            //     {
-            //         m_ImprovementSO = m_ImprovementSO.UnlockImprovement;
-            //         OverrideAction(m_ImprovementSO.Name, m_ImprovementSO.Time, m_ImprovementSO.Cost, m_ImprovementSO.Icon);
-            //         return;
-            //     }
-            //
-            //     m_DestroyOnLimitReach = true;
-            //     m_ReachedLimit = true;
-            //     return;
-            // }
         }
     }
 }

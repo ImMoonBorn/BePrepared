@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class ModalDirector : MonoBehaviour
+namespace MoonBorn.UI
 {
-    private RectTransform m_RectTransform;
-    [SerializeField] private RectTransform m_ButtonsRect;
-
-    private void Awake()
+    public class ModalDirector : MonoBehaviour
     {
-        m_RectTransform = GetComponent<RectTransform>();
-    }
+        private RectTransform m_RectTransform;
+        [SerializeField] private RectTransform m_ButtonsRect;
 
-    void Update()
-    {
-        Vector3 newPosition = m_RectTransform.offsetMin;
-        newPosition.x = 0.0f;
-        newPosition.y -= 25.0f;
+        private void Awake()
+        {
+            m_RectTransform = GetComponent<RectTransform>();
+        }
 
-        m_ButtonsRect.anchoredPosition = newPosition;
+        void Update()
+        {
+            Vector3 newPosition = m_RectTransform.offsetMin;
+            newPosition.x = 0.0f;
+            newPosition.y -= 25.0f;
+
+            m_ButtonsRect.anchoredPosition = newPosition;
+        }
     }
 }

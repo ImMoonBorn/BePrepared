@@ -14,7 +14,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         private bool m_ShouldClose = false;
         private Vector3 m_StartPosition = Vector3.zero;
 
-        private void Start()
+        private void Awake()
         {
             m_StartPosition = m_ShopRect.anchoredPosition;
 

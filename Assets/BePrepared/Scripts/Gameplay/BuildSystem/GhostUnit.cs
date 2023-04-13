@@ -32,6 +32,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             if (m_Snap)
                 m_MousePosition.Set(Mathf.Round(m_MousePosition.x), 0.0f, Mathf.Round(m_MousePosition.z));
             transform.position = m_MousePosition;
+
             UnitManager.Instance.Block = true;
         }
 

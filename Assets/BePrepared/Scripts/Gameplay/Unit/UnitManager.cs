@@ -45,6 +45,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             m_Camera = Camera.main;
 
             UpdateVillagerUI();
+        }
+
+        private void Start()
+        {
             UnitUI.ChangeIdleVillagers(0);
         }
 

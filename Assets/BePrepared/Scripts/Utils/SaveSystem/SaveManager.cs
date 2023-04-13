@@ -78,7 +78,11 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
         private static SaveDatas s_SaveDatas = new();
         private static Dictionary<string, SaveableEntity> s_Entites = new();
 
-        [SerializeField] private ProceduralWorldGenerator m_WorldGenerator;
+        private void Awake()
+        {
+            s_SaveDatas = new();
+            s_Entites = new();
+        }
 
         public static void SaveToRawData(SaveData saveData)
         {
@@ -110,7 +114,6 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
             s_SaveDatas = new();
             SaveAlLDatas();
             FileManager.Save(s_SavePath, s_SaveDatas);
-            Instance.m_WorldGenerator.SaveData();
         }
 
         public static void Load()
@@ -228,14 +231,6 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
             }
             entity = null;
             return false;
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Z))
-                Save();
-            else if (Input.GetKeyDown(KeyCode.L))
-                Load();
         }
     }
 }

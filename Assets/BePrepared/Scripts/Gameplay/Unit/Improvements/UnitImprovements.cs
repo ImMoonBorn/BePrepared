@@ -1,8 +1,9 @@
 using System;
+using UnityEngine;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
-    public static class UnitImprovements
+    public class UnitImprovements : MonoBehaviour
     {
         public static Action OnVillagerImprovement;
 
@@ -14,10 +15,16 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private static float m_FarmerSpeed = 0.0f;
         private static float m_MinerSpeed = 0.0f;
 
+        private void Awake()
+        {
+            m_LumberjackSpeed = 0.0f;
+            m_FarmerSpeed = 0.0f;
+            m_MinerSpeed = 0.0f;
+        }
+
         public static void SetLumberjackSpeed(float value)
         {
             m_LumberjackSpeed = value;
-            OnVillagerImprovement?.Invoke();
             OnVillagerImprovement?.Invoke();
         }
 

@@ -36,9 +36,21 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             Instance.CallGhostPrefab(unit);
         }
 
+        private void CallGhostPrefab(UnitBuildingSO unit)
+        {
+            m_GhostUnit = Instantiate(unit.GhostPrefab, Vector3.zero, Quaternion.identity);
+            m_GhostUnit.Setup(unit, m_BuildableLayer, m_IgnoreLayer, m_Snap);
+        }
+
         public static void DestroyBuildObject()
         {
             Instance.EndBuild();
+        }
+
+        private void EndBuild()
+        {
+            Destroy(m_GhostUnit.gameObject);
+            m_GhostUnit = null;
         }
 
         public static UnitBuildingSO GetBuildingByName(string name)
@@ -49,18 +61,6 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
                     return building;
             }
             return null;
-        }
-
-        private void CallGhostPrefab(UnitBuildingSO unit)
-        {
-            m_GhostUnit = Instantiate(unit.GhostPrefab, Vector3.zero, Quaternion.identity);
-            m_GhostUnit.Setup(unit, m_BuildableLayer, m_IgnoreLayer, m_Snap);
-        }
-
-        private void EndBuild()
-        {
-            Destroy(m_GhostUnit.gameObject);
-            m_GhostUnit = null;
         }
     }
 }

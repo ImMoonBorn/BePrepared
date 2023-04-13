@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MoonBorn.Utils
 {
     [System.Serializable]
-    enum CellType
+    public enum CellType
     {
         None,
         Tree,
@@ -13,7 +13,7 @@ namespace MoonBorn.Utils
         Prop
     }
 
-    class CellComponent : MonoBehaviour
+    public class CellComponent : MonoBehaviour
     {
         public Vector2Int Position;
         public CellType CellType;
@@ -21,7 +21,6 @@ namespace MoonBorn.Utils
 
     public class ProceduralWorldGenerator : MonoBehaviour
     {
-
         [System.Serializable]
         class CellArrayData
         {
@@ -52,8 +51,7 @@ namespace MoonBorn.Utils
             public int CellSize;
         }
 
-        [Header("Save/Load")]
-        [SerializeField] private bool m_Load = false;
+        [Header("Components")]
         [SerializeField] private bool m_GenerateGUID = true;
         [SerializeField] private bool m_AddCellComponent = true;
 
@@ -83,25 +81,6 @@ namespace MoonBorn.Utils
         [SerializeField, Range(0.0f, 1.0f)] private float m_PropsDensity = 0.5f;
         [SerializeField, Range(0.0f, 1.0f)] private float m_PropsNoiseScale = 0.5f;
         [SerializeField] private int m_PropsAvoidanceRadius = 3;
-
-        private void Start()
-        {
-            m_Cells = new Cell[m_Size.x, m_Size.y];
-
-            if (m_Load)
-            {
-                LoadData();
-                return;
-            }
-
-            GenerateAvoids();
-            if (m_GenerateTrees && m_TreePrefabs.Length > 0)
-                GenerateTrees();
-            if (m_GenerateStones && m_StonePrefabs.Length > 0)
-                GenerateStones();
-            if (m_GenerateProps && m_PropPrefabs.Length > 0)
-                GenerateProps();
-        }
 
         private void GenerateAvoids()
         {
@@ -292,9 +271,30 @@ namespace MoonBorn.Utils
             };
         }
 
-        [ContextMenu("Save")]
-        public void SaveData()
+        [ContextMenu("Generate")]
+        public void GenerateWorld()
         {
+            if (!Application.isPlaying)
+                return;
+
+            m_Cells = new Cell[m_Size.x, m_Size.y];
+
+            GenerateAvoids();
+            if (m_GenerateTrees && m_TreePrefabs.Length > 0)
+                GenerateTrees();
+            if (m_GenerateStones && m_StonePrefabs.Length > 0)
+                GenerateStones();
+            if (m_GenerateProps && m_PropPrefabs.Length > 0)
+                GenerateProps();
+        }
+
+
+        [ContextMenu("Save")]
+        public void SaveWorld()
+        {
+            if (!Application.isPlaying)
+                return;
+
             CellArray array = new CellArray();
 
             for (int y = 0; y < m_Size.y; y++)
@@ -318,10 +318,12 @@ namespace MoonBorn.Utils
         }
 
         [ContextMenu("Load")]
-        public void LoadData()
+        public void LoadWorld()
         {
             if (!Application.isPlaying)
                 return;
+
+            m_Cells = new Cell[m_Size.x, m_Size.y];
 
             CellArray array = FileManager.Load<CellArray>($"{Application.persistentDataPath}/WorldData.txt");
 
