@@ -67,11 +67,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a25f87f00dacfa40b003e91a03da1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_VillagerSO: {fileID: 11400000, guid: 5629afabecb7a814183a917035c0b2e6, type: 2}
   m_UnitLayer:
     serializedVersion: 2
     m_Bits: 64
   m_Gender: 1
-  m_VillagerSO: {fileID: 11400000, guid: 5629afabecb7a814183a917035c0b2e6, type: 2}
   m_Animator: {fileID: 179490686114023167}
   m_SearchRadius: 20
   m_Axe: {fileID: 2488915890177602922}
@@ -102,6 +102,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 677777013cb0f954a8d42517499824d7, type: 3}
     - {fileID: 8300000, guid: a5d5d00fa3a82b74d887d0609c3ca661, type: 3}
     - {fileID: 8300000, guid: 01f8062bf76f56d40a2f69c465661fd6, type: 3}
+    CurrentIndex: 0
+  - m_PlaylistName: GatheringEffects
+    Musics: []
     CurrentIndex: 0
   m_VoiceSource: {fileID: 5594620785208092690}
 --- !u!136 &1481858229138310688

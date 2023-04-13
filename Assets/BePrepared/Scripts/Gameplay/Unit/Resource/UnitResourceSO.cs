@@ -7,6 +7,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
     {
         public ResourceType ResourceType;
         public VillagerType VillagerType;
+        public int GathererLimit = 1;
         public bool SearchAfterDeplete = true;
         public float GatherRatePerSecond = 0.0f;
     }

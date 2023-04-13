@@ -34,6 +34,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [Header("Resource Units")]
         [SerializeField] private GameObject m_ResourceContent;
         [SerializeField] private TMP_Text m_ResourceAmountText;
+        [SerializeField] private TMP_Text m_ResourceGatheresText;
         [SerializeField] private Image m_ResourceIcon;
 
         private void Awake()
@@ -153,6 +154,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
                         m_ResourceIcon.sprite = ResourceManager.GetIconByType(m_SelectedResource.ResourceType);
                         m_ResourceAmountText.enabled = !m_SelectedResource.IsInfinite;
+
+                        m_ResourceGatheresText.text = $"{m_SelectedResource.VillagerCount}/{m_SelectedResource.GathererLimit}";
                         break;
                     }
             }

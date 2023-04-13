@@ -17,5 +17,6 @@ MonoBehaviour:
   Destroyable: 0
   ResourceType: 1
   VillagerType: 1
+  GathererLimit: 3
   SearchAfterDeplete: 1
   GatherRatePerSecond: 0.5

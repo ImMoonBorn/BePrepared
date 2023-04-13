@@ -106,8 +106,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 {
                     if (hit.transform.TryGetComponent(out UnitResource resource))
                     {
-                        m_SelectedVillager.Move(hit.collider.ClosestPoint(m_SelectedVillager.transform.position));
-                        m_SelectedVillager.Assign(resource);
+                        m_SelectedVillager.Assign(resource, hit.collider.ClosestPoint(m_SelectedVillager.transform.position));
                     }
                     else if (hit.transform.TryGetComponent(out UnitConstruction construction))
                     {

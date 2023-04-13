@@ -9,6 +9,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
     {
         public ResourceType ResourceType => m_ResourceSO.ResourceType;
         public VillagerType VillagerType => m_ResourceSO.VillagerType;
+        public int VillagerCount => m_VillagerList.Count;
+        public int GathererLimit => m_ResourceSO.GathererLimit;
+        public bool ReachedGathererLimit => m_VillagerList.Count >= m_ResourceSO.GathererLimit;
         public int ResourceAmount => (int)m_ResourceAmount;
         public int ResourceAmountMax => m_ResourceAmountMax;
         public float GatherRatePerSecond => m_ResourceSO.GatherRatePerSecond;

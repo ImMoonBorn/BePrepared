@@ -5,6 +5,7 @@ using MoonBorn.Audio;
 using MoonBorn.Utils;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
 using MoonBorn.BePrepared.Utils.SaveSystem;
+using MoonBorn.UI;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -137,9 +138,17 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             m_IsSpeaking = false;
         }
 
-        public void Assign(UnitResource resource)
+        public void Assign(UnitResource resource, Vector3 movePos)
         {
+            if(resource.ReachedGathererLimit)
+            {
+                NotificationManager.Notificate("This resource reached its gatherer limits.", NotificationType.Warning);
+                return;
+            }
+
             Unassign();
+
+            Move(movePos);
 
             m_AssignedConstruction = null;
             m_AssignedResource = resource;
@@ -215,9 +224,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                     {
                         if (resource.ResourceType == GetResourceTypeFromVillager(m_VillagerType) && m_AssignedResource != resource)
                         {
-                            Move(collider.ClosestPoint(transform.position));
-                            m_AssignedResource = resource;
-                            m_AssignedResource.AddVillager(this);
+                            Assign(resource, collider.ClosestPoint(transform.position));
                             return true;
                         }
                     }
@@ -434,10 +441,11 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 {
                     if (entity.TryGetComponent(out UnitResource resource))
                     {
+                        Vector3 movePos = transform.position;
                         if (resource.TryGetComponent(out Collider collider))
-                            Move(collider.ClosestPoint(transform.position));
+                            movePos = collider.ClosestPoint(transform.position);
 
-                        Assign(resource);
+                        Assign(resource, movePos);
                         m_GatherTimer = villagerData.GatherTimer;
                     }
                 }
