@@ -20,7 +20,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &4686692938362883663
 Transform:
@@ -132,6 +132,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4686692937164856229}
     m_Modifications:
+    - target: {fileID: 954150098411064230, guid: 78da2ace1ab76ce478600ebe37fa10fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2906742830765571359, guid: 78da2ace1ab76ce478600ebe37fa10fe,
         type: 3}
       propertyPath: m_RootOrder
@@ -192,6 +197,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TomatoPlant_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2906742830765859135, guid: 78da2ace1ab76ce478600ebe37fa10fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4852743575741663473, guid: 78da2ace1ab76ce478600ebe37fa10fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78da2ace1ab76ce478600ebe37fa10fe, type: 3}
 --- !u!1001 &2092831153544914986
@@ -201,6 +216,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4686692937164856229}
     m_Modifications:
+    - target: {fileID: 954150098411064230, guid: 78da2ace1ab76ce478600ebe37fa10fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2906742830765571359, guid: 78da2ace1ab76ce478600ebe37fa10fe,
         type: 3}
       propertyPath: m_RootOrder
@@ -261,6 +281,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TomatoPlant_01 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2906742830765859135, guid: 78da2ace1ab76ce478600ebe37fa10fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4852743575741663473, guid: 78da2ace1ab76ce478600ebe37fa10fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78da2ace1ab76ce478600ebe37fa10fe, type: 3}
 --- !u!1001 &4686692937164980517
@@ -273,6 +303,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_Name
       value: Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_RootOrder
@@ -420,6 +454,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4153618233619735659, guid: 1dffc5243821e0c489199471f95e9a92,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dffc5243821e0c489199471f95e9a92, type: 3}
 --- !u!4 &8696142620383766424 stripped
@@ -441,6 +480,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4686692937164856229}
     m_Modifications:
+    - target: {fileID: 954150098411064230, guid: 78da2ace1ab76ce478600ebe37fa10fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2906742830765571359, guid: 78da2ace1ab76ce478600ebe37fa10fe,
         type: 3}
       propertyPath: m_RootOrder
@@ -500,6 +544,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TomatoPlant_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2906742830765859135, guid: 78da2ace1ab76ce478600ebe37fa10fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4852743575741663473, guid: 78da2ace1ab76ce478600ebe37fa10fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78da2ace1ab76ce478600ebe37fa10fe, type: 3}

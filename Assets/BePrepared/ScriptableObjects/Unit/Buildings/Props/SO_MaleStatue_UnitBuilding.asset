@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27d031150b04604e9a6a3607241309b, type: 3}
+  m_Name: SO_MaleStatue_UnitBuilding
+  m_EditorClassIdentifier: 
+  UnitType: 1
+  UnitName: Male Statue
+  Destroyable: 1
+  Icon: {fileID: 21300000, guid: d1961491b30bf8d47a115b407fe6e831, type: 3}
+  Description: A male statue.
+  UnitCategory: 1
+  Cost:
+    m_Costs:
+    - ResourceType: 3
+      Amount: 200
+  BuildTime: 10
+  BuildHeight: 4.5
+  ColliderSize: {x: 1.5, y: 1.5, z: 1.5}
+  ColliderOffset: {x: 0, y: 0, z: 0}
+  GhostPrefab: {fileID: 8371201954006814620, guid: 3f1a56e9ba7068b4abaed9cdb74fad6c,
+    type: 3}
+  ConstructionPrefab: {fileID: 8117634201260244285, guid: e3605ea833b2d684fbe5e4637bd15e99,
+    type: 3}
+  FinishedPrefab: {fileID: 1062348202006898492, guid: 5b92601c08c013c4881ee812cef6936c,
+    type: 3}

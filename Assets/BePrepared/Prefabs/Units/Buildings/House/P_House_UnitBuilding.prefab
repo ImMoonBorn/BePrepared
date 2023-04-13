@@ -68,6 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BuildingSO: {fileID: 11400000, guid: dba712feb8f608e489136fc1ae3e8efa, type: 2}
   m_ActionPlaceholder: {fileID: 5437062758800230994}
+  m_HasResources: []
   m_PopulationHosting: 5
 --- !u!65 &5437062758569432190
 BoxCollider:
@@ -222,6 +223,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mesh
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 99ccc3a9d1d6ecc41a46da855d3dfc86,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99ccc3a9d1d6ecc41a46da855d3dfc86, type: 3}
 --- !u!4 &2631977275133008395 stripped
@@ -296,6 +302,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_SelectionHUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153618233619735659, guid: 1dffc5243821e0c489199471f95e9a92,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dffc5243821e0c489199471f95e9a92, type: 3}

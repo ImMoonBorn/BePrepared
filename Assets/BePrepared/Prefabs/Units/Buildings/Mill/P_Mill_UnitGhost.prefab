@@ -284,6 +284,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fense_3 (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8363a1bb962952c4db6d7be8bcacf613,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8363a1bb962952c4db6d7be8bcacf613, type: 3}
 --- !u!4 &488982831150596431 stripped
@@ -369,6 +374,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fense_3 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8363a1bb962952c4db6d7be8bcacf613,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8363a1bb962952c4db6d7be8bcacf613, type: 3}
 --- !u!4 &275710632899148454 stripped
@@ -387,6 +397,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_Name
       value: Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_RootOrder
@@ -533,6 +547,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fense_3 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8363a1bb962952c4db6d7be8bcacf613,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8363a1bb962952c4db6d7be8bcacf613, type: 3}
 --- !u!4 &1571413849568096633 stripped
@@ -618,6 +637,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fense_3 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8363a1bb962952c4db6d7be8bcacf613,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8363a1bb962952c4db6d7be8bcacf613, type: 3}
 --- !u!4 &2090916664341042083 stripped
@@ -636,6 +660,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_Name
       value: Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_RootOrder
@@ -782,6 +810,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fense_3 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8363a1bb962952c4db6d7be8bcacf613,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8363a1bb962952c4db6d7be8bcacf613, type: 3}
 --- !u!4 &2439494217430681029 stripped
@@ -800,6 +833,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_Name
       value: Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_RootOrder
@@ -879,6 +916,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_Name
       value: Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: aaff327437b0be14f9c6d1be9b411708, type: 3}
       propertyPath: m_RootOrder
@@ -1025,6 +1066,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fense_3 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8363a1bb962952c4db6d7be8bcacf613,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8363a1bb962952c4db6d7be8bcacf613, type: 3}
 --- !u!4 &4278413990582991545 stripped
@@ -1110,6 +1156,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fense_3 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8363a1bb962952c4db6d7be8bcacf613,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8363a1bb962952c4db6d7be8bcacf613, type: 3}
 --- !u!4 &7509646580506747132 stripped
@@ -1190,6 +1241,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 17285835950c34043b9f0922b4220a75, type: 2}
+    - target: {fileID: -1599826595754709761, guid: 608e710fea956934fbd3bab48350a1d1,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -1461304994638716399, guid: 608e710fea956934fbd3bab48350a1d1,
         type: 3}
       propertyPath: m_CastShadows
@@ -1200,11 +1256,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 17285835950c34043b9f0922b4220a75, type: 2}
+    - target: {fileID: -516098083770646512, guid: 608e710fea956934fbd3bab48350a1d1,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 608e710fea956934fbd3bab48350a1d1,
         type: 3}
       propertyPath: m_Name
       value: MillEXPORT6
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 608e710fea956934fbd3bab48350a1d1,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7071182760956848314, guid: 608e710fea956934fbd3bab48350a1d1,
         type: 3}
       propertyPath: m_CastShadows
@@ -1215,6 +1281,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 17285835950c34043b9f0922b4220a75, type: 2}
+    - target: {fileID: 8513859187771203891, guid: 608e710fea956934fbd3bab48350a1d1,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 608e710fea956934fbd3bab48350a1d1, type: 3}
 --- !u!4 &8544443580562720878 stripped
@@ -1299,6 +1370,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fense_3 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8363a1bb962952c4db6d7be8bcacf613,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8363a1bb962952c4db6d7be8bcacf613, type: 3}

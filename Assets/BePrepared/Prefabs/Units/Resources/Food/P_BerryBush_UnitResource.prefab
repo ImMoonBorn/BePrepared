@@ -20,7 +20,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 6
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &2923444359738413778
 Transform:
@@ -192,6 +192,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: _bush_4
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5dafc8ef79430fa40be0510d2d83c32f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dafc8ef79430fa40be0510d2d83c32f, type: 3}
 --- !u!4 &3854812141330513640 stripped
@@ -280,7 +285,7 @@ PrefabInstance:
     - target: {fileID: 4153618233619735659, guid: 1dffc5243821e0c489199471f95e9a92,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 6
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dffc5243821e0c489199471f95e9a92, type: 3}

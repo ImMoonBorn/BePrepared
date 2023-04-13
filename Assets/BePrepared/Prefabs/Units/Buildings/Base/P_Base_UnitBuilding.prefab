@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BuildingSO: {fileID: 11400000, guid: e4101739968bab54aabeb9021a27bec9, type: 2}
   m_ActionPlaceholder: {fileID: 5437062758800230994}
+  m_HasResources: []
 --- !u!65 &5437062758569432190
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -359,6 +360,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BA_ProduceVillagerActionBA
       objectReference: {fileID: 0}
+    - target: {fileID: 5413317436804108991, guid: fa7cd5385245fbe488db6d48ac848b18,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8398329583065075334, guid: fa7cd5385245fbe488db6d48ac848b18,
         type: 3}
       propertyPath: m_MoveLocation
@@ -454,6 +460,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_SelectionHUD
       objectReference: {fileID: 0}
+    - target: {fileID: 4153618233619735659, guid: 1dffc5243821e0c489199471f95e9a92,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dffc5243821e0c489199471f95e9a92, type: 3}
 --- !u!1 &1896914963432232528 stripped
@@ -535,6 +546,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BA_LumberjackImprovement
       objectReference: {fileID: 0}
+    - target: {fileID: 5413317436804108991, guid: 10571ec6c40dc654e9d23ce9b15e01b4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10571ec6c40dc654e9d23ce9b15e01b4, type: 3}
 --- !u!4 &2237530937159453162 stripped
@@ -609,6 +625,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BA_MinerImprovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413317436804108991, guid: 639e7c1875020db47a767fb20a74a6da,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 639e7c1875020db47a767fb20a74a6da, type: 3}

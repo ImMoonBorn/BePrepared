@@ -14,12 +14,13 @@ GameObject:
   - component: {fileID: 2466464270048938331}
   - component: {fileID: 2466464270048938333}
   - component: {fileID: 8160945275314042892}
+  - component: {fileID: 2081936650428051660}
   m_Layer: 6
   m_Name: P_Tree03_UnitResource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 6
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &2466464270048938330
 Transform:
@@ -110,6 +111,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87377db3fe88cbc4a9d4311d425e48f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2081936650428051660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466464270048938328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c96779604dac541af8924b1b835dd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GUID: 
+  m_GenerateOnAwake: 1
 --- !u!1001 &961235239275091981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -190,7 +205,7 @@ PrefabInstance:
     - target: {fileID: 4153618233619735659, guid: 1dffc5243821e0c489199471f95e9a92,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 6
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dffc5243821e0c489199471f95e9a92, type: 3}
@@ -276,7 +291,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3e73056e5a8d5c5458281a38a9a45530,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 6
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e73056e5a8d5c5458281a38a9a45530, type: 3}

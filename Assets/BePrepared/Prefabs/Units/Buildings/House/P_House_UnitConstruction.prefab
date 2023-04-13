@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GUID: 
+  m_GenerateOnAwake: 1
 --- !u!114 &9169645825335819283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +219,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_SelectionHUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153618233619735659, guid: 1dffc5243821e0c489199471f95e9a92,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dffc5243821e0c489199471f95e9a92, type: 3}
@@ -304,6 +310,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 99ccc3a9d1d6ecc41a46da855d3dfc86,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99ccc3a9d1d6ecc41a46da855d3dfc86, type: 3}

@@ -3,7 +3,7 @@ using MoonBorn.BePrepared.Gameplay.Unit;
 
 namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 {
-    [CreateAssetMenu(fileName = "SO_BuildingUnit", menuName = "BePrepared/Unit/Create Building")]
+    [CreateAssetMenu(fileName = "SO_UnitBuilding", menuName = "BePrepared/Unit/Create Building")]
     public class UnitBuildingSO : UnitSO
     {
         [Header("Tooltip")]
@@ -12,6 +12,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         public string Description;
 
         [Header("Build Settings")]
+        public UnitCategory UnitCategory;
         public ResourceCost Cost;
         public float BuildTime;
         public float BuildHeight;
