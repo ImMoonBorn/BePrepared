@@ -15,7 +15,7 @@ MonoBehaviour:
   UnitType: 1
   UnitName: Base
   Destroyable: 0
-  Icon: {fileID: 21300000, guid: 6acb1ad668eaa6747bdacb2ec79357bc, type: 3}
+  Icon: {fileID: 0}
   Description: It is the base building for the village. You can produce villagers
     from here.
   Cost:
@@ -26,9 +26,10 @@ MonoBehaviour:
       Amount: 500
     - ResourceType: 3
       Amount: 500
-  ColliderSize: {x: 8, y: 1.5, z: 8}
   BuildTime: 60
   BuildHeight: 8.75
+  ColliderSize: {x: 8, y: 1.5, z: 8}
+  ColliderOffset: {x: 0, y: 0, z: 0}
   GhostPrefab: {fileID: -4798586226368731266, guid: ca976c119cc447847af19f6800071088,
     type: 3}
   ConstructionPrefab: {fileID: 2516941969688169330, guid: dfce1c91a94c7fa49b8d612d8b5caacd,

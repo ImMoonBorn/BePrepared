@@ -15,16 +15,17 @@ MonoBehaviour:
   UnitType: 1
   UnitName: House
   Destroyable: 1
-  Icon: {fileID: 21300000, guid: b3ad59d1810503548be7d94cb305d127, type: 3}
+  Icon: {fileID: 21300000, guid: cd69b08c0fbc12d4abec2fa7e6797528, type: 3}
   Description: Gives the villagers a place to live. Increase the population limit
     by 5.
   Cost:
     m_Costs:
     - ResourceType: 1
       Amount: 100
-  ColliderSize: {x: 7, y: 1.5, z: 7}
   BuildTime: 10
   BuildHeight: 4.75
+  ColliderSize: {x: 7, y: 1.5, z: 7}
+  ColliderOffset: {x: 0, y: 0, z: 0}
   GhostPrefab: {fileID: -4260179343217117724, guid: af201d1bffa85c24d8f5fa5761032d24,
     type: 3}
   ConstructionPrefab: {fileID: 797889752724305493, guid: c040ec608d564d3459d77e45ec7fc021,

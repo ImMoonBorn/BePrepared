@@ -16,5 +16,6 @@ MonoBehaviour:
   UnitName: Tree
   Destroyable: 0
   ResourceType: 1
+  VillagerType: 1
   SearchAfterDeplete: 1
   GatherRatePerSecond: 0.5

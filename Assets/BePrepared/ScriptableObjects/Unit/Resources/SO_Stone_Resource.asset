@@ -16,5 +16,6 @@ MonoBehaviour:
   UnitName: Stone
   Destroyable: 0
   ResourceType: 3
+  VillagerType: 3
   SearchAfterDeplete: 1
   GatherRatePerSecond: 0.5

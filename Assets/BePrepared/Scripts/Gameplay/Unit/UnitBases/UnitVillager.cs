@@ -14,8 +14,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         Lumberjack = 1,
         Farmer = 2,
         Miner = 3,
-        Builder = 4
+        Builder = 4,
+        Gatherer = 5,
     }
+
     public enum VillagerGender
     {
         None,
@@ -31,14 +33,14 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public VillagerType VillagerType => m_VillagerType;
 
+        [SerializeField] private UnitVillagerSO m_VillagerSO;
         [SerializeField] private LayerMask m_UnitLayer;
         [SerializeField] private VillagerGender m_Gender;
-        [SerializeField] private UnitVillagerSO m_VillagerSO;
+        private VillagerType m_VillagerType;
         private UnitResource m_AssignedResource;
         private UnitConstruction m_AssignedConstruction;
         private NavMeshAgent m_Agent;
         private NavMeshObstacle m_Obstacle;
-        private VillagerType m_VillagerType;
 
         [Header("Animation")]
         [SerializeField] private Animator m_Animator;
@@ -90,7 +92,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         {
             UnitManager.VillagerCreated();
             UnitManager.AddIdleVillager(this);
-            UnitImprovements.OnVillagerImprovement += CalculateGatherTime;
+            UnitImprovements.OnVillagerImprovement += CalculateGatherRate;
         }
 
         public void Move(Vector3 direction)
@@ -142,8 +144,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             m_AssignedConstruction = null;
             m_AssignedResource = resource;
 
-            ChangeType(GetVillagerTypeFromResource(resource.ResourceType));
-            CalculateGatherTime();
+            ChangeType(m_AssignedResource.VillagerType);
+            CalculateGatherRate();
 
             m_AssignedResource.AddVillager(this);
         }
@@ -154,6 +156,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
             m_AssignedConstruction = construction;
             m_AssignedConstruction.AddVillager(this);
+
             ChangeType(VillagerType.Builder);
         }
 
@@ -196,7 +199,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             foreach (GameObject tool in m_Tools)
                 tool.SetActive(false);
 
-            if (type != VillagerType.Idle)
+            if (type != VillagerType.Idle && type != VillagerType.Gatherer)
                 m_Tools[(int)m_VillagerType - 1].SetActive(true);
         }
 
@@ -242,7 +245,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                             return true;
                         }
                     }
-
                 }
             }
             return false;
@@ -261,11 +263,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 m_Obstacle.enabled = true;
             }
 
-
             Vector3 direction = m_TargetPosition - transform.position;
             direction.y = 0;
             float directionMagnitude = direction.magnitude;
-            float reachDistance = 1.0f;
+            float reachDistance = 0.75f;
 
             if (directionMagnitude < reachDistance)
                 m_TargetReached = true;
@@ -335,17 +336,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 m_Animator.SetBool(s_WorkHash, false);
         }
 
-        public static VillagerType GetVillagerTypeFromResource(ResourceType resourceType)
-        {
-            return resourceType switch
-            {
-                ResourceType.Wood => VillagerType.Lumberjack,
-                ResourceType.Food => VillagerType.Farmer,
-                ResourceType.Stone => VillagerType.Miner,
-                _ => VillagerType.Idle
-            };
-        }
-
         public static ResourceType GetResourceTypeFromVillager(VillagerType villagerType)
         {
             return villagerType switch
@@ -353,11 +343,12 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 VillagerType.Lumberjack => ResourceType.Wood,
                 VillagerType.Farmer => ResourceType.Food,
                 VillagerType.Miner => ResourceType.Stone,
+                VillagerType.Gatherer => ResourceType.Food,
                 _ => ResourceType.None
             };
         }
 
-        private void CalculateGatherTime()
+        private void CalculateGatherRate()
         {
             if (!m_AssignedResource)
                 return;
@@ -373,6 +364,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 VillagerType.Lumberjack => UnitImprovements.LumberjackSpeed,
                 VillagerType.Farmer => UnitImprovements.FarmerSpeed,
                 VillagerType.Miner => UnitImprovements.MinerSpeed,
+                VillagerType.Gatherer => 0.0f,
                 _ => 0.0f
             };
         }
@@ -395,7 +387,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 Unassign();
 
             UnitManager.VillagerDestroyed();
-            UnitImprovements.OnVillagerImprovement -= CalculateGatherTime;
+            UnitImprovements.OnVillagerImprovement -= CalculateGatherRate;
 
             if (m_VillagerType == VillagerType.Idle)
                 UnitManager.RemoveIdleVillager(this);
@@ -430,8 +422,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public void LoadState(object saveData)
         {
             VillagerData villagerData = (VillagerData)saveData;
-            
-            if(TryGetComponent(out GUIDComponent guid))
+
+            if (TryGetComponent(out GUIDComponent guid))
                 guid.SetGuid(villagerData.GUID);
 
             m_TargetPosition = villagerData.Position;

@@ -10,7 +10,8 @@ namespace MoonBorn.Utils
         Tree,
         Stone,
         Avoid,
-        Prop
+        Prop,
+        Bush
     }
 
     public class CellComponent : MonoBehaviour
@@ -60,6 +61,7 @@ namespace MoonBorn.Utils
         [SerializeField] private Vector2Int m_Size = new Vector2Int(50, 50);
         [SerializeField] private bool m_GenerateTrees = true;
         [SerializeField] private bool m_GenerateStones = true;
+        [SerializeField] private bool m_GenerateBushes = true;
         [SerializeField] private bool m_GenerateProps = true;
         [SerializeField] private AvoidMesh[] m_AvoidMeshes;
         private static Cell[,] m_Cells;
@@ -75,6 +77,12 @@ namespace MoonBorn.Utils
         [SerializeField, Range(0.0f, 1.0f)] private float m_StoneDensity = 0.5f;
         [SerializeField, Range(0.0f, 1.0f)] private float m_StoneNoiseScale = 0.5f;
         [SerializeField] private int m_StoneAvoidanceRadius = 3;
+
+        [Header("Bushes")]
+        [SerializeField] private GameObject[] m_BushPrefabs;
+        [SerializeField, Range(0.0f, 1.0f)] private float m_BushDensity = 0.5f;
+        [SerializeField, Range(0.0f, 1.0f)] private float m_BushNoiseScale = 0.5f;
+        [SerializeField] private int m_BushAvoidanceRadius = 3;
 
         [Header("Environment")]
         [SerializeField] private GameObject[] m_PropPrefabs;
@@ -158,6 +166,32 @@ namespace MoonBorn.Utils
                     float stoneDensity = Random.Range(0.0f, m_StoneDensity);
                     if (noiseMap[x, y] < stoneDensity && CheckRadius(x, y, m_StoneAvoidanceRadius))
                         CreateCell(m_StonePrefabs, CellType.Stone, x, y);
+                }
+            }
+        }
+
+        private void GenerateBushes()
+        {
+            float[,] noiseMap = new float[m_Size.x, m_Size.y];
+            float xOffset = Random.Range(-10000.0f, 10000.0f);
+            float yOffset = Random.Range(-10000.0f, 10000.0f);
+
+            for (int y = 0; y < m_Size.y; y++)
+            {
+                for (int x = 0; x < m_Size.x; x++)
+                {
+                    float noiseValue = Mathf.PerlinNoise(x * m_BushNoiseScale + xOffset, y * m_BushNoiseScale + yOffset);
+                    noiseMap[x, y] = noiseValue;
+                }
+            }
+
+            for (int y = 0; y < m_Size.y; y++)
+            {
+                for (int x = 0; x < m_Size.x; x++)
+                {
+                    float bushDensity = Random.Range(0.0f, m_BushDensity);
+                    if (noiseMap[x, y] < bushDensity && CheckRadius(x, y, m_BushAvoidanceRadius))
+                        CreateCell(m_BushPrefabs, CellType.Bush, x, y);
                 }
             }
         }
@@ -266,6 +300,7 @@ namespace MoonBorn.Utils
             {
                 CellType.Tree => Instantiate(m_TreePrefabs[prefabNumber], GetInstantiatePosition(x, y), Quaternion.identity),
                 CellType.Stone => Instantiate(m_StonePrefabs[prefabNumber], GetInstantiatePosition(x, y), Quaternion.identity),
+                CellType.Bush => Instantiate(m_BushPrefabs[prefabNumber], GetInstantiatePosition(x, y), Quaternion.identity),
                 CellType.Prop => Instantiate(m_PropPrefabs[prefabNumber], GetInstantiatePosition(x, y), Quaternion.identity),
                 _ => null
             };
@@ -284,10 +319,11 @@ namespace MoonBorn.Utils
                 GenerateTrees();
             if (m_GenerateStones && m_StonePrefabs.Length > 0)
                 GenerateStones();
+            if (m_GenerateBushes && m_BushPrefabs.Length > 0)
+                GenerateBushes();
             if (m_GenerateProps && m_PropPrefabs.Length > 0)
                 GenerateProps();
         }
-
 
         [ContextMenu("Save")]
         public void SaveWorld()

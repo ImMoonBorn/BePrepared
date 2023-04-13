@@ -15,11 +15,9 @@ MonoBehaviour:
   UnitType: 1
   UnitName: Mill
   Destroyable: 1
-  Icon: {fileID: 21300000, guid: cebd8d027a0b4d046ac99f9897468818, type: 3}
-  Description: 'The mill creates four fertile farms with crops, assign villagers
-    to produce food.
-
-'
+  Icon: {fileID: 21300000, guid: c5cdc50c9c34be24e9b87267c2be5c69, type: 3}
+  Description: The mill creates four fertile farms with crops, assign villagers to
+    produce food.
   Cost:
     m_Costs:
     - ResourceType: 1

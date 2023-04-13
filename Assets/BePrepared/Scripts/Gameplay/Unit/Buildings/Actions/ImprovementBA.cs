@@ -25,7 +25,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         protected override string CustomDescription()
         {
-            return "";
+            return $"{m_ImprovementSO.VillagerType}s gather {UnitVillager.GetResourceTypeFromVillager(m_ImprovementSO.VillagerType)} {m_ImprovementSO.Amount * 100.0f}% faster";
         }
 
         protected override string CustomFooter()

@@ -8,6 +8,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
     public class UnitResource : MonoBehaviour, ISaveable
     {
         public ResourceType ResourceType => m_ResourceSO.ResourceType;
+        public VillagerType VillagerType => m_ResourceSO.VillagerType;
         public int ResourceAmount => (int)m_ResourceAmount;
         public int ResourceAmountMax => m_ResourceAmountMax;
         public float GatherRatePerSecond => m_ResourceSO.GatherRatePerSecond;
