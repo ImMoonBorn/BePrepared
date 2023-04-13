@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/BePrepared/Scenes/SCN_InGame.unity
     guid: a2f44bf7394db9944859884b6732567c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Testing/TestScene.unity
     guid: 5ce38335b512dbc44a16847a43892837
-  - enabled: 1
+  - enabled: 0
     path: Assets/Testing/TestScene2.unity
     guid: 714dab9434d866345847d1477fe33c38
   m_configObjects: {}
