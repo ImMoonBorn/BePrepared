@@ -140,7 +140,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void Assign(UnitResource resource, Vector3 movePos)
         {
-            if(resource.ReachedGathererLimit)
+            if (resource.ReachedGathererLimit)
             {
                 NotificationManager.Notificate("This resource reached its gatherer limits.", NotificationType.Warning);
                 return;

@@ -19,6 +19,15 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         {
             m_Actions = m_ActionPlaceholder.GetComponentsInChildren<BuildingAction>();
         }
+
+        private void Start()
+        {
+            foreach(BuildingAction action in m_Actions)
+            {
+                action.Refresh();
+            }
+        }
+
         public void SetResources(string[] resources)
         {
             for (int i = 0; i < m_HasResources.Length; i++)

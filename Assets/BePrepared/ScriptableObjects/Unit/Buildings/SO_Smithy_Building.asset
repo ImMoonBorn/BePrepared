@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27d031150b04604e9a6a3607241309b, type: 3}
+  m_Name: SO_Smithy_Building
+  m_EditorClassIdentifier: 
+  UnitType: 1
+  UnitName: Smithy
+  Destroyable: 1
+  Icon: {fileID: 21300000, guid: 40388d481b0d4fb44a243605ec077a2d, type: 3}
+  Description: Improve some of your tools for the villagers. Gather resources faster.
+  UnitCategory: 0
+  Cost:
+    m_Costs:
+    - ResourceType: 1
+      Amount: 100
+    - ResourceType: 3
+      Amount: 50
+  BuildTime: 25
+  BuildHeight: 7
+  ColliderSize: {x: 7.25, y: 1.5, z: 7.25}
+  ColliderOffset: {x: 0, y: 0, z: 0}
+  GhostPrefab: {fileID: 328465940895127239, guid: 72cd31df931157f4095d355652bedd0b,
+    type: 3}
+  ConstructionPrefab: {fileID: 4452789285497763861, guid: e77ea8771a295e1408f7ebc2a652704d,
+    type: 3}
+  FinishedPrefab: {fileID: 7673290988924955139, guid: a86be743601cf3645aa485ffef7510c8,
+    type: 3}

@@ -24,7 +24,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (m_TooltipTrigger != null)
                 m_TooltipTrigger.OnTriggerEnter += () => m_TooltipTrigger.SetTooltip(action.GetActionDescription(), action.ActionName);
 
-            m_Action.OnCallAction += DoBlink;
+            m_Action.OnCancelAction += DoBlink;
             m_BlockMask.enabled = false;
         }
 
@@ -77,7 +77,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void OnDestroy()
         {
-            m_Action.OnCallAction -= DoBlink;
+            m_Action.OnCancelAction -= DoBlink;
         }
 
     }

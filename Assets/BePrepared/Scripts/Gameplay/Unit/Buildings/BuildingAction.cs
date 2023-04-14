@@ -8,7 +8,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
     public abstract class BuildingAction : MonoBehaviour
     {
         public UnityAction OnCallAction;
-        public UnityAction OnActionFinished;
+        public UnityAction OnFinishAction;
+        public UnityAction OnCancelAction;
 
         public float ActionProgress => m_NormalizedTimer;
         public bool InAction => m_DoAction;
@@ -22,16 +23,20 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [SerializeField] private ResourceCost m_Cost;
         [SerializeField] protected bool m_DestroyOnLimitReach = false;
         protected bool m_DoAction = false;
-        private float m_NormalizedTimer = 0.0f;
+        protected float m_ActionTimer = 0.0f;
         protected bool m_ReachedLimit = false;
+        private float m_NormalizedTimer = 0.0f;
 
         [Header("Visual")]
         [SerializeField] private string m_ActionName;
         [SerializeField] private string m_ActionDescription;
         [SerializeField] private Sprite m_Icon;
 
-        protected abstract void OnAction();
+        protected abstract void OnActionFinish();
+        protected abstract void OnActionCall();
+        protected abstract void OnActionCancel();
         protected abstract bool CustomCondition();
+        protected abstract void OnActionUpdate();
 
         protected abstract string CustomConditionWarningMessage();
 
@@ -49,6 +54,13 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             m_Icon = Icon;
         }
 
+        public void ContinueAction(float actionTime)
+        {
+            m_ActionTimer = actionTime;
+            m_DoAction = true;
+            StartCoroutine(DoAction());
+        }
+
         public void CallAction()
         {
             m_DoAction = !m_DoAction;
@@ -61,12 +73,15 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                     m_DoAction = false;
                     m_ReachedLimit = true;
                     OnCallAction?.Invoke();
+                    OnActionCall();
                     return;
                 }
                 else
                     m_ReachedLimit = false;
 
                 OnCallAction?.Invoke();
+                OnActionCall();
+                m_ActionTimer = 0.0f;
 
                 if (m_Cost.Check())
                 {
@@ -84,24 +99,28 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 m_Cost.Restore();
                 StopAllCoroutines();
                 m_NormalizedTimer = 0.0f;
+                m_ActionTimer = 0.0f;
+
+                OnActionCancel();
+                OnCancelAction?.Invoke();
             }
         }
 
         protected IEnumerator DoAction()
         {
-            float actionTimer = 0.0f;
-
-            while (actionTimer < m_ActionTime)
+            while (m_ActionTimer < m_ActionTime)
             {
-                m_NormalizedTimer = actionTimer / m_ActionTime;
-                actionTimer += Time.deltaTime;
+                m_NormalizedTimer = m_ActionTimer / m_ActionTime;
+                m_ActionTimer += Time.deltaTime;
+                OnActionUpdate();
                 yield return null;
             }
 
-            OnAction();
-            OnActionFinished?.Invoke();
+            OnActionFinish();
+            OnFinishAction?.Invoke();
             m_DoAction = false;
             m_NormalizedTimer = 0.0f;
+            m_ActionTimer = 0.0f;
         }
 
         public string GetActionDescription()

@@ -57,6 +57,9 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
     {
         public string ImprovementName;
         public bool IsDone;
+        public float Progress;
+        public bool IsImproving;
+        public string BuildingGUID;
     }
 
     [Serializable]
@@ -131,7 +134,14 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
             {
                 s_SaveDatas.ImprovementDatas.Add
                 (
-                    new ImprovementData { ImprovementName = improvement.ImprovementSO.Name, IsDone = improvement.IsDone }
+                    new ImprovementData
+                    {
+                        ImprovementName = improvement.ImprovementSO.Name,
+                        IsDone = improvement.IsDone,
+                        BuildingGUID = improvement.BuildingGUID,
+                        Progress = improvement.Progress,
+                        IsImproving = improvement.IsImproving
+                    }
                 );
             }
 
@@ -149,7 +159,13 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
             {
                 ImprovementProp prop = ImprovementManager.FindImprovement(id.ImprovementName);
                 if (prop != null && id.IsDone)
+                {
                     prop.Improve();
+                    continue;
+                }
+                prop.SetBuildingGUID(id.BuildingGUID);
+                prop.SetProgress(id.Progress);
+                prop.SetImproving(id.IsImproving);
             }
 
             foreach (SaveData s in saveDatas.RawData)

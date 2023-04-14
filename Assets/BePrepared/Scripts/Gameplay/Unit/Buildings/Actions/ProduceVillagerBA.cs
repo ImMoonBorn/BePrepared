@@ -33,13 +33,28 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             return desc;
         }
 
-        protected override void OnAction()
+        
+        protected override void OnActionCall()
+        {
+        }
+
+        protected override void OnActionUpdate()
+        {
+        }
+
+        protected override void OnActionFinish()
         {
             UnitManager.CreateVillager(m_SpawnLocation.position);
+        }
+
+        protected override void OnActionCancel()
+        {
         }
 
         public override void Refresh()
         {
         }
+
+      
     }
 }

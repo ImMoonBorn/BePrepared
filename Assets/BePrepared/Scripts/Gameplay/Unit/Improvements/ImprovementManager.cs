@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MoonBorn.Utils;
+using MoonBorn.BePrepared.Utils.SaveSystem;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -8,9 +9,19 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
     public class ImprovementProp
     {
         public bool IsDone => m_IsDone;
+        public bool IsImproving => m_IsImproving;
+        public string BuildingGUID => m_ImprovingUnitGUID;
+        public float Progress => m_Progress;
+        public void SetImproving(bool improving) => m_IsImproving = improving;
+        public void SetBuildingGUID(string buildingGUID) => m_ImprovingUnitGUID = buildingGUID;
+        public void SetProgress(float progress) => m_Progress = progress;
+
+        private bool m_IsDone = false;
+        private bool m_IsImproving = false;
+        private string m_ImprovingUnitGUID = string.Empty;
+        private float m_Progress = 0.0f;
 
         public ImprovementSO ImprovementSO;
-        private bool m_IsDone;
 
         public void Improve()
         {
