@@ -68,7 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ResourceSO: {fileID: 11400000, guid: 3b31ffb1973ce5f479488b552b838a3a, type: 2}
   m_IsInfinite: 0
-  m_ResourceAmountMax: 1000
+  m_ResourceAmountMax: 750
   m_ApplyRandomRotation: 1
   m_MeshTransform: {fileID: 3854812141330513640}
 --- !u!65 &2923444359738413885

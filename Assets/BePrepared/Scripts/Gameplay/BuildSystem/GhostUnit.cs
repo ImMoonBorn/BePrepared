@@ -41,7 +41,12 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
                 m_MousePosition.Set(Mathf.Round(m_MousePosition.x), 0.0f, Mathf.Round(m_MousePosition.z));
 
             Vector3 colliderSize = m_UnitSO.ColliderSize * 0.5f;
-            bool cantBuild = Physics.CheckBox(transform.position + m_UnitSO.ColliderOffset, colliderSize, Quaternion.identity, ~m_IgnoreLayer);
+            Vector3 colliderOffset = m_UnitSO.ColliderOffset;
+
+            if(m_Direction == BuildDirection.Left || m_Direction == BuildDirection.Right)
+                colliderOffset = new Vector3(colliderOffset.z, colliderOffset.y, colliderOffset.x);
+
+            bool cantBuild = Physics.CheckBox(transform.position + colliderOffset, colliderSize, Quaternion.identity, ~m_IgnoreLayer);
 
             m_SelectionHUD.color = cantBuild ? BuildManager.CantBuildColor : BuildManager.CanBuildColor;
 
