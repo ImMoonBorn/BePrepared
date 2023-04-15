@@ -200,7 +200,7 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
 
             foreach (VillagerData v in saveDatas.VillagerDatas)
             {
-                UnitVillager villager = UnitManager.CreateVillager(v.Position, v.Rotation);
+                UnitVillager villager = UnitManager.CreateVillager(v.Position, v.Rotation, false);
                 if (villager.TryGetComponent(out GUIDComponent entity))
                 {
                     entity.SetGuid(v.GUID);

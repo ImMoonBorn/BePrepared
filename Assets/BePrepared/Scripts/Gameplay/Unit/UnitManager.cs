@@ -156,7 +156,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         #region Villager Population stuff
 
-        public static UnitVillager CreateVillager(Vector3 position, Vector3 eulerAngles = new Vector3())
+        public static UnitVillager CreateVillager(Vector3 position, Vector3 eulerAngles = new Vector3(), bool notificateOnCreate = true)
         {
             if (!CanProduceVillager)
             {
@@ -164,8 +164,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 return null;
             }
 
+            if (notificateOnCreate)
+                NotificationManager.Notificate("Villager Created!", NotificationType.Success);
+
             UnitVillager villager = Instantiate(Instance.m_VillagerPrefab, position, Quaternion.Euler(eulerAngles));
-            NotificationManager.Notificate("Villager Created!", NotificationType.Success);
             return villager;
         }
 

@@ -24,7 +24,7 @@ namespace MoonBorn.BePrepared.Gameplay
 
     public class GameManager : Singleton<GameManager>
     {
-        private static string FolderPath => $"{Application.persistentDataPath}/SaveGameFolder";
+        private static string FolderPath => $"{Application.persistentDataPath}/SaveFolder";
         private static string WorldDataPath => $"{FolderPath}/WorldData.txt";
         private static string SaveDataPath => $"{FolderPath}/SaveData.txt";
 
@@ -126,7 +126,7 @@ namespace MoonBorn.BePrepared.Gameplay
 
                     Vector3 spawnPos = m_SpawnTransform.position;
                     Vector3 position = new Vector3(x, 0.0f, y) + spawnPos;
-                    UnitManager.CreateVillager(position);
+                    UnitManager.CreateVillager(position, Vector3.zero, false);
                 }
             }
         }
@@ -141,6 +141,9 @@ namespace MoonBorn.BePrepared.Gameplay
         [ContextMenu("Save Game")]
         public void SaveGame()
         {
+            if (!Directory.Exists(FolderPath))
+                Directory.CreateDirectory(FolderPath);
+
             m_ProceduralWorldGenerator.SaveWorld(WorldDataPath);
             SaveManager.Save(SaveDataPath);
             ResumeGame();

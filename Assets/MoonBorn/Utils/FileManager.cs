@@ -8,7 +8,6 @@ namespace MoonBorn.Utils
         public static void Save<T>(string filePath, T data)
         {
             string dataToJson = JsonUtility.ToJson(data, true);
-
             File.WriteAllText(filePath, dataToJson);
         }
 
