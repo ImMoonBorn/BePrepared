@@ -7,6 +7,7 @@ using MoonBorn.Utils;
 using MoonBorn.UI;
 using MoonBorn.BePrepared.Gameplay.Player;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
+using MoonBorn.BePrepared.Utils;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -86,7 +87,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private void Update()
         {
             if (EventSystem.current.IsPointerOverGameObject() || GameManager.MouseState != MouseState.Idle)
+            {
+                GameManager.ResetCursorTexture();
                 return;
+            }
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -121,8 +125,18 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 }
             }
 
-            if (m_SelectedUnit)
+            if (m_SelectedVillager)
             {
+                if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, m_SelectableLayer))
+                {
+                    if (hit.transform.TryGetComponent(out CursorTextureChanger textureChanger))
+                        textureChanger.ChangeCursor();
+                    else
+                        GameManager.ResetCursorTexture();
+                }
+                else
+                    GameManager.ResetCursorTexture();
+
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     if (CameraController.IsFocused)
@@ -135,8 +149,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                             CameraController.MoveToTarget(m_SelectedUnit.transform.position);
                     }
                 }
-
             }
+            else
+                GameManager.ResetCursorTexture();
         }
 
         #region Villager Population stuff

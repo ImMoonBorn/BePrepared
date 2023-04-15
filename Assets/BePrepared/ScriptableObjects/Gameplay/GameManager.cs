@@ -34,6 +34,7 @@ namespace MoonBorn.BePrepared.Gameplay
         private static bool s_LoadGame;
 
         [SerializeField] private bool m_IsMainMenu = false;
+        [SerializeField] private Texture2D m_CursorTexture;
         [SerializeField] private ProceduralWorldGenerator m_ProceduralWorldGenerator;
         private GameState m_Gamestate = GameState.Playing;
         private MouseState m_MouseState = MouseState.Idle;
@@ -90,6 +91,8 @@ namespace MoonBorn.BePrepared.Gameplay
                 m_MainMenuButton.onClick.AddListener(() => SceneManager.LoadScene(0));
 
             ResumeGame();
+
+            SetCursorTexture(m_CursorTexture, new Vector2(10.0f, 4.0f));
         }
 
         private void Start()
@@ -195,6 +198,16 @@ namespace MoonBorn.BePrepared.Gameplay
         public static void RestoreMouseState()
         {
             Instance.m_MouseState = Instance.m_LastMouseState;
+        }
+
+        public static void SetCursorTexture(Texture2D texture, Vector2 offset)
+        {
+            Cursor.SetCursor(texture, offset, CursorMode.Auto);
+        }
+
+        public static void ResetCursorTexture()
+        {
+            SetCursorTexture(Instance.m_CursorTexture, new Vector2(10.0f, 4.0f));
         }
     }
 }
