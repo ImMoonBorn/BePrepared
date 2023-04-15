@@ -309,9 +309,6 @@ namespace MoonBorn.Utils
         [ContextMenu("Generate")]
         public void GenerateWorld()
         {
-            if (!Application.isPlaying)
-                return;
-
             m_Cells = new Cell[m_Size.x, m_Size.y];
 
             GenerateAvoids();
@@ -325,8 +322,7 @@ namespace MoonBorn.Utils
                 GenerateProps();
         }
 
-        [ContextMenu("Save")]
-        public void SaveWorld()
+        public void SaveWorld(string path)
         {
             if (!Application.isPlaying)
                 return;
@@ -350,18 +346,17 @@ namespace MoonBorn.Utils
                     array.Cells.Add(cellData);
                 }
             }
-            FileManager.Save($"{Application.persistentDataPath}/WorldData.txt", array);
+            FileManager.Save(path, array);
         }
 
-        [ContextMenu("Load")]
-        public void LoadWorld()
+        public void LoadWorld(string path)
         {
             if (!Application.isPlaying)
                 return;
 
             m_Cells = new Cell[m_Size.x, m_Size.y];
 
-            CellArray array = FileManager.Load<CellArray>($"{Application.persistentDataPath}/WorldData.txt");
+            CellArray array = FileManager.Load<CellArray>(path);
 
             foreach (var cell in array.Cells)
             {

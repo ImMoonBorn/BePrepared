@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AOC_UnitVillagerMenu
+  m_Controller: {fileID: 9100000, guid: 7d27c64e38f887247b2009da883ab791, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 3a730942643990a4a98894652bce0126, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7d18d10fd9a49ab43bd19be666d5a8df, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d3818deffca8d9a41a2831e9b014cd2d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a6c11a7977aa26245a01ed4b8d1e1293, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8fc18890aba697b4985297ba60844f62, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1b238a8723504ef4fb9d48f04de5c003, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6a8adab028d65394bbfdcdab91c4e162, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8cf3aae864552c34198ab90731d26bda, type: 2}

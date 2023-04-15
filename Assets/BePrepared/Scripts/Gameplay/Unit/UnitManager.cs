@@ -31,7 +31,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [SerializeField] private int m_MaxVillagerCount = 5;
         [SerializeField] private TMP_Text m_VillagerCountText;
         private int m_VillagerCount = 0;
-        private readonly List<UnitVillager> m_IdleVillagers = new();
+        private List<UnitVillager> m_IdleVillagers = new();
 
         [Header("Unit Selection")]
         [SerializeField] private LayerMask m_SelectableLayer;
@@ -194,6 +194,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public static void RemoveIdleVillager(UnitVillager villager)
         {
+            if (Instance == null)
+                return;
+
             if (Instance.m_IdleVillagers.Contains(villager))
             {
                 Instance.m_IdleVillagers.Remove(villager);

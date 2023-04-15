@@ -13,7 +13,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private void Start()
         {
             Refresh();
-            if (m_ImprovementProp.IsImproving)
+            if (m_ImprovementProp != null && m_ImprovementProp.IsImproving)
                 ContinueAction(m_ImprovementProp.Progress);
         }
 

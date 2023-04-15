@@ -1,9 +1,11 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using MoonBorn.BePrepared.Utils.SaveSystem;
-using MoonBorn.Utils;
 using UnityEngine.UI;
 using MoonBorn.UI;
+using MoonBorn.Utils;
+using MoonBorn.BePrepared.Gameplay.Unit;
+using MoonBorn.BePrepared.Utils.SaveSystem;
 
 namespace MoonBorn.BePrepared.Gameplay
 {
@@ -22,15 +24,26 @@ namespace MoonBorn.BePrepared.Gameplay
 
     public class GameManager : Singleton<GameManager>
     {
+        private static string FolderPath => $"{Application.persistentDataPath}/SaveGameFolder";
+        private static string WorldDataPath => $"{FolderPath}/WorldData.txt";
+        private static string SaveDataPath => $"{FolderPath}/SaveData.txt";
+
         public static GameState GameState => Instance.m_Gamestate;
         public static MouseState MouseState => Instance.m_MouseState;
 
         private static bool s_LoadGame;
 
+        [SerializeField] private bool m_IsMainMenu = false;
         [SerializeField] private ProceduralWorldGenerator m_ProceduralWorldGenerator;
         private GameState m_Gamestate = GameState.Playing;
         private MouseState m_MouseState = MouseState.Idle;
         private MouseState m_LastMouseState = MouseState.Idle;
+
+        [Header("Game Rules")]
+        [SerializeField] private Transform m_SpawnTransform;
+        [SerializeField] private int m_PopulationLimit = 5;
+        [SerializeField] private int m_StartingVillagers = 3;
+        [SerializeField] private ResourceCost m_StartingResources;
 
         [Header("UI")]
         [SerializeField] private GameObject m_PauseMenuCanvas;
@@ -39,42 +52,95 @@ namespace MoonBorn.BePrepared.Gameplay
         [SerializeField] private Button m_SaveGameButton;
         [SerializeField] private Button m_LoadGameButton;
         [SerializeField] private Button m_QuitGameButton;
+        [SerializeField] private Button m_MainMenuButton;
 
         private void Awake()
         {
-            m_ResumeGameButton.onClick.AddListener(PlayGame);
-            m_NewGameButton.onClick.AddListener(NewGame);
-            m_SaveGameButton.onClick.AddListener(SaveGame);
-            m_LoadGameButton.onClick.AddListener(LoadGame);
-            m_QuitGameButton.onClick.AddListener(() => Application.Quit());
+            if (m_ResumeGameButton)
+                m_ResumeGameButton.onClick.AddListener(ResumeGame);
 
-            PlayGame();
+            if (m_NewGameButton)
+                m_NewGameButton.onClick.AddListener(NewGame);
+
+            if (m_SaveGameButton)
+                m_SaveGameButton.onClick.AddListener(SaveGame);
+
+            if (m_LoadGameButton)
+            {
+                bool canLoad = true;
+
+                if (Directory.Exists(FolderPath))
+                {
+                    if (!File.Exists(SaveDataPath))
+                        canLoad = false;
+                    if (!File.Exists(WorldDataPath))
+                        canLoad = false;
+                }
+                else
+                    canLoad = false;
+
+                m_LoadGameButton.interactable = canLoad;
+                m_LoadGameButton.onClick.AddListener(LoadGame);
+            }
+
+            if (m_QuitGameButton)
+                m_QuitGameButton.onClick.AddListener(() => Application.Quit());
+
+            if (m_MainMenuButton)
+                m_MainMenuButton.onClick.AddListener(() => SceneManager.LoadScene(0));
+
+            ResumeGame();
         }
 
         private void Start()
         {
+            if (m_IsMainMenu)
+                return;
+
             if (s_LoadGame)
             {
-                m_ProceduralWorldGenerator.LoadWorld();
-                SaveManager.Load();
+                UnitManager.IncreasePopulationLimit(m_PopulationLimit);
+                m_ProceduralWorldGenerator.LoadWorld(WorldDataPath);
+                SaveManager.Load(SaveDataPath);
             }
             else
+            {
+                m_StartingResources.Restore();
                 m_ProceduralWorldGenerator.GenerateWorld();
+                UnitManager.IncreasePopulationLimit(m_PopulationLimit);
+
+                m_StartingVillagers = Mathf.Min(m_StartingVillagers, m_PopulationLimit);
+                int distance = 2;
+                int x = 0, y = m_StartingVillagers * distance;
+                for (int i = 0; i < m_StartingVillagers; i++)
+                {
+                    if (x % 3 == 0)
+                    {
+                        x = 0;
+                        y -= distance;
+                    }
+                    x += distance;
+
+                    Vector3 spawnPos = m_SpawnTransform.position;
+                    Vector3 position = new Vector3(x, 0.0f, y) + spawnPos;
+                    UnitManager.CreateVillager(position);
+                }
+            }
         }
 
         [ContextMenu("New Game")]
         public void NewGame()
         {
             s_LoadGame = false;
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
 
         [ContextMenu("Save Game")]
         public void SaveGame()
         {
-            m_ProceduralWorldGenerator.SaveWorld();
-            SaveManager.Save();
-            PlayGame();
+            m_ProceduralWorldGenerator.SaveWorld(WorldDataPath);
+            SaveManager.Save(SaveDataPath);
+            ResumeGame();
             NotificationManager.Notificate("Game Saved.", NotificationType.Success);
         }
 
@@ -82,22 +148,25 @@ namespace MoonBorn.BePrepared.Gameplay
         public void LoadGame()
         {
             s_LoadGame = true;
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) && !m_IsMainMenu)
             {
                 if (m_Gamestate == GameState.Playing)
                     PauseGame();
                 else if (m_Gamestate == GameState.Paused)
-                    PlayGame();
+                    ResumeGame();
             }
         }
 
-        private void PlayGame()
+        private void ResumeGame()
         {
+            if (m_IsMainMenu)
+                return;
+
             m_Gamestate = GameState.Playing;
             Time.timeScale = 1.0f;
             m_PauseMenuCanvas.SetActive(false);
@@ -107,6 +176,9 @@ namespace MoonBorn.BePrepared.Gameplay
 
         private void PauseGame()
         {
+            if (m_IsMainMenu)
+                return;
+
             m_Gamestate = GameState.Paused;
             Time.timeScale = 0.0f;
             m_PauseMenuCanvas.SetActive(true);

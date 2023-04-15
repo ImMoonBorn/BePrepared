@@ -15,9 +15,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
     public class ResourceManager : Singleton<ResourceManager>
     {
-        public static int WoodResources => (int)Instance.m_WoodResources;
-        public static int FoodResources => (int)Instance.m_FoodResources;
-        public static int StoneResources => (int)Instance.m_StoneResources;
+        public static int WoodResources => Mathf.RoundToInt(Instance.m_WoodResources);
+        public static int FoodResources => Mathf.RoundToInt(Instance.m_FoodResources);
+        public static int StoneResources => Mathf.RoundToInt(Instance.m_StoneResources);
 
         public static int WoodAssignedCount => Instance.m_WoodAssignedCount;
         public static int FoodAssignedCount => Instance.m_FoodAssignedCount;
@@ -31,8 +31,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private int m_FoodAssignedCount = 0;
         private int m_StoneAssignedCount = 0;
 
-        [SerializeField] private ResourceCost m_StartingResoures;
-
         [Header("Icons")]
         [SerializeField] private Sprite m_WoodIcon;
         [SerializeField] private Sprite m_FoodIcon;
@@ -40,9 +38,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void Start()
         {
-            m_StartingResoures.Restore();
-
-            ResourceUI.OnChangeResources((int)m_WoodResources, (int)m_FoodResources, (int)m_StoneResources);
+            ResourceUI.OnChangeResources(Mathf.RoundToInt(m_WoodResources), Mathf.RoundToInt(m_FoodResources), Mathf.RoundToInt(m_StoneResources));
             ResourceUI.OnChangeAssinged(m_WoodAssignedCount, m_FoodAssignedCount, m_StoneAssignedCount);
         }
 
@@ -71,12 +67,12 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         {
             switch (type)
             {
-                case ResourceType.Wood: m_WoodResources += amount; break;
-                case ResourceType.Food: m_FoodResources += amount; break;
-                case ResourceType.Stone: m_StoneResources += amount; break;
+                case ResourceType.Wood: m_WoodResources += amount; m_WoodResources = Mathf.Max(m_WoodResources, 0.0f); break;
+                case ResourceType.Food: m_FoodResources += amount; m_FoodResources = Mathf.Max(m_FoodResources, 0.0f); break;
+                case ResourceType.Stone: m_StoneResources += amount; m_StoneResources = Mathf.Max(m_StoneResources, 0.0f);  break;
             }
 
-            ResourceUI.OnChangeResources((int)m_WoodResources, (int)m_FoodResources, (int)m_StoneResources);
+            ResourceUI.OnChangeResources(Mathf.RoundToInt(m_WoodResources), Mathf.RoundToInt(m_FoodResources), Mathf.RoundToInt(m_StoneResources));
         }
 
         public static Sprite GetIconByType(ResourceType type)
@@ -117,17 +113,17 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             ResourceUI.OnChangeAssinged(Instance.m_WoodAssignedCount, Instance.m_FoodAssignedCount, Instance.m_StoneAssignedCount);
         }
 
-        public static ResourceManagerData ResourceManagerData => new ResourceManagerData() 
-            { Wood = Instance.m_WoodResources, Food = Instance.m_FoodResources, Stone = Instance.m_StoneResources };
+        public static ResourceManagerData ResourceManagerData => new ResourceManagerData()
+        { Wood = Instance.m_WoodResources, Food = Instance.m_FoodResources, Stone = Instance.m_StoneResources };
 
         public static void SetResourceManagerData(ResourceManagerData resourceManagerData)
         {
             Instance.m_WoodResources = resourceManagerData.Wood;
-            Instance.m_FoodResources= resourceManagerData.Food;
-            Instance.m_StoneResources= resourceManagerData.Stone;
+            Instance.m_FoodResources = resourceManagerData.Food;
+            Instance.m_StoneResources = resourceManagerData.Stone;
             ResourceUI.OnChangeResources((int)resourceManagerData.Wood, (int)resourceManagerData.Food, (int)resourceManagerData.Stone);
         }
-        
+
 
         private void Update()
         {

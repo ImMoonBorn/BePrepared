@@ -94,8 +94,11 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 Instance.m_IdleVillagersButton.gameObject.SetActive(false);
             else
             {
-                Instance.m_IdleVillagersButton?.gameObject.SetActive(true);
-                Instance.m_IdleVillagersText.text = count.ToString();
+                if (Instance.m_IdleVillagersButton != null)
+                {
+                    Instance.m_IdleVillagersButton.gameObject.SetActive(true);
+                    Instance.m_IdleVillagersText.text = count.ToString();
+                }
             }
         }
 

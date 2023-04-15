@@ -9,10 +9,13 @@ public class TestScript : Singleton<TestScript>
     public string SceneName = "TestScene";
     public string LoadScene = "TestScene2";
 
+    [SerializeField] private GameObject m_TestObject;
+
     private void Awake()
     {
         print(SceneName + ": " + TestInt);
         print(SceneName + ": Static : " + TestStaticInt);
+        print("Test Obj Name" + m_TestObject.name);
     }
 
     public void Update()

@@ -28,10 +28,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
     public class UnitVillager : MonoBehaviour, ISaveable
     {
-        private readonly static int s_SpeedHash = Animator.StringToHash("Speed");
-        private readonly static int s_WorkHash = Animator.StringToHash("Work");
-        private readonly static int s_WorkIndexHash = Animator.StringToHash("WorkIndex");
-
         public VillagerType VillagerType => m_VillagerType;
 
         [SerializeField] private UnitVillagerSO m_VillagerSO;
@@ -45,6 +41,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         [Header("Animation")]
         [SerializeField] private Animator m_Animator;
+        private readonly static int s_SpeedHash = Animator.StringToHash("Speed");
+        private readonly static int s_WorkHash = Animator.StringToHash("Work");
+        private readonly static int s_WorkIndexHash = Animator.StringToHash("WorkIndex");
 
         [Header("Resource")]
         [SerializeField] private float m_SearchRadius = 15.0f;
@@ -393,11 +392,14 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (m_AssignedResource != null)
                 Unassign();
 
-            UnitManager.VillagerDestroyed();
-            UnitImprovements.OnVillagerImprovement -= CalculateGatherRate;
+            if (m_AssignedConstruction != null)
+                Unassign();
 
             if (m_VillagerType == VillagerType.Idle)
                 UnitManager.RemoveIdleVillager(this);
+
+            UnitManager.VillagerDestroyed();
+            UnitImprovements.OnVillagerImprovement -= CalculateGatherRate;
         }
 
         public void SaveState(string guid)

@@ -76,8 +76,6 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
 
     public class SaveManager : Singleton<SaveManager>
     {
-        private static string s_SavePath => $"{Application.persistentDataPath}/SaveData.txt";
-
         private static SaveDatas s_SaveDatas = new();
         private static Dictionary<string, SaveableEntity> s_Entites = new();
 
@@ -112,16 +110,16 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
             s_SaveDatas.BuildingDatas.Add(buildingData);
         }
 
-        public static void Save()
+        public static void Save(string path)
         {
             s_SaveDatas = new();
             SaveAlLDatas();
-            FileManager.Save(s_SavePath, s_SaveDatas);
+            FileManager.Save(path, s_SaveDatas);
         }
 
-        public static void Load()
+        public static void Load(string path)
         {
-            s_SaveDatas = FileManager.Load<SaveDatas>(s_SavePath);
+            s_SaveDatas = FileManager.Load<SaveDatas>(path);
             LoadAllDatas(s_SaveDatas);
         }
 
@@ -199,10 +197,6 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
                 if (building.TryGetComponent(out GUIDComponent guid))
                     guid.SetGuid(bd.GUID);
             }
-
-            var villagers = UnitManager.IdleVillagers;
-            foreach (var villager in villagers)
-                villager.GetComponent<UnitMember>().DestroyUnit();
 
             foreach (VillagerData v in saveDatas.VillagerDatas)
             {

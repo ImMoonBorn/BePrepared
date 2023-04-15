@@ -50,7 +50,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 return;
             }
 
-            if (amount > m_ResourceAmount)
+            if (amount >= m_ResourceAmount)
             {
                 ResourceManager.AddResource(ResourceType, m_ResourceAmount);
                 m_ResourceAmount = 0;
@@ -75,6 +75,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void AddVillager(UnitVillager villager)
         {
+            if (m_Destroyed) return;
+
             if (!m_VillagerList.Contains(villager))
             {
                 m_VillagerList.Add(villager);
@@ -84,6 +86,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void RemoveVillager(UnitVillager villager)
         {
+            if(m_Destroyed) return;
+
             if (m_VillagerList.Contains(villager))
             {
                 m_VillagerList.Remove(villager);
@@ -99,7 +103,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 ResourceManager.DeassignToResource(ResourceType);
                 villager.ResourceDepleted(m_ResourceSO.SearchAfterDeplete);
             }
-            m_VillagerList.Clear();
         }
 
         public void SaveState(string guid)

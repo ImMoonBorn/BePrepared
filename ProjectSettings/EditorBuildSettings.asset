@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/BePrepared/Scenes/SCN_MainMenu.unity
+    guid: 2970a7070a3f6d44eafb2805e139d7b6
+  - enabled: 1
     path: Assets/BePrepared/Scenes/SCN_InGame.unity
     guid: a2f44bf7394db9944859884b6732567c
   - enabled: 0

@@ -25,7 +25,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public void Restore()
         {
             foreach (CostProps c in m_Costs)
-                ResourceManager.SpendResource(c.ResourceType, -c.Amount);
+                ResourceManager.AddResource(c.ResourceType, c.Amount);
         }
 
         public bool Check()
