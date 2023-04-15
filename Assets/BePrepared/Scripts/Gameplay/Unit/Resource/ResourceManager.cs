@@ -69,7 +69,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             {
                 case ResourceType.Wood: m_WoodResources += amount; m_WoodResources = Mathf.Max(m_WoodResources, 0.0f); break;
                 case ResourceType.Food: m_FoodResources += amount; m_FoodResources = Mathf.Max(m_FoodResources, 0.0f); break;
-                case ResourceType.Stone: m_StoneResources += amount; m_StoneResources = Mathf.Max(m_StoneResources, 0.0f);  break;
+                case ResourceType.Stone: m_StoneResources += amount; m_StoneResources = Mathf.Max(m_StoneResources, 0.0f); break;
             }
 
             ResourceUI.OnChangeResources(Mathf.RoundToInt(m_WoodResources), Mathf.RoundToInt(m_FoodResources), Mathf.RoundToInt(m_StoneResources));
@@ -127,6 +127,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void Update()
         {
+            if (!Application.isEditor)
+                return;
+
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1))

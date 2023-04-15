@@ -150,6 +150,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             }
 
             UnitVillager villager = Instantiate(Instance.m_VillagerPrefab, position, Quaternion.Euler(eulerAngles));
+            NotificationManager.Notificate("Villager Created!", NotificationType.Success);
             return villager;
         }
 
