@@ -64,10 +64,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 
                 UnitVillager villager = UnitManager.SelectedVillager;
                 if (villager != null)
-                {
-                    villager.Move(unit.GetComponent<Collider>().ClosestPoint(villager.transform.position));
-                    villager.AssignBuilder(unit);
-                }
+                    villager.AssignBuilder(unit, unit.GetComponent<Collider>().ClosestPoint(villager.transform.position));
             }
             else if (Input.GetMouseButtonDown(1))
             {

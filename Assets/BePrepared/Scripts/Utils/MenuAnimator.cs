@@ -14,13 +14,7 @@ public class MenuAnimator : MonoBehaviour
     [SerializeField] private GameObject m_Hammer;
     private GameObject[] m_Tools;
 
-
     private void Awake()
-    {
-        Destroy(this, Random.Range(0.0f, 1.0f));
-    }
-
-    private void OnDestroy()
     {
         m_Animator = GetComponent<Animator>();
         m_Animator.SetBool("Work", true);
@@ -37,5 +31,7 @@ public class MenuAnimator : MonoBehaviour
 
         if (m_VillagerType != VillagerType.Idle && m_VillagerType != VillagerType.Gatherer)
             m_Tools[(int)m_VillagerType - 1].SetActive(true);
+
+        print("mWP");
     }
 }

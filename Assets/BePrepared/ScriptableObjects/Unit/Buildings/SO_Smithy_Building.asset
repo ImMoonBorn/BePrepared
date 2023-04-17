@@ -15,15 +15,15 @@ MonoBehaviour:
   UnitType: 1
   UnitName: Smithy
   Destroyable: 1
-  Icon: {fileID: 21300000, guid: 40388d481b0d4fb44a243605ec077a2d, type: 3}
+  Icon: {fileID: 21300000, guid: c30eef5619b774a4383e92ff34569e39, type: 3}
   Description: Improve some of your tools for the villagers. Gather resources faster.
   UnitCategory: 0
   Cost:
     m_Costs:
     - ResourceType: 1
-      Amount: 100
+      Amount: 200
     - ResourceType: 3
-      Amount: 50
+      Amount: 200
   BuildTime: 25
   BuildHeight: 7
   ColliderSize: {x: 7.25, y: 1.5, z: 7.25}

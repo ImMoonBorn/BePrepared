@@ -15,7 +15,7 @@ MonoBehaviour:
   UnitType: 1
   UnitName: Male Statue
   Destroyable: 1
-  Icon: {fileID: 21300000, guid: d1961491b30bf8d47a115b407fe6e831, type: 3}
+  Icon: {fileID: 21300000, guid: c946aa7a5e652774a8cf92168bd1b015, type: 3}
   Description: A male statue.
   UnitCategory: 1
   Cost:

@@ -293,6 +293,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_MenuVillager (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 30740659623078269, guid: bdb0a1a13c7650e40bd7007184a876a4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 803583411977384903, guid: bdb0a1a13c7650e40bd7007184a876a4,
         type: 3}
       propertyPath: m_RootOrder
@@ -382,7 +387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &153781788
 Transform:
   m_ObjectHideFlags: 0
@@ -480,6 +485,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_MenuVillager (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 30740659623078269, guid: bdb0a1a13c7650e40bd7007184a876a4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 803583411977384903, guid: bdb0a1a13c7650e40bd7007184a876a4,
         type: 3}
@@ -6109,6 +6119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_MenuVillager
+      objectReference: {fileID: 0}
+    - target: {fileID: 30740659623078269, guid: bdb0a1a13c7650e40bd7007184a876a4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 803583411977384903, guid: bdb0a1a13c7650e40bd7007184a876a4,
         type: 3}

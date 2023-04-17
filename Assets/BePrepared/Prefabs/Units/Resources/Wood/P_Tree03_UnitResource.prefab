@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8160945275314042892}
   - component: {fileID: 2081936650428051660}
   - component: {fileID: 894305435304781929}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: P_Tree03_UnitResource
   m_TagString: Untagged
   m_Icon: {fileID: 0}

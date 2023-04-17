@@ -15,7 +15,7 @@ MonoBehaviour:
   UnitType: 1
   UnitName: Female Statue
   Destroyable: 1
-  Icon: {fileID: 21300000, guid: b253e5c96dd2667438db79a6833ad1c3, type: 3}
+  Icon: {fileID: 21300000, guid: 4190742a1324e8b48a8cf35b826ed4a7, type: 3}
   Description: A female statue.
   UnitCategory: 1
   Cost:
@@ -26,9 +26,9 @@ MonoBehaviour:
   BuildHeight: 4.5
   ColliderSize: {x: 1.5, y: 1.5, z: 1.5}
   ColliderOffset: {x: 0, y: 0, z: 0}
-  GhostPrefab: {fileID: 8371201954006814620, guid: 3f1a56e9ba7068b4abaed9cdb74fad6c,
+  GhostPrefab: {fileID: 8371201954006814620, guid: f546479fd05a00843be48b7ea6dfc862,
     type: 3}
-  ConstructionPrefab: {fileID: 8117634201260244285, guid: e3605ea833b2d684fbe5e4637bd15e99,
+  ConstructionPrefab: {fileID: 8117634201260244285, guid: d960b8288ff788142ab73a183c40042c,
     type: 3}
-  FinishedPrefab: {fileID: 1062348202006898492, guid: 5b92601c08c013c4881ee812cef6936c,
+  FinishedPrefab: {fileID: 1062348202006898492, guid: 2c5a4b4b14394e143b1d93e585301895,
     type: 3}

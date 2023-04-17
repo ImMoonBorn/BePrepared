@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2923444359738414009}
   - component: {fileID: 2923444359738414179}
   - component: {fileID: 2623059486919146499}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: P_BerryBush_UnitResource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2923444359738413517}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ResourceSO: {fileID: 11400000, guid: 3b31ffb1973ce5f479488b552b838a3a, type: 2}
   m_IsInfinite: 0
-  m_ResourceAmountMax: 750
+  m_ResourceAmountMax: 500
   m_ApplyRandomRotation: 1
   m_MeshTransform: {fileID: 3854812141330513640}
 --- !u!65 &2923444359738413885

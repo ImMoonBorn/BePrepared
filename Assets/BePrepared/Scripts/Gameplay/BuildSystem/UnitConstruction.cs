@@ -37,7 +37,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 
                 if (m_BuildedAmount >= m_UnitSO.BuildTime)
                 {
-                    Instantiate(m_UnitSO.FinishedPrefab, transform.position, Quaternion.identity);
+                    Instantiate(m_UnitSO.FinishedPrefab, transform.position, transform.rotation);
                     GetComponent<UnitMember>().DestroyUnit();
                 }
             }

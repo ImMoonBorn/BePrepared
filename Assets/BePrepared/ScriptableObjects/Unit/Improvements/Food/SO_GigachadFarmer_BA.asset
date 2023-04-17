@@ -15,7 +15,7 @@ MonoBehaviour:
   VillagerType: 2
   Name: Gigachad Farmer
   Description: Farmers work more precise and has better tools.
-  Amount: 0.5
+  Amount: 0.3
   Time: 30
   Icon: {fileID: 21300000, guid: 991d90b4ed9c1c74281087fa58d28d76, type: 3}
   Cost:

@@ -6,6 +6,8 @@ using MoonBorn.Utils;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
 using MoonBorn.BePrepared.Utils.SaveSystem;
 using MoonBorn.UI;
+using System;
+using System.Collections.Generic;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -31,7 +33,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public VillagerType VillagerType => m_VillagerType;
 
         [SerializeField] private UnitVillagerSO m_VillagerSO;
-        [SerializeField] private LayerMask m_UnitLayer;
+        [SerializeField] private LayerMask m_SearchLayer;
         [SerializeField] private VillagerGender m_Gender;
         private VillagerType m_VillagerType;
         private UnitResource m_AssignedResource;
@@ -49,11 +51,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         [SerializeField] private float m_SearchRadius = 15.0f;
         private float m_GatherRatePerSecond = 0.5f;
         private float m_GatherTimer = 0.0f;
+        private Vector3 m_TargetedPosition;
         private Vector3 m_TargetPosition;
+        private Vector3 m_LastPosition;
         private bool m_TargetReached = false;
-
-        private Vector3 m_LastPosition = Vector3.zero;
-        private float m_LastMoveTime = 0.0f;
 
         [Header("Tools")]
         [SerializeField] private GameObject m_Axe;
@@ -74,7 +75,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             m_Obstacle = GetComponent<NavMeshObstacle>();
             m_Obstacle.enabled = false;
 
+            m_TargetedPosition = transform.position;
             m_TargetPosition = transform.position;
+            m_LastPosition = transform.position;
 
             m_Tools = new GameObject[4];
             m_Tools[0] = m_Axe;
@@ -97,12 +100,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void Move(Vector3 direction)
         {
-            m_TargetPosition = direction;
-
-            m_LastMoveTime = Time.time;
-            m_LastPosition = transform.position;
-
+            m_Agent.velocity = Vector3.zero;
             m_Obstacle.enabled = false;
+
             StartCoroutine(MoveCoroutine(direction));
 
             if (m_Gender != VillagerGender.None && m_VillagerType == VillagerType.Idle)
@@ -116,8 +116,15 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         private IEnumerator MoveCoroutine(Vector3 direction)
         {
             yield return null;
+            m_TargetReached = false;
             m_Agent.enabled = true;
+
+            direction.y = transform.position.y;
+
+            m_TargetedPosition = direction;
             m_Agent.SetDestination(direction);
+
+            m_TargetPosition = m_Agent.destination;
         }
 
         private IEnumerator Speak(AudioClip clip)
@@ -158,9 +165,11 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             m_AssignedResource.AddVillager(this);
         }
 
-        public void AssignBuilder(UnitConstruction construction)
+        public void AssignBuilder(UnitConstruction construction, Vector3 movePos)
         {
             Unassign();
+
+            Move(movePos);
 
             m_AssignedConstruction = construction;
             m_AssignedConstruction.AddVillager(this);
@@ -213,43 +222,65 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private bool SearchForOtherResources()
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, m_SearchRadius);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, m_SearchRadius, m_SearchLayer);
+            int n = colliders.Length;
 
-            if (colliders.Length > 0)
+            for (int i = 0; i < n - 1; i++)
             {
-                foreach (Collider collider in colliders)
-                {
-                    if (collider.TryGetComponent<UnitResource>(out var resource))
-                    {
-                        if (resource.ResourceType == GetResourceTypeFromVillager(m_VillagerType) && m_AssignedResource != resource)
-                        {
-                            Assign(resource, collider.ClosestPoint(transform.position));
-                            return true;
-                        }
-                    }
+                int minIndex = i;
+                Collider minCol = colliders[i];
+                float minDist = Vector3.Distance(minCol.transform.position, transform.position);
 
+                for (int j = i + 1; j < n; j++)
+                {
+                    Collider collider = colliders[j];
+                    float colDist = Vector3.Distance(collider.transform.position, transform.position);
+
+                    if (colDist < minDist)
+                    {
+                        minDist = colDist;
+                        minIndex = j;
+                    }
                 }
+
+                if (minIndex != i)
+                    (colliders[i], colliders[minIndex]) = (colliders[minIndex], colliders[i]);
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                Collider collider = colliders[i];
+
+                if (collider.TryGetComponent<UnitResource>(out var resource))
+                {
+                    if (resource.ReachedGathererLimit)
+                        continue;
+
+                    if (resource.ResourceType == GetResourceTypeFromVillager(m_VillagerType) && m_AssignedResource != resource)
+                    {
+                        Assign(resource, collider.ClosestPoint(transform.position));
+                        return true;
+                    }
+                }
+
             }
             return false;
         }
 
         private bool SearchForOtherConsturctions()
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, m_SearchRadius, m_UnitLayer);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, m_SearchRadius);
+            int n = colliders.Length;
 
-            if (colliders.Length > 0)
+            for (int i = 0; i < n; i++)
             {
-                foreach (Collider collider in colliders)
+                Collider collider = colliders[i];
+                if (collider.TryGetComponent<UnitConstruction>(out var construction))
                 {
-                    if (collider.TryGetComponent<UnitConstruction>(out var construction))
+                    if (m_AssignedConstruction != construction)
                     {
-                        if (m_AssignedConstruction != construction)
-                        {
-                            Move(collider.ClosestPoint(transform.position));
-                            m_AssignedConstruction = construction;
-                            m_AssignedConstruction.AddVillager(this);
-                            return true;
-                        }
+                        AssignBuilder(m_AssignedConstruction, collider.ClosestPoint(transform.position));
+                        return true;
                     }
                 }
             }
@@ -258,33 +289,41 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void Update()
         {
-            if (Vector3.Distance(m_LastPosition, transform.position) > m_Obstacle.carvingMoveThreshold)
-            {
-                m_LastMoveTime = Time.time;
-                m_LastPosition = transform.position;
-            }
-            if (m_LastMoveTime + m_Obstacle.carvingTimeToStationary < Time.time)
-            {
-                m_Agent.enabled = false;
-                m_Obstacle.enabled = true;
-            }
-
-            Vector3 direction = m_TargetPosition - transform.position;
-            direction.y = 0;
-            float directionMagnitude = direction.magnitude;
-            float reachDistance = 0.75f;
-
-            if (directionMagnitude < reachDistance)
-                m_TargetReached = true;
-            else
-                m_TargetReached = false;
-
-            if (!m_TargetReached && !m_Agent.enabled)
-                Move(m_TargetPosition);
-
             HandleGathering();
             HandleBuilding();
             HandleAnimation();
+
+            Vector3 direction = m_TargetPosition - transform.position;
+            direction.y = transform.position.y;
+            float directionMagnitude = direction.magnitude;
+            float reachDistance = 0.33f;
+
+            if (directionMagnitude <= reachDistance)
+            {
+                if (!m_TargetReached)
+                {
+                    m_Agent.velocity = Vector3.zero;
+                    m_Agent.enabled = false;
+
+                    m_Obstacle.enabled = true;
+
+                    m_LastPosition = transform.position;
+
+                    m_TargetReached = true;
+                }
+            }
+            else
+            {
+                if (m_Agent.enabled)
+                {
+                    m_TargetPosition = m_Agent.destination;
+                    m_TargetPosition.y = transform.position.y;
+                }
+
+            }
+
+            if (Vector3.Distance(m_LastPosition, transform.position) > m_Obstacle.carvingMoveThreshold && m_TargetReached)
+                Move(m_TargetedPosition);
         }
 
         private void ChangeType(VillagerType type)
@@ -335,7 +374,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
             if (m_VillagerType != VillagerType.Idle && velocity <= 0.1f)
             {
-                m_Animator.SetBool(s_WorkHash, m_TargetReached);
+                m_Animator.SetBool(s_WorkHash, m_TargetReached && m_Obstacle.enabled);
                 m_Animator.SetFloat(s_WorkIndexHash, (int)m_VillagerType - 1);
             }
             else
@@ -423,6 +462,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 AssignedResourceGUID = assignedResourceGUID,
                 AssignedConstructionGUID = assignedConstructionGUID,
                 GatherTimer = m_GatherTimer,
+                Gender = (int)m_Gender
             };
 
             SaveManager.SaveToVillagerData(data);
@@ -443,12 +483,11 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 {
                     if (entity.TryGetComponent(out UnitResource resource))
                     {
-                        Vector3 movePos = transform.position;
                         if (resource.TryGetComponent(out Collider collider))
-                            movePos = collider.ClosestPoint(transform.position);
-
-                        Assign(resource, movePos);
-                        m_GatherTimer = villagerData.GatherTimer;
+                        {
+                            Assign(resource, collider.ClosestPoint(transform.position));
+                            m_GatherTimer = villagerData.GatherTimer;
+                        }
                     }
                 }
             }
@@ -459,13 +498,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                     if (entity.TryGetComponent(out UnitConstruction construction))
                     {
                         if (construction.TryGetComponent(out Collider collider))
-                            Move(collider.ClosestPoint(transform.position));
-
-                        AssignBuilder(construction);
+                            AssignBuilder(construction, collider.ClosestPoint(transform.position));
                     }
                 }
             }
-
         }
     }
 }

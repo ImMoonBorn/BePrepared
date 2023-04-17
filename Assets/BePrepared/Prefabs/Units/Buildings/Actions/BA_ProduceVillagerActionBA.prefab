@@ -49,8 +49,8 @@ MonoBehaviour:
     m_Costs:
     - ResourceType: 2
       Amount: 100
+  m_DestroyOnLimitReach: 0
   m_ActionName: Produce Villager
   m_ActionDescription: Produces a villager that works for resources or build stuff.
   m_Icon: {fileID: 21300000, guid: 7c037ecc975e3924ca661eb1b816afed, type: 3}
   m_SpawnLocation: {fileID: 0}
-  m_MoveLocation: {fileID: 0}

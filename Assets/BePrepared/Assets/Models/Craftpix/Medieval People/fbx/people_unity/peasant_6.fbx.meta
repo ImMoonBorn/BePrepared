@@ -3,7 +3,12 @@ guid: 3b0568f8dd89d9045831faeb7e41b4dd
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: People_texture_map
+    second: {fileID: 2100000, guid: 6f986015bc999b0449878ff68d9c1634, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

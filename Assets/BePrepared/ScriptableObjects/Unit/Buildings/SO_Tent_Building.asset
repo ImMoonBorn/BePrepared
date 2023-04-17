@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27d031150b04604e9a6a3607241309b, type: 3}
+  m_Name: SO_Tent_Building
+  m_EditorClassIdentifier: 
+  UnitType: 1
+  UnitName: Tent
+  Destroyable: 1
+  Icon: {fileID: 21300000, guid: 11dbc1d49bf294144a28c036094f8647, type: 3}
+  Description: Gives the villagers a place to live. Increase the population limit
+    by 5.
+  UnitCategory: 0
+  Cost:
+    m_Costs:
+    - ResourceType: 1
+      Amount: 350
+  BuildTime: 10
+  BuildHeight: 4.75
+  ColliderSize: {x: 7, y: 1.5, z: 7}
+  ColliderOffset: {x: 0, y: 0, z: 0}
+  GhostPrefab: {fileID: 1952889563171683285, guid: 5654ac53526acb540afa45cabf89b4e0,
+    type: 3}
+  ConstructionPrefab: {fileID: 991781284752070163, guid: 38c3c34277972b744b6b85c3209e6f57,
+    type: 3}
+  FinishedPrefab: {fileID: 7033431536125529663, guid: 567ce8f52c0e1e249ae9fd2a65012b67,
+    type: 3}

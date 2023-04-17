@@ -656,11 +656,13 @@ MonoBehaviour:
       m_Calls: []
   m_VillagerPrefab: {fileID: 1481858229138310692, guid: d77c55b42dab6114d9c80169658ba295,
     type: 3}
+  m_FemaleVillagerPrefab: {fileID: 1481858229138310692, guid: 456642489327b09449556e1aa306d6aa,
+    type: 3}
   m_MaxVillagerCount: 0
   m_VillagerCountText: {fileID: 416745530}
   m_SelectableLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   m_MoveableLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -1077,11 +1079,11 @@ MonoBehaviour:
   m_ProceduralWorldGenerator: {fileID: 386130180}
   m_SpawnTransform: {fileID: 1281774298}
   m_PopulationLimit: 10
-  m_StartingVillagers: 7
+  m_StartingVillagers: 6
   m_StartingResources:
     m_Costs:
     - ResourceType: 1
-      Amount: 400
+      Amount: 200
     - ResourceType: 2
       Amount: 100
   m_PauseMenuCanvas: {fileID: 1116795898}
@@ -2723,6 +2725,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 136
   m_Buildings:
+  - {fileID: 11400000, guid: bd776d96e512c5e439c94b9b44c48fd4, type: 2}
   - {fileID: 11400000, guid: dba712feb8f608e489136fc1ae3e8efa, type: 2}
   - {fileID: 11400000, guid: aa06b1122f777ed419b84e48acfa594f, type: 2}
   - {fileID: 11400000, guid: 4a3038c5a8f209f40844d7148d612d4a, type: 2}
@@ -2947,7 +2950,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2140186948}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 15}
+  m_LocalPosition: {x: 0, y: 0, z: 19.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3677,17 +3680,17 @@ PrefabInstance:
     - target: {fileID: 127018691637371486, guid: a6fd64b0930dd4842ae3eff1a38442a1,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 127018691637371486, guid: a6fd64b0930dd4842ae3eff1a38442a1,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 127018691637371486, guid: a6fd64b0930dd4842ae3eff1a38442a1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 355859534054088663, guid: a6fd64b0930dd4842ae3eff1a38442a1,
         type: 3}
@@ -3797,6 +3800,11 @@ PrefabInstance:
     - target: {fileID: 3941897773122177895, guid: a6fd64b0930dd4842ae3eff1a38442a1,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5184067807102765713, guid: a6fd64b0930dd4842ae3eff1a38442a1,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5634782662416681125, guid: a6fd64b0930dd4842ae3eff1a38442a1,
@@ -4012,12 +4020,12 @@ PrefabInstance:
     - target: {fileID: 6862092278015343454, guid: a6fd64b0930dd4842ae3eff1a38442a1,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6862092278015343454, guid: a6fd64b0930dd4842ae3eff1a38442a1,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7379983253447718031, guid: a6fd64b0930dd4842ae3eff1a38442a1,
         type: 3}

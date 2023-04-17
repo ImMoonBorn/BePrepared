@@ -29,6 +29,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         [Header("Villagers")]
         [SerializeField] private UnitVillager m_VillagerPrefab;
+        [SerializeField] private UnitVillager m_FemaleVillagerPrefab;
         [SerializeField] private int m_MaxVillagerCount = 5;
         [SerializeField] private TMP_Text m_VillagerCountText;
         private int m_VillagerCount = 0;
@@ -109,18 +110,13 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, m_MoveableLayer | m_SelectableLayer))
                 {
                     if (hit.transform.TryGetComponent(out UnitResource resource))
-                    {
                         m_SelectedVillager.Assign(resource, hit.collider.ClosestPoint(m_SelectedVillager.transform.position));
-                    }
                     else if (hit.transform.TryGetComponent(out UnitConstruction construction))
-                    {
-                        m_SelectedVillager.Move(hit.collider.ClosestPoint(m_SelectedVillager.transform.position));
-                        m_SelectedVillager.AssignBuilder(construction);
-                    }
+                        m_SelectedVillager.AssignBuilder(construction, hit.collider.ClosestPoint(m_SelectedVillager.transform.position));
                     else
                     {
-                        m_SelectedVillager.Move(hit.point);
                         m_SelectedVillager.Unassign();
+                        m_SelectedVillager.Move(hit.point);
                     }
                 }
             }
@@ -156,7 +152,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         #region Villager Population stuff
 
-        public static UnitVillager CreateVillager(Vector3 position, Vector3 eulerAngles = new Vector3(), bool notificateOnCreate = true)
+        public static UnitVillager CreateVillager(Vector3 position, Vector3 eulerAngles = new Vector3(), bool notificateOnCreate = true, VillagerGender gender = VillagerGender.None)
         {
             if (!CanProduceVillager)
             {
@@ -167,7 +163,23 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (notificateOnCreate)
                 NotificationManager.Notificate("Villager Created!", NotificationType.Success);
 
-            UnitVillager villager = Instantiate(Instance.m_VillagerPrefab, position, Quaternion.Euler(eulerAngles));
+            UnitVillager villager;
+
+            if (gender == VillagerGender.None)
+            {
+                float genderChance = Random.Range(0.0f, 1.0f);
+
+                if (genderChance >= 0.2f)
+                    gender = VillagerGender.Male;
+                else
+                    gender = VillagerGender.Female;
+            }
+
+            if (gender == VillagerGender.Male)
+                villager = Instantiate(Instance.m_VillagerPrefab, position, Quaternion.Euler(eulerAngles));
+            else
+                villager = Instantiate(Instance.m_FemaleVillagerPrefab, position, Quaternion.Euler(eulerAngles));
+
             return villager;
         }
 

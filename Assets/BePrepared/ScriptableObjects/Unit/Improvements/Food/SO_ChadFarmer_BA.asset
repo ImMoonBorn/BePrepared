@@ -15,7 +15,7 @@ MonoBehaviour:
   VillagerType: 2
   Name: Chad Farmer
   Description: Farmers work more precise.
-  Amount: 0.3
+  Amount: 0.15
   Time: 30
   Icon: {fileID: 21300000, guid: afc54ff91abcca448b7b38ce6d924624, type: 3}
   Cost:

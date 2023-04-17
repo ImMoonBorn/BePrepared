@@ -42,6 +42,7 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
         public string AssignedResourceGUID;
         public string AssignedConstructionGUID;
         public float GatherTimer;
+        public int Gender;
     }
 
     [Serializable]
@@ -200,7 +201,7 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
 
             foreach (VillagerData v in saveDatas.VillagerDatas)
             {
-                UnitVillager villager = UnitManager.CreateVillager(v.Position, v.Rotation, false);
+                UnitVillager villager = UnitManager.CreateVillager(v.Position, v.Rotation, false, (VillagerGender)v.Gender);
                 if (villager.TryGetComponent(out GUIDComponent entity))
                 {
                     entity.SetGuid(v.GUID);

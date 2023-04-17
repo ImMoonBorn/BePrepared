@@ -19,4 +19,4 @@ MonoBehaviour:
   VillagerType: 2
   GathererLimit: 2
   SearchAfterDeplete: 0
-  GatherRatePerSecond: 0.47
+  GatherRatePerSecond: 0.53
