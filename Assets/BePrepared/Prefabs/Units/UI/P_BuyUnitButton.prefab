@@ -206,10 +206,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.5019608, g: 0.5568628, b: 0.60784316, a: 1}
+    m_PressedColor: {r: 0.28235295, g: 0.32941177, b: 0.37647063, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.2924528, g: 0.039215688, b: 0.039215688, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -224,7 +224,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2374183409095934610}
+  m_TargetGraphic: {fileID: 2374183408831420217}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -264,7 +264,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: -20}
+  m_SizeDelta: {x: -15, y: -15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2374183409382606203
 CanvasRenderer:
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 27d072de4c9b92f4d8947ea20d019100, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ba0c28d95be8cf0408c6ad3c0d488be2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

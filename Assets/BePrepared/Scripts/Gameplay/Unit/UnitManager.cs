@@ -180,6 +180,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             else
                 villager = Instantiate(Instance.m_FemaleVillagerPrefab, position, Quaternion.Euler(eulerAngles));
 
+
             return villager;
         }
 
@@ -194,9 +195,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (Instance == null)
                 return;
 
-            Instance.OnVillagerCreated?.Invoke();
             Instance.m_VillagerCount++;
             Instance.UpdateVillagerUI();
+            Instance.OnVillagerCreated?.Invoke();
         }
 
         public static void VillagerDestroyed()
@@ -204,9 +205,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             if (Instance == null)
                 return;
 
-            Instance.OnVillagerDestroyed?.Invoke();
             Instance.m_VillagerCount--;
             Instance.UpdateVillagerUI();
+            Instance.OnVillagerDestroyed?.Invoke();
         }
 
         public static void AddIdleVillager(UnitVillager villager)

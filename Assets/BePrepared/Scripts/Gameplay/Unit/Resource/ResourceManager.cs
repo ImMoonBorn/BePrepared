@@ -2,6 +2,8 @@ using UnityEngine;
 using MoonBorn.Utils;
 using TMPro;
 using MoonBorn.BePrepared.Utils.SaveSystem;
+using System;
+using UnityEngine.Events;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -15,6 +17,9 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
     public class ResourceManager : Singleton<ResourceManager>
     {
+        public static UnityEvent OnResourceChange => Instance.OnResourceChangeAction;
+        private UnityEvent OnResourceChangeAction = new UnityEvent();
+
         public static int WoodResources => Mathf.RoundToInt(Instance.m_WoodResources);
         public static int FoodResources => Mathf.RoundToInt(Instance.m_FoodResources);
         public static int StoneResources => Mathf.RoundToInt(Instance.m_StoneResources);
@@ -52,7 +57,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             Instance.ChangeResource(type, -amount);
         }
 
-        public static bool CheckForResource(ResourceType type, int amount)
+        public static bool CheckForResource(ResourceType type, float amount)
         {
             return type switch
             {
@@ -73,6 +78,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             }
 
             ResourceUI.OnChangeResources(Mathf.RoundToInt(m_WoodResources), Mathf.RoundToInt(m_FoodResources), Mathf.RoundToInt(m_StoneResources));
+            OnResourceChangeAction?.Invoke();
         }
 
         public static Sprite GetIconByType(ResourceType type)

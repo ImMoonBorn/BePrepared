@@ -17,6 +17,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public bool ReachedLimit => m_ReachedLimit;
         public bool DestroyOnLimitReach => m_DestroyOnLimitReach;
         public Sprite Icon => m_Icon;
+        public bool BlockAction => !m_DoAction && (m_ReachedLimit || !CustomCondition() || !m_Cost.Check());
 
         [Header("Settings")]
         [SerializeField] protected float m_ActionTime = 5.0f;

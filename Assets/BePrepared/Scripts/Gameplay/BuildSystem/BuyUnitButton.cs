@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using MoonBorn.UI;
 using MoonBorn.BePrepared.Gameplay.Unit;
+using UnityEditor.Rendering.LookDev;
 
 namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 {
@@ -23,7 +24,11 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             m_Icon.sprite = unit.Icon;
 
             if (m_TooltipTrigger != null)
-                m_TooltipTrigger.OnTriggerEnter += () =>  m_TooltipTrigger.SetTooltip(GenerateDescription(), unit.UnitName);
+                m_TooltipTrigger.OnTriggerEnter += () => m_TooltipTrigger.SetTooltip(GenerateDescription(), unit.UnitName);
+
+            RefreshButton();
+
+            ResourceManager.OnResourceChange.AddListener(RefreshButton);
         }
 
         private string GenerateDescription()
@@ -42,6 +47,11 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             return description;
         }
 
+        private void RefreshButton()
+        {
+            m_Button.interactable = m_UnitSO.Cost.Check();
+        }
+
         public void Buy()
         {
             if (!m_UnitSO.Cost.Check())
@@ -51,6 +61,11 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
             }
             m_UnitSO.Cost.Spend();
             BuildManager.SetBuildObject(m_UnitSO);
+        }
+
+        private void OnDestroy()
+        {
+            ResourceManager.OnResourceChange.RemoveListener(RefreshButton);
         }
     }
 }

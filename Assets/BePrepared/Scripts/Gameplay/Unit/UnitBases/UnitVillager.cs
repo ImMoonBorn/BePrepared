@@ -8,6 +8,7 @@ using MoonBorn.BePrepared.Utils.SaveSystem;
 using MoonBorn.UI;
 using System;
 using System.Collections.Generic;
+using MoonBorn.BePrepared.Gameplay.Consumption;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
 {
@@ -95,6 +96,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         {
             UnitManager.VillagerCreated();
             UnitManager.AddIdleVillager(this);
+
+            ConsumptionManager.OnMonthPassed += CalculateGatherRate;
             UnitImprovements.OnVillagerImprovement += CalculateGatherRate;
         }
 
@@ -400,6 +403,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
             m_GatherRatePerSecond = m_AssignedResource.GatherRatePerSecond;
             m_GatherRatePerSecond += m_GatherRatePerSecond * GetGatherImprovement(m_VillagerType);
+            m_GatherRatePerSecond += m_GatherRatePerSecond * ConsumptionManager.MoraleEfficency;
         }
 
         private float GetGatherImprovement(VillagerType type)
@@ -438,6 +442,8 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
                 UnitManager.RemoveIdleVillager(this);
 
             UnitManager.VillagerDestroyed();
+
+            ConsumptionManager.OnMonthPassed -= CalculateGatherRate;
             UnitImprovements.OnVillagerImprovement -= CalculateGatherRate;
         }
 
