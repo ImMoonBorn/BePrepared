@@ -33,7 +33,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
 
         private string GenerateDescription()
         {
-            string costText = "Cost:\n";
+            string costText = "";
             foreach (CostProps c in m_UnitSO.Cost.CostProps)
             {
                 if (ResourceManager.CheckForResource(c.ResourceType, c.Amount))
@@ -42,8 +42,23 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
                     costText += $"-<color=red>{c.ResourceType}: {c.Amount}</color>\n";
             }
 
-            string description = $"{m_UnitSO.Description}\n\n";
-            description += costText;
+            string consumptionText = "";
+            foreach (CostProps c in m_UnitSO.Consumptions.CostProps)
+            {
+                if (ResourceManager.CheckForResource(c.ResourceType, c.Amount))
+                    consumptionText += $"-{c.ResourceType}: {c.Amount}\n";
+                else
+                    consumptionText += $"-<color=red>{c.ResourceType}: {c.Amount}</color>\n";
+            }
+
+            string description = m_UnitSO.Description;
+            
+            if (!string.IsNullOrEmpty(costText))
+                description += $"\n\nCost:\n{costText}";
+
+            if (!string.IsNullOrEmpty(consumptionText))
+                description += $"\nConsumptions:\n{consumptionText}";
+            
             return description;
         }
 

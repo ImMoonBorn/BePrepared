@@ -24,6 +24,12 @@ MonoBehaviour:
       Amount: 200
     - ResourceType: 3
       Amount: 200
+  Consumptions:
+    m_Costs:
+    - ResourceType: 1
+      Amount: 25
+    - ResourceType: 3
+      Amount: 25
   BuildTime: 25
   BuildHeight: 7
   ColliderSize: {x: 7.25, y: 1.5, z: 7.25}

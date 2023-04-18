@@ -1,6 +1,7 @@
 using UnityEngine;
 using MoonBorn.Utils;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
+using MoonBorn.BePrepared.Gameplay.Consumption;
 using MoonBorn.BePrepared.Utils.SaveSystem;
 
 namespace MoonBorn.BePrepared.Gameplay.Unit
@@ -15,6 +16,10 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         [SerializeField] private GUIDComponent[] m_HasResources;
 
+        protected virtual void Started() { }
+        protected virtual void Destroyed() { }
+
+
         private void Awake()
         {
             m_Actions = m_ActionPlaceholder.GetComponentsInChildren<BuildingAction>();
@@ -22,10 +27,13 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         private void Start()
         {
-            foreach(BuildingAction action in m_Actions)
-            {
+            foreach (BuildingAction action in m_Actions)
                 action.Refresh();
-            }
+
+            foreach(CostProps cost in m_BuildingSO.Consumptions.CostProps)
+                ConsumptionManager.AddConsumptions(cost.ResourceType, cost.Amount);
+
+            Started();
         }
 
         public void SetResources(string[] resources)
@@ -55,6 +63,14 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public void LoadState(object saveData)
         {
+        }
+
+        private void OnDestroy()
+        {
+            foreach (CostProps cost in m_BuildingSO.Consumptions.CostProps)
+                ConsumptionManager.RemoveConsumptions(cost.ResourceType, cost.Amount);
+
+            Destroyed();
         }
     }
 }

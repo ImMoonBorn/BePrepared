@@ -14,6 +14,7 @@ namespace MoonBorn.BePrepared.Gameplay.BuildSystem
         [Header("Build Settings")]
         public UnitCategory UnitCategory;
         public ResourceCost Cost;
+        public ResourceCost Consumptions;
         public float BuildTime;
         public float BuildHeight;
         public Vector3 ColliderSize;

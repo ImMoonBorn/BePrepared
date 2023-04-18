@@ -3725,7 +3725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9225351c387972d4398de9c7453114d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MonthInSeconds: 1.25
+  m_MonthInSeconds: 45
   m_MonthTimerImage: {fileID: 374212305}
   m_MonthText: {fileID: 1878898548}
   m_SeasonText: {fileID: 685896441}
@@ -3733,6 +3733,7 @@ MonoBehaviour:
     ResourceType: 1
     ConsumptionFactor: 0.1
     WinterFactor: 1
+    ExtraConsumptions: 0
     GoodEffectFactor: 0.05
     BadEffectFactor: 0.5
     ConsumptionText: {fileID: 772624228}
@@ -3740,6 +3741,7 @@ MonoBehaviour:
     ResourceType: 2
     ConsumptionFactor: 0.25
     WinterFactor: 0.6
+    ExtraConsumptions: 0
     GoodEffectFactor: 0.075
     BadEffectFactor: 0.7
     ConsumptionText: {fileID: 1628912314}
@@ -3747,6 +3749,7 @@ MonoBehaviour:
     ResourceType: 3
     ConsumptionFactor: 0
     WinterFactor: 0
+    ExtraConsumptions: 0
     GoodEffectFactor: 0.025
     BadEffectFactor: 0.25
     ConsumptionText: {fileID: 195006178}

@@ -6,12 +6,12 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
     {
         [SerializeField] private int m_PopulationHosting = 5;
 
-        private void Start()
+        protected override void Started()
         {
             UnitManager.IncreasePopulationLimit(m_PopulationHosting);
         }
 
-        private void OnDestroy()
+        protected override void Destroyed()
         {
             UnitManager.DecreasePopulationLimit(m_PopulationHosting);
         }

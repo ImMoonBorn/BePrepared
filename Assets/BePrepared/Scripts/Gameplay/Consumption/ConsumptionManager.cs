@@ -44,6 +44,7 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
             [Range(0.0f, 1.0f)] public float WinterFactor;
             private float ConsumptionAmount;
             private float ConsumptionTotal;
+            public float ExtraConsumptions;
 
             [Header("Morale")]
             [Range(0.0f, 1.0f)] public float GoodEffectFactor;
@@ -63,7 +64,7 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
 
             public float CalculateMorale(int villagerCount, float morale)
             {
-                if(villagerCount <= 0)
+                if (villagerCount <= 0)
                     return 0.0f;
 
                 float moraleAmount = 0.0f;
@@ -90,6 +91,7 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
                 else
                     ConsumptionTotal = ConsumptionAmount;
 
+                ConsumptionTotal += ExtraConsumptions;
                 ConsumptionText.text = $"-{ConsumptionTotal}";
             }
         }
@@ -227,6 +229,24 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
                 return Seasons.Autumn;
             else
                 return Seasons.Spring;
+        }
+
+        public static void AddConsumptions(ResourceType type, float amount)
+        {
+            switch (type)
+            {
+                case ResourceType.Wood: Instance.m_WoodConsumption.ExtraConsumptions += amount; break;
+                case ResourceType.Food: Instance.m_FoodConsumption.ExtraConsumptions += amount; break;
+                case ResourceType.Stone: Instance.m_StoneConsumption.ExtraConsumptions += amount; break;
+                default: break;
+            }
+
+            Instance.CalculateConsumptionAmounts();
+        }
+
+        public static void RemoveConsumptions(ResourceType type, float amount)
+        {
+            AddConsumptions(type, -amount);
         }
     }
 }
