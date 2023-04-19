@@ -21,9 +21,9 @@ MonoBehaviour:
   Cost:
     m_Costs:
     - ResourceType: 1
-      Amount: 200
+      Amount: 150
     - ResourceType: 3
-      Amount: 200
+      Amount: 150
   Consumptions:
     m_Costs:
     - ResourceType: 1

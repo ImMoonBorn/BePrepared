@@ -15,7 +15,7 @@ MonoBehaviour:
   VillagerType: 1
   Name: Stone Axe
   Description: Get your villagers stone axes that are much more stronger axes.
-  Amount: 0.2
+  Amount: 0.35
   Time: 30
   Icon: {fileID: 21300000, guid: 2db466b9bccd373419a1f71950572e9a, type: 3}
   Cost:
@@ -23,5 +23,5 @@ MonoBehaviour:
     - ResourceType: 1
       Amount: 100
     - ResourceType: 3
-      Amount: 250
+      Amount: 300
   UnlockImprovement: {fileID: 0}

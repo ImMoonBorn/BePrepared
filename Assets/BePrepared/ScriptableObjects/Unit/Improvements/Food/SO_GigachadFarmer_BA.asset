@@ -21,7 +21,9 @@ MonoBehaviour:
   Cost:
     m_Costs:
     - ResourceType: 1
-      Amount: 425
+      Amount: 100
     - ResourceType: 2
-      Amount: 425
+      Amount: 50
+    - ResourceType: 3
+      Amount: 300
   UnlockImprovement: {fileID: 0}

@@ -22,11 +22,11 @@ MonoBehaviour:
   Cost:
     m_Costs:
     - ResourceType: 1
-      Amount: 900
+      Amount: 800
   Consumptions:
     m_Costs:
     - ResourceType: 1
-      Amount: 50
+      Amount: 25
     - ResourceType: 2
       Amount: 25
   BuildTime: 20

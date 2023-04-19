@@ -4,7 +4,9 @@ using UnityEngine.UI;
 using TMPro;
 using MoonBorn.Utils;
 using MoonBorn.BePrepared.Gameplay.Unit;
-using UnityEngine.Rendering;
+using MoonBorn.BePrepared.Utils.SaveSystem;
+using System.Collections;
+using MoonBorn.UI;
 
 namespace MoonBorn.BePrepared.Gameplay.Consumption
 {
@@ -59,7 +61,7 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
                     return 0.0f;
 
                 morale *= 0.01f;
-                return (villagerCount * villagerCount * 0.01f) * ((1.0f - morale) * (morale * effect * 100.0f)) + 0.75f;
+                return 0.05f + (villagerCount * 0.1f) * effect * 10f;
             }
 
             public float CalculateMorale(int villagerCount, float morale)
@@ -72,7 +74,10 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
                 if (ResourceManager.CheckForResource(ResourceType, ConsumptionTotal))
                     moraleAmount += MoraleForumla(villagerCount, morale, GoodEffectFactor);
                 else
-                    moraleAmount -= MoraleForumla(villagerCount, morale, BadEffectFactor * 2.0f);
+                    moraleAmount -= MoraleForumla(villagerCount, morale, BadEffectFactor);
+
+                if (moraleAmount < 0.0f)
+                    NotificationManager.Notificate($"{ResourceType} was not engouh.", NotificationType.Warning);
 
                 return moraleAmount;
             }
@@ -82,17 +87,27 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
                 ResourceManager.SpendResource(ResourceType, ConsumptionTotal);
             }
 
+            public void CheckResources(Color canAfford, Color cantAfford)
+            {
+                ConsumptionText.color = ResourceManager.CheckForResource(ResourceType, ConsumptionTotal) ? canAfford : cantAfford;
+            }
+
             public void CalculateConsumption(int villagerCount, bool isWinter)
             {
-                ConsumptionAmount = (ConsumptionFactor * (villagerCount * villagerCount)) + (villagerCount * (ConsumptionFactor + 1.0f));
+                ConsumptionAmount = ExtraConsumptions;
 
-                if (isWinter)
+                if (villagerCount > 0 && ConsumptionFactor > 0.0f)
+                    ConsumptionAmount += (ConsumptionFactor * (villagerCount * villagerCount)) + (villagerCount * (ConsumptionFactor + 1.0f));
+
+                if (isWinter && WinterFactor > 0.0f)
                     ConsumptionTotal = ConsumptionAmount * (WinterFactor + 1.0f);
                 else
                     ConsumptionTotal = ConsumptionAmount;
 
-                ConsumptionTotal += ExtraConsumptions;
-                ConsumptionText.text = $"-{ConsumptionTotal}";
+                if (ConsumptionTotal > 0.0f)
+                    ConsumptionText.text = $"-{ConsumptionTotal:0.##}";
+                else
+                    ConsumptionText.text = $"{ConsumptionTotal:0.##}";
             }
         }
 
@@ -105,14 +120,18 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
         [SerializeField] private Image m_MonthTimerImage;
         [SerializeField] private TMP_Text m_MonthText;
         [SerializeField] private TMP_Text m_SeasonText;
+        [SerializeField] private TMP_Text m_YearText;
         private Months m_Month = Months.March;
         private Seasons m_Season = Seasons.Spring;
         private float m_MonthTimer = 0.0f;
+        private int m_YearIndex = 0;
 
         [Header("Consumptions")]
         [SerializeField] private ConsumpitonResource m_WoodConsumption;
         [SerializeField] private ConsumpitonResource m_FoodConsumption;
         [SerializeField] private ConsumpitonResource m_StoneConsumption;
+        [SerializeField] private Color m_CanAffordColor;
+        [SerializeField] private Color m_CantAffordColor;
 
         [Header("Morale")]
         [SerializeField] private TMP_Text m_MoraleText;
@@ -126,9 +145,19 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
         [SerializeField, Range(0.0f, 1.0f)] private float m_EfficiencyFactor = 0.2f;
         [SerializeField] private TMP_Text m_EfficiencyText;
 
+        [Header("Audio")]
+        [SerializeField] private AudioSource m_EffectPlayer;
+        [SerializeField] private AudioClip m_WinterOverClip;
+        [SerializeField] private AudioClip m_WinterWarningClip;
+
+        [Header("UI")]
+        [SerializeField] private Image m_WinterNotificator;
+        [SerializeField] private TMP_Text m_WinterNotificationText;
+
         private void Start()
         {
             m_MonthText.text = m_Month.ToString();
+            m_YearText.text = $"Year: {m_YearIndex}";
             m_SeasonText.text = GetSeasonFromMonth((int)m_Month).ToString();
 
             CalculateMorale();
@@ -136,6 +165,8 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
 
             UnitManager.Instance.OnVillagerCreated.AddListener(CalculateConsumptionAmounts);
             UnitManager.Instance.OnVillagerDestroyed.AddListener(CalculateConsumptionAmounts);
+
+            ResourceManager.OnResourceChange.AddListener(CheckResources);
         }
 
         private void Update()
@@ -145,6 +176,8 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
 
             if (m_MonthTimer >= m_MonthInSeconds)
             {
+                NotificationManager.Notificate("Month Passed", NotificationType.Success);
+
                 CalculateMorale();
                 UseResources();
                 NextMonth();
@@ -154,22 +187,13 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
 
                 OnMonthPassed?.Invoke();
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+                debug = !debug;
         }
 
-        private void CalculateMorale()
+        private void RefreshMoraleUI()
         {
-            int villagerCount = UnitManager.VillagerCount;
-
-            float totalMorale = 0.0f;
-
-            totalMorale += m_WoodConsumption.CalculateMorale(villagerCount, m_MoraleAmount);
-            totalMorale += m_FoodConsumption.CalculateMorale(villagerCount, m_MoraleAmount);
-            totalMorale += m_StoneConsumption.CalculateMorale(villagerCount, m_MoraleAmount);
-
-            m_MoraleAmount += totalMorale;
-            m_MoraleAmount = Mathf.RoundToInt(m_MoraleAmount);
-            m_MoraleAmount = Mathf.Clamp(m_MoraleAmount, 0.0f, 100.0f);
-
             m_MoraleText.text = $"{(int)m_MoraleAmount}%";
 
             Color moraleColor;
@@ -184,7 +208,36 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
 
             float efficiency = MoraleEfficency;
             m_EfficiencyText.color = efficiency >= 0.0f ? m_HappyColor : m_UnhappyColor;
-            m_EfficiencyText.text = $"{efficiency * 100.0f}%";
+            m_EfficiencyText.text = $"{efficiency * 100.0f:0.#}%";
+        }
+
+        bool debug = false;
+
+        private void CalculateMorale()
+        {
+            int villagerCount = UnitManager.VillagerCount;
+
+            float totalMorale = 0.0f;
+
+            totalMorale += m_WoodConsumption.CalculateMorale(villagerCount, m_MoraleAmount);
+            if (debug)
+                print("Wood: " + m_WoodConsumption.CalculateMorale(villagerCount, m_MoraleAmount));
+
+            totalMorale += m_FoodConsumption.CalculateMorale(villagerCount, m_MoraleAmount);
+
+            if (debug)
+                print("Food: " + m_FoodConsumption.CalculateMorale(villagerCount, m_MoraleAmount));
+
+            totalMorale += m_StoneConsumption.CalculateMorale(villagerCount, m_MoraleAmount);
+
+            if (debug)
+                print("Stone: " + m_StoneConsumption.CalculateMorale(villagerCount, m_MoraleAmount));
+
+
+            m_MoraleAmount += totalMorale;
+            m_MoraleAmount = Mathf.Clamp(m_MoraleAmount, 0.0f, 100.0f);
+
+            RefreshMoraleUI();
         }
 
         private void UseResources()
@@ -192,6 +245,13 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
             m_WoodConsumption.UseResources();
             m_FoodConsumption.UseResources();
             m_StoneConsumption.UseResources();
+        }
+
+        private void CheckResources()
+        {
+            m_WoodConsumption.CheckResources(m_CanAffordColor, m_CantAffordColor);
+            m_FoodConsumption.CheckResources(m_CanAffordColor, m_CantAffordColor);
+            m_StoneConsumption.CheckResources(m_CanAffordColor, m_CantAffordColor);
         }
 
         private void CalculateConsumptionAmounts()
@@ -210,6 +270,24 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
 
             if ((int)m_Month > 11)
                 m_Month = Months.December;
+
+            if (m_Month == Months.December)
+            {
+                m_WinterNotificationText.text = "Winter has come.";
+                m_EffectPlayer.PlayOneShot(m_WinterWarningClip);
+                StartCoroutine(NotificatorAnimation());
+            }
+            else if (m_Month == Months.March)
+            {
+                m_WinterNotificationText.text = "Winter is over.";
+                m_EffectPlayer.PlayOneShot(m_WinterOverClip);
+                StartCoroutine(NotificatorAnimation());
+            }
+            else if (m_Month == Months.January)
+            {
+                m_YearIndex++;
+                m_YearText.text = $"Year: {m_YearIndex}";
+            }
 
             m_MonthText.text = m_Month.ToString();
 
@@ -231,6 +309,49 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
                 return Seasons.Spring;
         }
 
+        private IEnumerator NotificatorAnimation()
+        {
+            float timer = 0.0f;
+            float animationTime = 0.4f;
+
+            Color c = m_WinterNotificator.color;
+            c.a = 0.0f;
+            m_WinterNotificator.color = c;
+            m_WinterNotificationText.alpha = c.a;
+            m_WinterNotificator.gameObject.SetActive(true);
+
+            while (timer < animationTime)
+            {
+                timer += Time.deltaTime;
+                c.a = timer / animationTime;
+                m_WinterNotificationText.alpha = c.a;
+                m_WinterNotificator.color = c;
+                yield return null;
+            }
+
+            timer = 0.0f;
+            float waitTimer = 2.5f;
+
+            while (timer < waitTimer)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            timer = animationTime;
+
+            while (timer > 0.0f)
+            {
+                timer -= Time.deltaTime;
+                c.a = timer / animationTime;
+                m_WinterNotificationText.alpha = c.a;
+                m_WinterNotificator.color = c;
+                yield return null;
+            }
+
+            m_WinterNotificator.gameObject.SetActive(false);
+        }
+
         public static void AddConsumptions(ResourceType type, float amount)
         {
             switch (type)
@@ -247,6 +368,24 @@ namespace MoonBorn.BePrepared.Gameplay.Consumption
         public static void RemoveConsumptions(ResourceType type, float amount)
         {
             AddConsumptions(type, -amount);
+        }
+
+        private void OnDestroy()
+        {
+            ResourceManager.OnResourceChange.RemoveListener(CheckResources);
+        }
+
+        public static ConsumptionManagerData ResourceManagerData => new ConsumptionManagerData()
+        { Month = (int)Instance.m_Month, MonthTimer = Instance.m_MonthTimer, MoraleAmount = Instance.m_MoraleAmount };
+
+        public static void Load(ConsumptionManagerData saveData)
+        {
+            Instance.m_Month = (Months)saveData.Month;
+            Instance.m_MonthTimer = saveData.MonthTimer;
+            Instance.m_MoraleAmount = saveData.MoraleAmount;
+
+            Instance.RefreshMoraleUI();
+            Instance.CalculateConsumptionAmounts();
         }
     }
 }

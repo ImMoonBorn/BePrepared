@@ -31,6 +31,8 @@ namespace MoonBorn.BePrepared.Gameplay
         public static GameState GameState => Instance.m_Gamestate;
         public static MouseState MouseState => Instance.m_MouseState;
 
+        public static int StartingVillagers => Instance.m_StartingVillagers;
+
         private static bool s_LoadGame;
 
         [SerializeField] private bool m_IsMainMenu = false;

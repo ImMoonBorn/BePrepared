@@ -30,7 +30,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             foreach (BuildingAction action in m_Actions)
                 action.Refresh();
 
-            foreach(CostProps cost in m_BuildingSO.Consumptions.CostProps)
+            foreach (CostProps cost in m_BuildingSO.Consumptions.CostProps)
                 ConsumptionManager.AddConsumptions(cost.ResourceType, cost.Amount);
 
             Started();

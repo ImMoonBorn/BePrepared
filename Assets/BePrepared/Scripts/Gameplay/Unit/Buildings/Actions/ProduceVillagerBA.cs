@@ -33,7 +33,6 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
             return desc;
         }
 
-        
         protected override void OnActionCall()
         {
         }
@@ -54,7 +53,5 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
         public override void Refresh()
         {
         }
-
-      
     }
 }

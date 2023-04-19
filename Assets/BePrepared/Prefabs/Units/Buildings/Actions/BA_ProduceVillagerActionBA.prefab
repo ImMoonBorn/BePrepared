@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb8674ef54793b545a1b6f03b1ee157b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ActionTime: 25
+  m_ActionTime: 5
   m_Cost:
     m_Costs:
     - ResourceType: 2
@@ -54,3 +54,5 @@ MonoBehaviour:
   m_ActionDescription: Produces a villager that works for resources or build stuff.
   m_Icon: {fileID: 21300000, guid: 7c037ecc975e3924ca661eb1b816afed, type: 3}
   m_SpawnLocation: {fileID: 0}
+  m_IncreaseCost:
+    m_Costs: []

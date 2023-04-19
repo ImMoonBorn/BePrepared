@@ -5,6 +5,7 @@ using UnityEngine;
 using MoonBorn.Utils;
 using MoonBorn.BePrepared.Gameplay.Unit;
 using MoonBorn.BePrepared.Gameplay.BuildSystem;
+using MoonBorn.BePrepared.Gameplay.Consumption;
 
 namespace MoonBorn.BePrepared.Utils.SaveSystem
 {
@@ -64,9 +65,18 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
     }
 
     [Serializable]
+    public class ConsumptionManagerData
+    {
+        public int Month;
+        public float MonthTimer;
+        public float MoraleAmount;
+    }
+
+    [Serializable]
     public class SaveDatas
     {
-        public ResourceManagerData ResourceManagerData;
+        public ResourceManagerData ResourceManagerData = new();
+        public ConsumptionManagerData ConsumptionManagerData = new();
         public List<ImprovementData> ImprovementDatas = new();
         public List<SaveData> RawData = new();
         public List<ConstructionData> ConstructionDatas = new();
@@ -127,6 +137,7 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
         private static void SaveAlLDatas()
         {
             s_SaveDatas.ResourceManagerData = ResourceManager.ResourceManagerData;
+            s_SaveDatas.ConsumptionManagerData = ConsumptionManager.ResourceManagerData;
 
             var imporvements = ImprovementManager.Improvements;
             foreach (var improvement in imporvements)
@@ -153,7 +164,7 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
             Dictionary<string, SaveData> saveVals = new Dictionary<string, SaveData>();
 
             ResourceManager.SetResourceManagerData(s_SaveDatas.ResourceManagerData);
-
+            
             foreach (ImprovementData id in saveDatas.ImprovementDatas)
             {
                 ImprovementProp prop = ImprovementManager.FindImprovement(id.ImprovementName);
@@ -210,6 +221,8 @@ namespace MoonBorn.BePrepared.Utils.SaveSystem
                 else
                     villager.GetComponent<UnitMember>().DestroyUnit();
             }
+
+            ConsumptionManager.Load(s_SaveDatas.ConsumptionManagerData);
 
             Instance.StartCoroutine(WaitToLoad(saveVals));
         }

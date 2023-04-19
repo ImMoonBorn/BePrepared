@@ -21,7 +21,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         [Header("Settings")]
         [SerializeField] protected float m_ActionTime = 5.0f;
-        [SerializeField] private ResourceCost m_Cost;
+        [SerializeField] protected ResourceCost m_Cost;
         [SerializeField] protected bool m_DestroyOnLimitReach = false;
         protected bool m_DoAction = false;
         protected float m_ActionTimer = 0.0f;

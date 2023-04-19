@@ -15,11 +15,13 @@ MonoBehaviour:
   VillagerType: 1
   Name: Hardened Axe
   Description: Get your villagers stronger axes.
-  Amount: 0.1
+  Amount: 0.15
   Time: 20
   Icon: {fileID: 21300000, guid: fa6d1d90abe753c45a23a2759b0154ea, type: 3}
   Cost:
     m_Costs:
     - ResourceType: 1
-      Amount: 100
+      Amount: 50
+    - ResourceType: 3
+      Amount: 150
   UnlockImprovement: {fileID: 11400000, guid: 33134bebf8849244aad1a5e45b735ed4, type: 2}

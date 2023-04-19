@@ -58,7 +58,7 @@ namespace MoonBorn.BePrepared.Gameplay.Unit
 
         public static void RefreshUnit()
         {
-            if (Instance.m_SelectedUnit)
+            if (Instance.m_SelectedUnit != null)
             {
                 UnitMember unit = Instance.m_SelectedUnit;
                 Deselect();
